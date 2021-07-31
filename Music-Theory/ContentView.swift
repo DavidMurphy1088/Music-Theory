@@ -1,9 +1,4 @@
-//
-//  ContentView.swift
-//  Music-Theory
-//
-//  Created by David Murphy on 7/30/21.
-//
+
 
 import SwiftUI
 import CoreData

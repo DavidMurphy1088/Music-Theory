@@ -17,10 +17,6 @@
 		7BB2E5E926B5063500EF7F37 /* NoteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BB2E5E626B5063500EF7F37 /* NoteView.swift */; };
 		7BB2E5EA26B5063500EF7F37 /* StaffView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BB2E5E726B5063500EF7F37 /* StaffView.swift */; };
 		7BB2E5EB26B5063500EF7F37 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BB2E5E826B5063500EF7F37 /* MainView.swift */; };
-		7BB2E5F326B506F300EF7F37 /* KeySignature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BB2E5EF26B506F300EF7F37 /* KeySignature.swift */; };
-		7BB2E5F426B506F300EF7F37 /* Staff.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BB2E5F026B506F300EF7F37 /* Staff.swift */; };
-		7BB2E5F526B506F300EF7F37 /* Note.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BB2E5F126B506F300EF7F37 /* Note.swift */; };
-		7BB2E5F626B506F300EF7F37 /* TimeSlice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BB2E5F226B506F300EF7F37 /* TimeSlice.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,10 +32,6 @@
 		7BB2E5E626B5063500EF7F37 /* NoteView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoteView.swift; sourceTree = "<group>"; };
 		7BB2E5E726B5063500EF7F37 /* StaffView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StaffView.swift; sourceTree = "<group>"; };
 		7BB2E5E826B5063500EF7F37 /* MainView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
-		7BB2E5EF26B506F300EF7F37 /* KeySignature.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeySignature.swift; sourceTree = "<group>"; };
-		7BB2E5F026B506F300EF7F37 /* Staff.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Staff.swift; sourceTree = "<group>"; };
-		7BB2E5F126B506F300EF7F37 /* Note.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Note.swift; sourceTree = "<group>"; };
-		7BB2E5F226B506F300EF7F37 /* TimeSlice.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimeSlice.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,7 +64,6 @@
 		7BB2E5CC26B504F400EF7F37 /* Music-Theory */ = {
 			isa = PBXGroup;
 			children = (
-				7BB2E5EE26B506A800EF7F37 /* Model */,
 				7BB2E5E226B505A200EF7F37 /* View */,
 				7BB2E5CD26B504F400EF7F37 /* Music_TheoryApp.swift */,
 				7BB2E5D126B504F500EF7F37 /* Assets.xcassets */,
@@ -102,17 +93,6 @@
 				7BB2E5CF26B504F400EF7F37 /* ContentView.swift */,
 			);
 			path = View;
-			sourceTree = "<group>";
-		};
-		7BB2E5EE26B506A800EF7F37 /* Model */ = {
-			isa = PBXGroup;
-			children = (
-				7BB2E5EF26B506F300EF7F37 /* KeySignature.swift */,
-				7BB2E5F126B506F300EF7F37 /* Note.swift */,
-				7BB2E5F026B506F300EF7F37 /* Staff.swift */,
-				7BB2E5F226B506F300EF7F37 /* TimeSlice.swift */,
-			);
-			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -184,15 +164,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7BB2E5F426B506F300EF7F37 /* Staff.swift in Sources */,
 				7BB2E5DA26B504F500EF7F37 /* Music_Theory.xcdatamodeld in Sources */,
 				7BB2E5EB26B5063500EF7F37 /* MainView.swift in Sources */,
 				7BB2E5D726B504F500EF7F37 /* Persistence.swift in Sources */,
 				7BB2E5E926B5063500EF7F37 /* NoteView.swift in Sources */,
-				7BB2E5F626B506F300EF7F37 /* TimeSlice.swift in Sources */,
-				7BB2E5F326B506F300EF7F37 /* KeySignature.swift in Sources */,
 				7BB2E5D026B504F400EF7F37 /* ContentView.swift in Sources */,
-				7BB2E5F526B506F300EF7F37 /* Note.swift in Sources */,
 				7BB2E5EA26B5063500EF7F37 /* StaffView.swift in Sources */,
 				7BB2E5CE26B504F400EF7F37 /* Music_TheoryApp.swift in Sources */,
 				7BB2E5E426B505F500EF7F37 /* AccidentalView.swift in Sources */,

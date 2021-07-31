@@ -13,6 +13,7 @@
 		7BB2E5D526B504F500EF7F37 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7BB2E5D426B504F500EF7F37 /* Preview Assets.xcassets */; };
 		7BB2E5D726B504F500EF7F37 /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BB2E5D626B504F500EF7F37 /* Persistence.swift */; };
 		7BB2E5DA26B504F500EF7F37 /* Music_Theory.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 7BB2E5D826B504F500EF7F37 /* Music_Theory.xcdatamodeld */; };
+		7BB2E5E426B505F500EF7F37 /* AccidentalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BB2E5E326B505F500EF7F37 /* AccidentalView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		7BB2E5D626B504F500EF7F37 /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
 		7BB2E5D926B504F500EF7F37 /* Music_Theory.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Music_Theory.xcdatamodel; sourceTree = "<group>"; };
 		7BB2E5DB26B504F500EF7F37 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7BB2E5E326B505F500EF7F37 /* AccidentalView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccidentalView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,8 +58,8 @@
 		7BB2E5CC26B504F400EF7F37 /* Music-Theory */ = {
 			isa = PBXGroup;
 			children = (
+				7BB2E5E226B505A200EF7F37 /* Views */,
 				7BB2E5CD26B504F400EF7F37 /* Music_TheoryApp.swift */,
-				7BB2E5CF26B504F400EF7F37 /* ContentView.swift */,
 				7BB2E5D126B504F500EF7F37 /* Assets.xcassets */,
 				7BB2E5D626B504F500EF7F37 /* Persistence.swift */,
 				7BB2E5DB26B504F500EF7F37 /* Info.plist */,
@@ -73,6 +75,15 @@
 				7BB2E5D426B504F500EF7F37 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		7BB2E5E226B505A200EF7F37 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				7BB2E5E326B505F500EF7F37 /* AccidentalView.swift */,
+				7BB2E5CF26B504F400EF7F37 /* ContentView.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -148,6 +159,7 @@
 				7BB2E5D726B504F500EF7F37 /* Persistence.swift in Sources */,
 				7BB2E5D026B504F400EF7F37 /* ContentView.swift in Sources */,
 				7BB2E5CE26B504F400EF7F37 /* Music_TheoryApp.swift in Sources */,
+				7BB2E5E426B505F500EF7F37 /* AccidentalView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

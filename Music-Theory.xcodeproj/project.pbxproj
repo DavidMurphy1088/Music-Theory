@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7B36C0AD26B5094C0040B87B /* TimeSlice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B36C0A926B5094C0040B87B /* TimeSlice.swift */; };
+		7B36C0AE26B5094C0040B87B /* Staff.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B36C0AA26B5094C0040B87B /* Staff.swift */; };
+		7B36C0AF26B5094C0040B87B /* Note.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B36C0AB26B5094C0040B87B /* Note.swift */; };
+		7B36C0B026B5094C0040B87B /* KeySignature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B36C0AC26B5094C0040B87B /* KeySignature.swift */; };
 		7BB2E5CE26B504F400EF7F37 /* Music_TheoryApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BB2E5CD26B504F400EF7F37 /* Music_TheoryApp.swift */; };
 		7BB2E5D026B504F400EF7F37 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BB2E5CF26B504F400EF7F37 /* ContentView.swift */; };
 		7BB2E5D226B504F500EF7F37 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7BB2E5D126B504F500EF7F37 /* Assets.xcassets */; };
@@ -20,6 +24,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		7B36C0A926B5094C0040B87B /* TimeSlice.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimeSlice.swift; sourceTree = "<group>"; };
+		7B36C0AA26B5094C0040B87B /* Staff.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Staff.swift; sourceTree = "<group>"; };
+		7B36C0AB26B5094C0040B87B /* Note.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Note.swift; sourceTree = "<group>"; };
+		7B36C0AC26B5094C0040B87B /* KeySignature.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeySignature.swift; sourceTree = "<group>"; };
 		7BB2E5CA26B504F400EF7F37 /* Music-Theory.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Music-Theory.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7BB2E5CD26B504F400EF7F37 /* Music_TheoryApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Music_TheoryApp.swift; sourceTree = "<group>"; };
 		7BB2E5CF26B504F400EF7F37 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -45,6 +53,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7B36C0A826B5094C0040B87B /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				7B36C0A926B5094C0040B87B /* TimeSlice.swift */,
+				7B36C0AA26B5094C0040B87B /* Staff.swift */,
+				7B36C0AB26B5094C0040B87B /* Note.swift */,
+				7B36C0AC26B5094C0040B87B /* KeySignature.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		7BB2E5C126B504F400EF7F37 = {
 			isa = PBXGroup;
 			children = (
@@ -64,6 +83,7 @@
 		7BB2E5CC26B504F400EF7F37 /* Music-Theory */ = {
 			isa = PBXGroup;
 			children = (
+				7B36C0A826B5094C0040B87B /* Model */,
 				7BB2E5E226B505A200EF7F37 /* View */,
 				7BB2E5CD26B504F400EF7F37 /* Music_TheoryApp.swift */,
 				7BB2E5D126B504F500EF7F37 /* Assets.xcassets */,
@@ -164,11 +184,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7B36C0AE26B5094C0040B87B /* Staff.swift in Sources */,
 				7BB2E5DA26B504F500EF7F37 /* Music_Theory.xcdatamodeld in Sources */,
 				7BB2E5EB26B5063500EF7F37 /* MainView.swift in Sources */,
+				7B36C0AD26B5094C0040B87B /* TimeSlice.swift in Sources */,
+				7B36C0B026B5094C0040B87B /* KeySignature.swift in Sources */,
 				7BB2E5D726B504F500EF7F37 /* Persistence.swift in Sources */,
 				7BB2E5E926B5063500EF7F37 /* NoteView.swift in Sources */,
 				7BB2E5D026B504F400EF7F37 /* ContentView.swift in Sources */,
+				7B36C0AF26B5094C0040B87B /* Note.swift in Sources */,
 				7BB2E5EA26B5063500EF7F37 /* StaffView.swift in Sources */,
 				7BB2E5CE26B504F400EF7F37 /* Music_TheoryApp.swift in Sources */,
 				7BB2E5E426B505F500EF7F37 /* AccidentalView.swift in Sources */,

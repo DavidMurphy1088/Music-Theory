@@ -3,8 +3,8 @@ import CoreData
 
 struct ContentView: View {
     @ObservedObject var staff:Staff
-
-    @State private var pitch: Double = 40
+    static let startPitch:Double = 40 + 14
+    @State private var pitch: Double = startPitch
     @State private var tempo: Double = 8
     @State var notes:[Note] = []
     @State var ts = TimeSlice()
@@ -24,7 +24,6 @@ struct ContentView: View {
     var body3: some View {
         Text("Hello, World!")
             .background(Color.red)
-            
             .border(Color .green)
             .padding()
     }
@@ -122,7 +121,7 @@ struct ContentView: View {
                 }
                 Button("Clear") {
                     staff.clear()
-                    pitch = 42
+                    pitch = ContentView.startPitch
                 }
             }
         }

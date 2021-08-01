@@ -4,7 +4,7 @@ import MessageUI
  
 struct StaffView: View {
     @ObservedObject var staff:Staff //, Note(num: 47)]) //, Note(num: 47)])
-    let lineHeight = 1
+    static let lineHeight = 1
     let lineSpacing = 16
         
     init (staff:Staff) {
@@ -30,8 +30,8 @@ struct StaffView: View {
                     Path { path in
                         path.move(to: CGPoint(x: 0, y: row*lineSpacing))
                         path.addLine(to: CGPoint(x: Int(geometry.size.width), y: row*lineSpacing))
-                        path.addLine(to: CGPoint(x: Int(geometry.size.width), y: row*lineSpacing + lineHeight))
-                        path.addLine(to: CGPoint(x: 0, y: row*lineSpacing + lineHeight))
+                        path.addLine(to: CGPoint(x: Int(geometry.size.width), y: row*lineSpacing + StaffView.lineHeight))
+                        path.addLine(to: CGPoint(x: 0, y: row*lineSpacing + StaffView.lineHeight))
                         path.closeSubpath()
                     }
                     .fill(colr(ind: row))

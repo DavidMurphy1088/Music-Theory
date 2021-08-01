@@ -40,7 +40,6 @@ class Staff : ObservableObject {
         
         do {
             //https://www.rockhoppertech.com/blog/the-great-avaudiounitsampler-workout/#soundfont
-            
             if let url = Bundle.main.url(forResource:"Nice-Steinway-v3.8", withExtension:"sf2") {
                 print("found resource")
                 try sampler.loadSoundBankInstrument(at: url, program: 0, bankMSB: UInt8(kAUSampler_DefaultMelodicBankMSB), bankLSB: UInt8(kAUSampler_DefaultBankLSB))
@@ -72,6 +71,9 @@ class Staff : ObservableObject {
         }
         self.noteOffsets.append(contentsOf: bassOffsets)
         self.noteOffsets.append(contentsOf: trebleOffsets[1...trebleOffsets.count-1])
+//        self.noteOffsets.sort {
+//            $0 > $1
+//        }
     }
     
     func setKey(key:KeySignature) {
@@ -139,10 +141,12 @@ class Staff : ObservableObject {
         }
     }
     
-    func staffOffset(noteValue:Int) -> (Int, String, Bool) {
+    func staffOffset(noteValue:Int) -> (Int, String, [Int]) {
         var index:Int?
         var indexLo:Int?
         var indexHi:Int?
+        var ledgerLines:[Int] = []
+        
         for i in 0...noteOffsets.count-1 {
             let diff = Note.MIDDLE_C + noteOffsets[i] - noteValue
             if abs(diff) < 2 {
@@ -159,6 +163,8 @@ class Staff : ObservableObject {
                 }
             }
         }
+        
+        //accidental
         var acc = " "
         if index == nil {
             //get note's offset *above* middle C since key sigs are defined as offsets above middle C
@@ -187,11 +193,24 @@ class Staff : ObservableObject {
                 }
             }
         }
-        //let offset = 2*(ledgerLineCount + 5)// - index!
+        
+        //ledger lines
+        //ledgerLines.append(noteOffsets.count/2 + 1)
+        //ledgerLines.append(noteOffsets.count/2 + 2)
+        //half lines above notes pos
+        let indexFromMiddle = abs(noteOffsets.count/2 - index!)
+        let onSpace = indexFromMiddle % 2 == 1
+        var lineOffset = 0
+        if onSpace {
+            lineOffset += 1
+        }
+        ledgerLines.append(lineOffset)
+        ledgerLines.append(lineOffset-2)
+        ledgerLines.append(lineOffset-4)
+
         let offset = noteOffsets.count - index! - 1
-        let needsLedgerLine = offset >= noteOffsets.count/2
-        print("---> Offset", offset)
-        return (offset, acc, needsLedgerLine)
+        print("---> Offset", offset, ledgerLines)
+        return (offset, acc, ledgerLines)
     }
 }
  

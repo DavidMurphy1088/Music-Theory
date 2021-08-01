@@ -6,15 +6,21 @@ struct NoteView: View {
     var staff:Staff
     var note:Note
     var lineSpacing:Int
+    var noteWidth:CGFloat
     var offsetFromStaffTop:Int
     var accidental:String
-    var needsLedgerLine:Bool
+    var ledgerLines:[Int]
+    let ledgerLineWidth:Int
+    var noteCenter:Int
     
     init(staff:Staff, note:Note, lineSpacing: Int) {
         self.staff = staff
         self.note = note
         self.lineSpacing = lineSpacing
-        (offsetFromStaffTop, accidental, needsLedgerLine) = staff.staffOffset(noteValue: note.num)
+        (offsetFromStaffTop, accidental, ledgerLines) = staff.staffOffset(noteValue: note.num)
+        noteWidth = CGFloat(lineSpacing) * 1.2
+        noteCenter = offsetFromStaffTop * lineSpacing/2
+        ledgerLineWidth = Int(noteWidth * 0.7)
     }
     
     func ledgerOffset() -> Int {
@@ -26,25 +32,34 @@ struct NoteView: View {
         }
     }
     
+    
     var body: some View {
-        HStack { //}(alignment: .center, spacing: 0, content: {
-            Text(accidental)//.font(.title)
-            ZStack {
-                if needsLedgerLine {
-                    Rectangle()
-                        .fill(Color.blue)
-                        .frame(width: CGFloat(lineSpacing) * 1.8, height: 2, alignment: .top)
-                        .offset(y: CGFloat(ledgerOffset()))
+        GeometryReader { geometry in
+        ZStack {
+            if ledgerLines.count > 0 {
+                ForEach(0..<ledgerLines.count) { row in
+                    Path { path in
+                        path.move(to: CGPoint(x: Int(geometry.size.width)/2-ledgerLineWidth, y: (offsetFromStaffTop + ledgerLines[row]) * lineSpacing/2))
+                        path.addLine(to: CGPoint(x: Int(geometry.size.width)/2+ledgerLineWidth, y: (offsetFromStaffTop + ledgerLines[row]) * lineSpacing/2))
+                        path.addLine(to: CGPoint(x: Int(geometry.size.width)/2+ledgerLineWidth, y: (offsetFromStaffTop + ledgerLines[row]) * lineSpacing/2 + StaffView.lineHeight))
+                        path.addLine(to: CGPoint(x: Int(geometry.size.width)/2-ledgerLineWidth, y: (offsetFromStaffTop + ledgerLines[row]) * lineSpacing/2 + StaffView.lineHeight))
+                        path.closeSubpath()
+                    }
+                    .fill(Color .red)
                 }
-                Ellipse()
-                    .foregroundColor(.black)
-                    .frame(width: CGFloat(lineSpacing)*1.2, height: CGFloat(Double(lineSpacing) * 1.0))
-                    //.border(Color.green)
             }
+            Text(accidental)
+                .frame(width: CGFloat(ledgerLineWidth * 3), alignment: .leading)
+                .position(x: geometry.size.width/2, y: CGFloat(offsetFromStaffTop * lineSpacing/2))
+
+            Ellipse()
+                //the note ellipses line up in the center of the view
+                .foregroundColor(.black)
+                .frame(width: noteWidth, height: CGFloat(Double(lineSpacing) * 1.0))
+                .position(x: geometry.size.width/2, y: CGFloat(noteCenter)) //x required since it defaults to 0 if y is specified.
         }
-        //)
         //.border(Color.green)
-        .position(x: CGFloat(0), y: CGFloat(offsetFromStaffTop * lineSpacing/2))
+        }
     }
 }
 

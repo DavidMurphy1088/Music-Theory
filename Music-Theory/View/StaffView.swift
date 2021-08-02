@@ -3,30 +3,27 @@ import CoreData
 import MessageUI
  
 struct StaffView: View {
-    @ObservedObject var staff:Staff //, Note(num: 47)]) //, Note(num: 47)])
+    @ObservedObject var system:System
+    @ObservedObject var staff:Staff
     static let lineHeight = 1
     let lineSpacing = 16
         
-    init (staff:Staff) {
+    init (system:System, staff:Staff) {
+        self.system = system
         self.staff = staff
     }
             
-    func colr(ind: Int) -> Color {
-        if ind >= staff.ledgerLineCount && ind < staff.ledgerLineCount + 5 {
-            return Color.blue
+    func colr(line: Int) -> Color {
+        if line < system.ledgerLineCount || line >= system.ledgerLineCount + 5 {
+            return Color.gray
         }
-        let bass = 3 * staff.ledgerLineCount + 5
-        if ind >= bass && ind < bass + 5 {
-            return Color.blue
-        }
-        // return Color.gray
-        return Color.white
+        return Color.blue
     }
                 
     var body: some View {
         GeometryReader { geometry in
             ZStack (alignment: .leading) {
-                ForEach(0..<staff.getLineCount()) { row in
+                ForEach(0..<system.staffLineCount) { row in
                     Path { path in
                         path.move(to: CGPoint(x: 0, y: row*lineSpacing))
                         path.addLine(to: CGPoint(x: Int(geometry.size.width), y: row*lineSpacing))
@@ -34,7 +31,7 @@ struct StaffView: View {
                         path.addLine(to: CGPoint(x: 0, y: row*lineSpacing + StaffView.lineHeight))
                         path.closeSubpath()
                     }
-                    .fill(colr(ind: row))
+                    .fill(colr(line: row))
                 }
                 HStack (alignment: .top) {
                     VStack {
@@ -55,7 +52,7 @@ struct StaffView: View {
 //                    }
                     .frame(width: geometry.size.width / 40) //, height: max(proxy.size.height, 120))
                     .border(Color.green)
-                    ForEach(staff.timeSlice, id: \.self) { timeSlice in
+                    ForEach(system.timeSlice, id: \.self) { timeSlice in
                         ZStack {
                             ForEach(timeSlice.note, id: \.self) { note in
                                 NoteView(staff: staff, note: note, lineSpacing: lineSpacing)

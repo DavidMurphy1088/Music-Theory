@@ -3,7 +3,7 @@ import CoreData
 
 struct ContentView: View {
     var system:System
-    static let startPitch:Double = 40 
+    static let startPitch:Double = 28
     @State private var pitch: Double = startPitch
     @State private var tempo: Double = 8
     @State var notes:[Note] = []
@@ -11,7 +11,8 @@ struct ContentView: View {
     
     init(system:System) {
         self.system = system
-        system.staff.append(Staff(system: system, type: .treble))
+        //system.staff.append(Staff(system: system, type: .treble))
+        system.staff.append(Staff(system: system, type: .bass))
         setKey()
     }
     

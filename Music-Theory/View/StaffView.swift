@@ -15,7 +15,7 @@ struct StaffView: View {
             
     func colr(line: Int) -> Color {
         if line < system.ledgerLineCount || line >= system.ledgerLineCount + 5 {
-            return Color.gray
+            return Color.white
         }
         return Color.blue
     }

@@ -3,7 +3,7 @@ import CoreData
 
 struct ContentView: View {
     var system:System
-    static let startPitch:Double = 28
+    static let startPitch:Double = 40
     @State private var pitch: Double = startPitch
     @State private var tempo: Double = 8
     @State var notes:[Note] = []
@@ -11,13 +11,13 @@ struct ContentView: View {
     
     init(system:System) {
         self.system = system
-        //system.staff.append(Staff(system: system, type: .treble))
-        system.staff.append(Staff(system: system, type: .bass))
+        system.staff.append(Staff(system: system, type: .treble))
+        //system.staff.append(Staff(system: system, type: .bass))
         setKey()
     }
     
     func setKey() {
-        let key = KeySignature(type: KeySignatureType.flats, count: 0)
+        let key = KeySignature(type: KeySignatureType.flats, count: 1)
         system.setKey(key: key)
     }
     
@@ -64,19 +64,21 @@ struct ContentView: View {
                 HStack {
                     Button("Up_Scale") {
                         print("---")
-                        for i in 0...15 {
+                        for i in 0...12 {
                             ts = TimeSlice()
                             system.addTimeSlice(ts: ts)
-                            ts.addNote(n: Note(num: Int(pitch+Double(i)), hand: HandType.right))
+                            ts.addNote(n: Note(num: Int(pitch), hand: HandType.right))
+                            self.pitch += 1
                             print("Added scale", Int(pitch)+i, system.timeSlice.count)
                         }
                     }
                     Button("Down_Scale") {
                         print("---")
-                        for i in 0...7 {
+                        for i in 0...12 {
                             ts = TimeSlice()
                             system.addTimeSlice(ts: ts)
-                            ts.addNote(n: Note(num: Int(pitch-Double(i)), hand: HandType.right))
+                            ts.addNote(n: Note(num: Int(pitch), hand: HandType.right))
+                            self.pitch -= 1
                             print("Added scale", Int(pitch)+i, system.timeSlice.count)
                         }
                     }

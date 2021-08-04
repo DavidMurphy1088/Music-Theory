@@ -23,7 +23,11 @@ class Staff : ObservableObject, Hashable  {
         else {
             middleOfStaffNoteValue = 30
         }
-
+        createNoteOffsets()
+    }
+    
+    func createNoteOffsets() {
+        noteOffsets = []
         var upOffsets:[Int] = []
         var downOffsets:[Int] = []
         if type == StaffType.treble {
@@ -58,59 +62,86 @@ class Staff : ObservableObject, Hashable  {
     }
 
     func setKey(key:KeySignature) {
+        createNoteOffsets()
+        var newPos:[Int] = []
+        newPos.append(contentsOf: self.noteOffsets)
+        
         if key.accidentals.count > 0 {
-            for i in 0...self.noteOffsets.count-1 {
-                for j in 0...key.accidentals.count-1 {
-                    let a = key.accidentals[j]
-                    let match1 = self.noteOffsets[i] % 12 == a
-                    let match2 = (self.noteOffsets[i]) % 12 == a - 12
-                    if i == 49 {
-                        print(i, j, self.noteOffsets[i], self.noteOffsets[i] % 12, (self.noteOffsets[i] - 12) % 12 , match1, match2 )
+            for j in 0...key.accidentals.count-1 {
+                let accNoteValue = key.accidentals[j]
+                for octave in -5...10 {
+                    let noteValue = accNoteValue + (octave*12)
+                    if noteValue == 51 {
+                        let x = 1
                     }
-                    if match1 || match2 {
-                        if key.type == .sharps {
-                            self.noteOffsets[i] += 1
+                    let pos = getNoteStaffPos(noteValue: noteValue)
+                    if let idx = pos.0 {
+                        if key.type == KeySignatureType.sharps {
+                            newPos[idx] += 1
                         }
                         else {
-                            self.noteOffsets[i] -= 1
+                            newPos[idx] -= 1
                         }
                     }
                 }
             }
         }
+        self.noteOffsets = []
+        self.noteOffsets.append(contentsOf: newPos)
     }
     
-    func staffOffset(noteValue:Int) -> (Int, String, [Int]) {
+    func getNoteStaffPos(noteValue:Int) -> (Int?, Int?, Int?) {
         var noteRow:Int?
         var noteLo:Int?
         var noteHi:Int?
-        var ledgerLines:[Int] = []
+        var maxDiff = 9999
         
         for i in 0...noteOffsets.count-1 {
             let diff = middleOfStaffNoteValue + noteOffsets[i] - noteValue
-            if abs(diff) < 2 {
+            if abs(diff) < maxDiff {
                 if diff == 0 {
                     noteRow = i
+                    noteHi = nil
+                    noteLo = nil
                 }
                 else {
                     if diff == 1 {
+                        noteRow = nil
                         noteHi = i
+                        noteLo = i + 1
                     }
                     if diff == -1 {
+                        noteRow = nil
                         noteLo = i
+                        noteHi = i - 1
                     }
                 }
+                maxDiff = diff
             }
+        }
+        print("=====NOTE value", noteValue, "row==", noteRow, noteHi, noteLo)
+        return (noteRow, noteHi, noteLo)
+    }
+    
+    func staffOffset(noteValue:Int) -> (Int?, String, [Int]) {
+        let pos = getNoteStaffPos(noteValue: noteValue)
+        var noteRow = pos.0
+        let noteHi = pos.1
+        let noteLo = pos.2
+
+        if noteRow == nil && noteHi == nil && noteLo == nil {
+            return (nil, "", [])
         }
         
         //accidental
         var acc = " "
         if noteRow == nil {
             //get note's offset *above* middle C since key sigs are defined as offsets above middle C
-            let InSignature = system.key.accidentals.contains((noteValue + (6 * 12) - Note.MIDDLE_C) % 12)
+            //let InSignature = system.key.accidentals.contains((noteValue + (6 * 12) - Note.MIDDLE_C) % 12)
+            let inSignature = system.key.accidentals.contains(noteValue)
             if system.key.type == KeySignatureType.sharps {
                 print("===", noteValue, (noteValue - Note.MIDDLE_C) % 12, (12 + (noteValue - Note.MIDDLE_C)) % 12)
-                if InSignature {
+                if inSignature {
                     noteRow = noteHi
                     acc = System.accNatural
                 }
@@ -120,7 +151,7 @@ class Staff : ObservableObject, Hashable  {
                 }
             }
             else {
-                if InSignature {
+                if inSignature {
                     noteRow = noteLo
                     acc = System.accNatural
                 }
@@ -131,8 +162,14 @@ class Staff : ObservableObject, Hashable  {
             }
         }
         
+        if noteRow == nil {
+            //note outside range of staff
+            return (nil, "", [])
+        }
+
         //ledger lines
         //return number of half lines above note pos
+        var ledgerLines:[Int] = []
         let indexFromMiddle = abs(noteOffsets.count/2 - noteRow!)
         if indexFromMiddle > 5 {
             let onSpace = indexFromMiddle % 2 == 1
@@ -156,9 +193,8 @@ class Staff : ObservableObject, Hashable  {
                 }
             }
         }
-        
-        print("---> Offset", noteRow!, ledgerLines)
-        return (noteRow!, acc, ledgerLines)
+        //print("---> Offset", noteRow!, ledgerLines)
+        return (noteRow, acc, ledgerLines)
     }
 }
  

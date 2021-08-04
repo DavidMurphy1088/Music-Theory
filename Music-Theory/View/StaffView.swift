@@ -6,7 +6,7 @@ struct StaffView: View {
     @ObservedObject var system:System
     @ObservedObject var staff:Staff
     static let lineHeight = 1
-    let lineSpacing = 16
+    let lineSpacing = 12
         
     init (system:System, staff:Staff) {
         self.system = system
@@ -35,30 +35,36 @@ struct StaffView: View {
                 }
                 HStack (alignment: .top) {
                     VStack {
-                        HStack {
+                        if staff.type == StaffType.treble {
                             Text("\u{1d11e}").font(.system(size: CGFloat(lineSpacing * 7)))
-                            //Spacer()
+                            .border(Color.green)
                         }
-                        .border(Color.green)
-                        HStack {
+                        else {
                             Text("\u{1d122}").font(.system(size: CGFloat(lineSpacing * 4)))
-                            //Spacer()
+                            .border(Color.green)
                         }
-                        .border(Color.green)
                     }
-                    .frame(width: geometry.size.width / 6) //, height: max(proxy.size.height, 120))
-//                    ForEach(staff.key!.accidentals, id: \.self) { acc in
-//                            AccidentalView(staff: staff, acc: Note.MIDDLE_C + 12 + acc , lineSpacing: lineSpacing)
-//                    }
-                    .frame(width: geometry.size.width / 40) //, height: max(proxy.size.height, 120))
-                    .border(Color.green)
-                    ForEach(system.timeSlice, id: \.self) { timeSlice in
-                        ZStack {
-                            ForEach(timeSlice.note, id: \.self) { note in
-                                NoteView(staff: staff, note: note, lineSpacing: lineSpacing)
+                    
+                    HStack (spacing: 0) {
+                        ForEach(system.key.accidentals, id: \.self) { acc in
+                            //if acc > 36 && acc < 60 {
+//                                AccidentalView(staff: staff, acc: acc, lineSpacing: lineSpacing)
+//                                .frame(width: CGFloat(lineSpacing))
+//                                    .border(Color.green)
+                            //}
+                        }
+                    }
+                    
+                    HStack {
+                        ForEach(system.timeSlice, id: \.self) { timeSlice in
+                            ZStack {
+                                ForEach(timeSlice.note, id: \.self) { note in
+                                    NoteView(staff: staff, note: note, lineSpacing: lineSpacing)
+                                }
                             }
                         }
                     }
+                    .border(Color.green)
                 }
             }
         }

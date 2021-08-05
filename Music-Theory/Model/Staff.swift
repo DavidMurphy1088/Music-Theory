@@ -7,10 +7,22 @@ enum StaffType {
     case bass
 }
 
+class StaffPosition {
+    var staffOffsetFromMiddle:Int
+    var positionOffset:Int
+    var name:String
+    
+    init (staffOffset: Int, posOffset:Int, name:String) {
+        self.staffOffsetFromMiddle = staffOffset
+        self.positionOffset = posOffset
+        self.name = name
+    }
+}
+
 class Staff : ObservableObject, Hashable  {
     let system:System
     var type:StaffType
-    var noteOffsets:[Int] = []
+    var noteOffsets:[StaffPosition] = []
     let linesInStaff = 5
     var middleOfStaffNoteValue:Int
     
@@ -27,29 +39,91 @@ class Staff : ObservableObject, Hashable  {
     }
     
     func createNoteOffsets() {
-        noteOffsets = []
+        noteOffsets = [StaffPosition](repeating: StaffPosition(staffOffset: 0, posOffset: 0, name: ""), count: 2 * middleOfStaffNoteValue)
         var upOffsets:[Int] = []
         var downOffsets:[Int] = []
+        let name = 65 //ASCII A : 0
+        var nameIdx = 0
+
         if type == StaffType.treble {
-            upOffsets =     [0,1,3,5,6,8,10]
-            downOffsets =   [2,4,6,7,9,11,12]
+            //               B C C D D E F F G G A A
+            upOffsets =     [0,1,1,2,2,3,4,4,5,5,6,6]
+            downOffsets =   [0,0,1,1,2,2,3,4,4,5,5,6]
         }
         else {
-            upOffsets =     [0,2,3,5,7,9,10]
-            downOffsets =   [2,3,5,7,9,10,12]
+            upOffsets =     [0,0,1,2,2,3,3,4,4,5,6,6]
+            downOffsets =   [0,0,1,1,3,4,4,5,5,6,7,7]
         }
-        for i in 0...2 * (system.ledgerLineCount + linesInStaff/2) {
-            let octave = i / upOffsets.count
-            let scaleOffset = (12 * octave) + upOffsets[i%upOffsets.count]
-            noteOffsets.append(scaleOffset)
+        
+        let totalNotes = (system.staffLineCount + 2 * system.ledgerLineCount) * 2
+        var last:Int?
+        
+        for direction in -1...1 {
+            if direction == 0 {
+                continue
+            }
+            last = nil
+            nameIdx = type == StaffType.treble ? 1 : 3
+            for n in 0...totalNotes/2 {
+                let note = middleOfStaffNoteValue + n * direction
+                var offset = 0
+                if direction < 0 {
+                    offset = downOffsets[n % upOffsets.count] + (n/upOffsets.count) * 7
+                }
+                else {
+                    offset = upOffsets[n % upOffsets.count] + (n/upOffsets.count) * 7
+                }
+                var needAccidental = false
+                if last != nil {
+                    if offset == last {
+                        needAccidental = true
+                    }
+                    else {
+                        if direction < 0 {
+                            nameIdx -= 1
+                            if nameIdx < 0 {
+                                nameIdx = 6
+                            }
+                        }
+                        else {
+                            nameIdx += 1
+                        }
+                    }
+                }
+                var nm = ""
+                nm = String(UnicodeScalar(UInt8(name + (nameIdx % 7))))
+                if direction < 0 {
+                    if needAccidental {
+                        nm += System.accFlat
+                    }
+                }
+                else {
+                    if needAccidental {
+                        nm += System.accSharp
+                    }
+                }
+                let offsetFromMiddle = direction * offset * -1
+                var posOffset = 0
+                if needAccidental {
+                    if direction < 0 {
+                        posOffset = 1
+                    }
+                    else {
+                        posOffset = -1
+                    }
+                }
+                let staffOffset = StaffPosition(staffOffset: offsetFromMiddle, posOffset: posOffset, name: nm)
+                //print(note, offset, nm)
+                last = offset
+                noteOffsets[note] = staffOffset
+            }
         }
-        for i in 0...2 * (system.ledgerLineCount + linesInStaff/2) - 1 {
-            let octave = i / downOffsets.count
-            let scaleOffset = (-12 * octave) - downOffsets[i%downOffsets.count]
-            noteOffsets.append(scaleOffset)
-        }
-        noteOffsets.sort {
-            $0 > $1
+ 
+        for n in stride(from: noteOffsets.count-1, to: 0, by: -1) {
+            let sp = noteOffsets[n]
+            if !sp.name.isEmpty {
+                print("Note", n, "(\(sp.staffOffsetFromMiddle),\(sp.positionOffset))\t", sp.name)
+            }
         }
     }
     
@@ -62,9 +136,8 @@ class Staff : ObservableObject, Hashable  {
     }
 
     func setKey(key:KeySignature) {
-        createNoteOffsets()
+        //createNoteOffsets()
         var newPos:[Int] = []
-        newPos.append(contentsOf: self.noteOffsets)
         
         if key.accidentals.count > 0 {
             for j in 0...key.accidentals.count-1 {
@@ -74,111 +147,44 @@ class Staff : ObservableObject, Hashable  {
                     if noteValue == 51 {
                         let x = 1
                     }
-                    let pos = getNoteStaffPos(noteValue: noteValue)
-                    if let idx = pos.0 {
-                        if key.type == KeySignatureType.sharps {
-                            newPos[idx] += 1
-                        }
-                        else {
-                            newPos[idx] -= 1
-                        }
-                    }
+//                    let pos = getNoteStaffPos(noteValue: noteValue)
+//                    if let idx = pos.0 {
+//                        if key.type == KeySignatureType.sharps {
+//                            newPos[idx] += 1
+//                        }
+//                        else {
+//                            newPos[idx] -= 1
+//                        }
+//                    }
                 }
             }
         }
-        self.noteOffsets = []
-        self.noteOffsets.append(contentsOf: newPos)
-    }
-    
-    func getNoteStaffPos(noteValue:Int) -> (Int?, Int?, Int?) {
-        var noteRow:Int?
-        var noteLo:Int?
-        var noteHi:Int?
-        var maxDiff = 9999
-        
-        for i in 0...noteOffsets.count-1 {
-            let diff = middleOfStaffNoteValue + noteOffsets[i] - noteValue
-            if abs(diff) < maxDiff {
-                if diff == 0 {
-                    noteRow = i
-                    noteHi = nil
-                    noteLo = nil
-                }
-                else {
-                    if diff == 1 {
-                        noteRow = nil
-                        noteHi = i
-                        noteLo = i + 1
-                    }
-                    if diff == -1 {
-                        noteRow = nil
-                        noteLo = i
-                        noteHi = i - 1
-                    }
-                }
-                maxDiff = diff
-            }
-        }
-        print("=====NOTE value", noteValue, "row==", noteRow, noteHi, noteLo)
-        return (noteRow, noteHi, noteLo)
+        //self.noteOffsets = []
+        //self.noteOffsets.append(contentsOf: newPos)
     }
     
     func staffOffset(noteValue:Int) -> (Int?, String, [Int]) {
-        let pos = getNoteStaffPos(noteValue: noteValue)
-        var noteRow = pos.0
-        let noteHi = pos.1
-        let noteLo = pos.2
+        let staffPosition = self.noteOffsets[noteValue]
+        let offsetFromMiddle = staffPosition.staffOffsetFromMiddle
+        var acc = ""
+        if staffPosition.positionOffset > 0 {
+            acc = System.accFlat
+        }
+        if staffPosition.positionOffset < 0 {
+            acc = System.accSharp
+        }
+        let offsetFromTop = system.staffLineCount + offsetFromMiddle - 1
 
-        if noteRow == nil && noteHi == nil && noteLo == nil {
-            return (nil, "", [])
-        }
-        
-        //accidental
-        var acc = " "
-        if noteRow == nil {
-            //get note's offset *above* middle C since key sigs are defined as offsets above middle C
-            //let InSignature = system.key.accidentals.contains((noteValue + (6 * 12) - Note.MIDDLE_C) % 12)
-            let inSignature = system.key.accidentals.contains(noteValue)
-            if system.key.type == KeySignatureType.sharps {
-                print("===", noteValue, (noteValue - Note.MIDDLE_C) % 12, (12 + (noteValue - Note.MIDDLE_C)) % 12)
-                if inSignature {
-                    noteRow = noteHi
-                    acc = System.accNatural
-                }
-                else {
-                    noteRow = noteLo
-                    acc = System.accSharp
-                }
-            }
-            else {
-                if inSignature {
-                    noteRow = noteLo
-                    acc = System.accNatural
-                }
-                else {
-                    noteRow = noteHi
-                    acc = System.accFlat
-                }
-            }
-        }
-        
-        if noteRow == nil {
-            //note outside range of staff
-            return (nil, "", [])
-        }
-
-        //ledger lines
-        //return number of half lines above note pos
+        //ledger lines - return number of half lines above note pos
         var ledgerLines:[Int] = []
-        let indexFromMiddle = abs(noteOffsets.count/2 - noteRow!)
-        if indexFromMiddle > 5 {
-            let onSpace = indexFromMiddle % 2 == 1
+        if abs(offsetFromMiddle) > 5 {
+            let onSpace = abs(offsetFromMiddle) % 2 == 1
             var lineOffset = 0
-            if noteRow! > noteOffsets.count/2 {
+            if offsetFromMiddle > 5 {
                 if onSpace {
                     lineOffset -= 1
                 }
-                for _ in 0...(indexFromMiddle-4)/2 - 1 {
+                for _ in 0...(offsetFromMiddle-4)/2 - 1 {
                     ledgerLines.append(lineOffset)
                     lineOffset -= 2
                 }
@@ -187,14 +193,13 @@ class Staff : ObservableObject, Hashable  {
                 if onSpace {
                     lineOffset += 1
                 }
-                for _ in 0...(indexFromMiddle-4)/2 - 1 {
+                for _ in 0...(abs(offsetFromMiddle)-4)/2 - 1 {
                     ledgerLines.append(lineOffset)
                     lineOffset += 2
                 }
             }
         }
-        //print("---> Offset", noteRow!, ledgerLines)
-        return (noteRow, acc, ledgerLines)
+        return (offsetFromTop, acc, ledgerLines)
     }
 }
  

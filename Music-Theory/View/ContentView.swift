@@ -12,12 +12,12 @@ struct ContentView: View {
     init(system:System) {
         self.system = system
         system.staff.append(Staff(system: system, type: .treble))
-        //system.staff.append(Staff(system: system, type: .bass))
+        system.staff.append(Staff(system: system, type: .bass))
         setKey()
     }
     
     func setKey() {
-        let key = KeySignature(type: KeySignatureType.flats, count: 1)
+        let key = KeySignature(type: KeySignatureType.flats, count: 0)
         system.setKey(key: key)
     }
     
@@ -31,6 +31,7 @@ struct ContentView: View {
                 }
                 HStack {
                     Text("pitch")
+                    Text("\(Int(pitch))")
                     Slider(value: $pitch, in: 17...108)
                 }
                 HStack {

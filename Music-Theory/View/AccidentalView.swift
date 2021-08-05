@@ -16,21 +16,22 @@ struct AccidentalView: View {
     }
 
     func offset() -> Int {
-        let pos = staff.getNoteStaffPos(noteValue: acc)
-        let ind = pos.0
-        let hi = pos.1
-        let lo = pos.2
-        if ind == nil {
-            if staff.system.key.type == KeySignatureType.sharps {
-                return lo!
-            }
-            else {
-                return hi!
-            }
-        }
-        else {
-            return ind!
-        }
+        return 0
+//        let pos = staff.getNoteStaffPos(noteValue: acc)
+//        let ind = pos.0
+//        let hi = pos.1
+//        let lo = pos.2
+//        if ind == nil {
+//            if staff.system.key.type == KeySignatureType.sharps {
+//                return lo!
+//            }
+//            else {
+//                return hi!
+//            }
+//        }
+//        else {
+//            return ind!
+//        }
     }
     
     var body: some View {

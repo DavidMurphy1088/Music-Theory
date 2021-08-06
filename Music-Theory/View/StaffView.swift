@@ -45,15 +45,15 @@ struct StaffView: View {
                         }
                     }
                     
-                    HStack (spacing: 0) {
-                        ForEach(system.key.accidentals, id: \.self) { acc in
-                            //if acc > 36 && acc < 60 {
-//                                AccidentalView(staff: staff, acc: acc, lineSpacing: lineSpacing)
-//                                .frame(width: CGFloat(lineSpacing))
-//                                    .border(Color.green)
-                            //}
-                        }
-                    }
+//                    HStack (spacing: 0) {
+//                        ForEach(system.key.accidentals, id: \.self) { acc in
+//                            //if acc > 36 && acc < 60 {
+////                                AccidentalView(staff: staff, acc: acc, lineSpacing: lineSpacing)
+////                                .frame(width: CGFloat(lineSpacing))
+////                                    .border(Color.green)
+//                            //}
+//                        }
+//                    }
                     
                     HStack {
                         ForEach(system.timeSlice, id: \.self) { timeSlice in

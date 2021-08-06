@@ -13,54 +13,43 @@ class KeyAcc {
 
 class KeySignature {
     var type:KeySignatureType
-    var accidentals:[Int] = []
-    
-    func update(_ note:Int) {
-        for octave in -5...5 {
-            let n = note + (octave * 12)
-            if n >= 48 && n <= 64 {
-                accidentals.append(n)
+    var sharps:[Int] = []
+    var flats:[Int] =  []
+    var maxAccidentals = 6
+
+    // how frequently is this note in a key signature
+    func accidentalFrequency(note:Int, sigType: KeySignatureType) -> Int {
+        var pos:Int?
+        if sigType == KeySignatureType.sharps {
+            for i in 0...sharps.count-1 {
+                if Note.isSameNote(note1: note, note2: sharps[i]) {
+                    pos = i
+                    break
+                }
             }
+        }
+        else {
+            for i in 0...flats.count-1 {
+                if Note.isSameNote(note1: note, note2: flats[i]) {
+                    pos = i
+                    break
+                }
+            }
+        }
+        if let pos = pos {
+            return maxAccidentals - pos
+        }
+        else {
+            return 0
         }
     }
     
     init(type:KeySignatureType, count:Int) {
         self.type = type
-        if count > 0 {
-            for i in 0...count-1 {
-                if i==0 {
-                    if type == .sharps {
-                        update(45) //F
-                    }
-                    else {
-                        update(39)
-                    }
-                }
-                if i==1 {
-                    if type == .sharps {
-                        update(40)
-                    }
-                    else {
-                        update(44) //the 4th semitone from middle C goes flat
-                    }
-                }
-                if i==2 {
-                    if type == .sharps {
-                        update(47)
-                    }
-                    else {
-                        update(37)
-                    }
-                }
-                if i==3 {
-                    if type == .sharps {
-                        update(42)
-                    }
-                    else {
-                        update(42)
-                    }
-                }
-            }
+        for i in 0...maxAccidentals-1 {
+            sharps.append(45 + i*7)
+            flats.append(39 + i*5)
         }
     }
+
 }

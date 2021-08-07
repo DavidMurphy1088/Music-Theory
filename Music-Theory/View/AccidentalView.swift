@@ -15,7 +15,7 @@ struct AccidentalView: View {
         //TODO not right for all accidentals e.g > 4
         for octave in -5...5 {
             let note = key.type == KeySignatureType.sharps ? key.sharps[noteIdx] + (12*octave) : key.flats[noteIdx] + (12*octave)
-            let offset = abs(staff.middleOfStaffNoteValue - note)
+            let offset = abs(staff.lowestNoteValue - note)
             if offset < minOffset {
                 minOffset = offset
                 self.note = note

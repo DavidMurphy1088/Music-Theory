@@ -3,14 +3,14 @@ import CoreData
 
 struct ContentView: View {
     var system:System
-    static let startPitch:Double = 44
+    static let startPitch:Double = 40
     @State private var pitch: Double = startPitch
     @State private var tempo: Double = 8
     @State var notes:[Note] = []
     @State var ts = TimeSlice()
     
     init() {
-        let key = KeySignature(type: KeySignatureType.sharps, count: 2)
+        let key = KeySignature(type: KeySignatureType.sharps, count: 0)
         self.system = System(key: key)
         system.staff.append(Staff(system: system, type: .treble))
         //system.staff.append(Staff(system: system, type: .bass))

@@ -7,15 +7,12 @@ enum KeySignatureType {
     case flats
 }
 
-class KeyAcc {
-    var num = 0
-}
-
 class KeySignature {
     var type:KeySignatureType
     var sharps:[Int] = []
     var flats:[Int] =  []
-    var maxAccidentals = 6
+    var maxAccidentals = 7
+    var accidentalCount:Int
 
     // how frequently is this note in a key signature
     func accidentalFrequency(note:Int, sigType: KeySignatureType) -> Int {
@@ -46,6 +43,7 @@ class KeySignature {
     
     init(type:KeySignatureType, count:Int) {
         self.type = type
+        self.accidentalCount = count
         for i in 0...maxAccidentals-1 {
             sharps.append(45 + i*7)
             flats.append(39 + i*5)

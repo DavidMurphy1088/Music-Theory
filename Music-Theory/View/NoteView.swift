@@ -17,7 +17,7 @@ struct NoteView: View {
         self.staff = staff
         self.note = note
         self.lineSpacing = lineSpacing
-        let pos = staff.staffOffset(noteValue: note.num)
+        let pos = staff.noteViewData(noteValue: note.num)
         offsetFromStaffTop = pos.0
         accidental = pos.1
         ledgerLines = pos.2

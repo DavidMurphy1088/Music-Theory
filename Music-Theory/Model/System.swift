@@ -4,7 +4,7 @@ import AVFoundation
 
 class System : ObservableObject  {
     var staff:[Staff] = []
-    var key:KeySignature = KeySignature(type: .sharps, count: 0)
+    var key:KeySignature
     var tempo = 5
     @Published var timeSlice:[TimeSlice]
     let engine = AVAudioEngine()
@@ -15,7 +15,8 @@ class System : ObservableObject  {
     static var accNatural = "\u{266e}"
     static var accFlat = "\u{266d}"
 
-    init() {
+    init(key:KeySignature) {
+        self.key = key
         self.timeSlice = []
         staffLineCount = 5 + (2*ledgerLineCount)
         //self.key = key
@@ -42,13 +43,6 @@ class System : ObservableObject  {
             print("engine started", engine.mainMixerNode.description)
         } catch {
             print("Couldn't start engine")
-        }
-    }
-    
-    func setKey(key:KeySignature) {
-        self.key = key
-        for staff in self.staff {
-            staff.setKey(key: key)
         }
     }
     

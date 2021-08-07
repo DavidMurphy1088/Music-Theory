@@ -7,11 +7,11 @@ struct MainView: View {
 
     var body: some View {
         TabView {
-            ContentView(system: System())
+            ContentView()
             .tabItem {
                 Label("Ride", systemImage: "bicycle.circle.fill")
             }
-            ContentView(system: System())
+            ContentView()
             .tabItem {
                 Label("Members", systemImage: "person.3.fill")
             }

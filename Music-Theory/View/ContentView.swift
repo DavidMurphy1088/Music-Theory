@@ -3,22 +3,17 @@ import CoreData
 
 struct ContentView: View {
     var system:System
-    static let startPitch:Double = 51
+    static let startPitch:Double = 44
     @State private var pitch: Double = startPitch
     @State private var tempo: Double = 8
     @State var notes:[Note] = []
     @State var ts = TimeSlice()
     
-    init(system:System) {
-        self.system = system
+    init() {
+        let key = KeySignature(type: KeySignatureType.sharps, count: 2)
+        self.system = System(key: key)
         system.staff.append(Staff(system: system, type: .treble))
         //system.staff.append(Staff(system: system, type: .bass))
-        setKey()
-    }
-    
-    func setKey() {
-        let key = KeySignature(type: KeySignatureType.sharps, count: 2)
-        system.setKey(key: key)
     }
     
     var body: some View {
@@ -53,12 +48,11 @@ struct ContentView: View {
                 }
                 Button("AddNote") {
                     ts.addNote(n: Note(num: Int(pitch), hand: HandType.right))
-                    print("Added ", pitch)
+                    //print("Added pitch", pitch)
                 }
                 
                 Button("AddChord") {
                     system.addTimeSlice(ts: ts)
-                    print("Added chord", ts.note.count)
                     ts = TimeSlice()
                 }
                 Spacer()

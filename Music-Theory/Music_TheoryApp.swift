@@ -6,7 +6,7 @@ struct Music_TheoryApp: App {
 
     var body: some Scene {
         WindowGroup {
-            ContentView(system: System())
+            ContentView()
                 .environment(\.managedObjectContext, persistenceController.container.viewContext)
         }
     }

@@ -9,7 +9,7 @@ class System : ObservableObject  {
     @Published var timeSlice:[TimeSlice]
     let engine = AVAudioEngine()
     let sampler = AVAudioUnitSampler()
-    let ledgerLineCount = 3
+    let ledgerLineCount = 1
     var staffLineCount = 5
     static var accSharp = "\u{266f}"
     static var accNatural = "\u{266e}"

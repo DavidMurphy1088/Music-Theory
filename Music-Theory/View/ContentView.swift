@@ -10,7 +10,7 @@ struct ContentView: View {
     @State var ts = TimeSlice()
     
     init() {
-        let key = KeySignature(type: KeySignatureType.flats, count: 2)
+        let key = KeySignature(type: KeySignatureType.flats, count: 0)
         self.system = System(key: key)
         system.staff.append(Staff(system: system, type: .treble))
         //system.staff.append(Staff(system: system, type: .bass))

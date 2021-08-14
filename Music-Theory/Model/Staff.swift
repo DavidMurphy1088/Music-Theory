@@ -28,18 +28,18 @@ class OffsetsByKey {
     var m:[String] = []
     init () {
         //  Key   C    D♭   D    E♭   E    F    G♭   G    A♭   A    B♭   B
-        m.append("0    0    0,0  0    0,0  0    0    0    0    0,0  0    0,0")  //C
-        m.append("0,2  1    0,0  0    0,0  0    0    0    0    0,0  0    0,0")  //C#
-        m.append("1    0    0,0  0    0,0  0    0    0    0    0,0  0    0,0")  //D♭
-        m.append("2,0  0    0,0  0    0,0  0    0    0    0    0,0  0    0,0")  //D
-        m.append("2    0    0,0  0    0,0  0    0    0    0    0,0  0    0,0")  //E
-        m.append("3    0    0,0  0    0,0  0    0    0    0    0,0  0    0,0")  //F
-        m.append("3,2  0    0,0  0    0,0  0    0    0    0    0,0  0    0,0")  //F#
-        m.append("4    0    0,0  0    0,0  0    0    0    0    0,0  0    0,0")  //G
-        m.append("4,2  0    0,0  0    0,0  0    0    0    0    0,0  0    0,0")  //G#
-        m.append("5    0    0,0  0    0,0  0    0    0    0    0,0  0    0,0")  //A
-        m.append("6,0  0    0,0  0    0,0  0    0    0    0    0,0  0    0,0")  //B♭
-        m.append("6    0    0,0  0    0,0  0    0    0    0    0,0  0    0,0")  //B
+        m.append("0    0    0,1  0    0,0  0    0    0    0    0,1  0    0,0")  //C
+        m.append("0,2  1    0    0    0,0  1,0  0    0,2  0    0    0    0,0")  //C#
+        m.append("1    0    1    0    0,0  1    0    1    0    1    0    0,0")  //D♭
+        m.append("2,0  0    2,0  0    0,0  2,0  0    2,0  0    2,0  0    0,0")  //D
+        m.append("2    0    2    0    0,0  2    0    2    0    2    0    0,0")  //E
+        m.append("3    0    3,1  0    0,0  3    0    3,1  0    3,1  0    0,0")  //F
+        m.append("3,2  0    3    0    0,0  4,0  0    3    0    3    0    0,0")  //F#
+        m.append("4    0    4    0    0,0  4    0    4,1  0    4,1  0    0,0")  //G
+        m.append("4,2  0    4,2  0    0,0  5,0  0    4    0    4    0    0,0")  //G#
+        m.append("5    0    5    0    0,0  5    0    5    0    5    0    0,0")  //A
+        m.append("6,0  0    6,0  0    0,0  6    0    6,0  0    6,0  0    0,0")  //B♭
+        m.append("6    0    6    0    0,0  6,1  0    6    0    6    0    0,0")  //B
     }
 }
 
@@ -53,7 +53,7 @@ class Staff : ObservableObject, Hashable  {
     var highestNoteValue:Int
     var key:KeySignature
     var staffOffsets:[Int] = []
-    //var offsetStart:Int
+
 
     init(system:System, type:StaffType) {
         self.system = system
@@ -61,9 +61,6 @@ class Staff : ObservableObject, Hashable  {
         self.type = type
         lowestNoteValue = 0
         highestNoteValue = 88
-        //              C C D D E F F G G A A B
-        //staffOffsets = [1,0,1,0,1,1,0,1,0,1,0,1]
-        //offsetStart = 0
         lowestNoteNameIdx = 0
 
         if type == StaffType.treble {
@@ -102,9 +99,6 @@ class Staff : ObservableObject, Hashable  {
                 lowestNoteNameIdx = 0
             }
         }
-        //createNoteOffsets()
-        //setNoteAccidentals()
-        //show(lbl: "accidl")
         
         noteOffsets = [StaffPlacementsByKey](repeating: StaffPlacementsByKey(), count: highestNoteValue + 1)
         var noteIdx = 4
@@ -113,12 +107,12 @@ class Staff : ObservableObject, Hashable  {
         var octaveCtr = 0
         var nameCtr = 2
         var lastOffset:Int? = nil
-//TODO make work for ledger lines <> 1 and bass clef
+
         while !allDone {
             for line in m.m {
                 let sp = StaffPlacementsByKey()
                 let pairs = line.components(separatedBy: " ")
-                let octave = ((octaveCtr) / 12) - 3
+                let octave = ((octaveCtr) / 12) - (self.type == StaffType.treble ? 3 : 1)
                 octaveCtr += 1
                 var col = 0
                 
@@ -127,7 +121,9 @@ class Staff : ObservableObject, Hashable  {
                         continue
                     }
                     let noteParts = pair.trimmingCharacters(in: .whitespaces).components(separatedBy: ",")
-                    let staffOffset = Int(noteParts[0])! + (octave * 7)
+                    let staffTypeOffset = type == StaffType.treble ? 0 : -2
+                    //print(line, pair, noteParts)
+                    let staffOffset = Int(noteParts[0])! + (octave * 7) + ((system.ledgerLineCount - 1) * 2) + staffTypeOffset
                     
                     if col == 0 {
                         if let lastOffset = lastOffset {
@@ -176,9 +172,61 @@ class Staff : ObservableObject, Hashable  {
         }
     }
     
+    func keyColumn() -> Int {
+        //    Key   C    D♭   D    E♭   E    F    G♭   G    A♭   A    B♭   B
+        //m.append("0    0    0,0  0    0,0  0    0    0    0    0,0  0    0,0")  //C
+
+        if system.key.type == KeySignatureType.sharps {
+            switch key.accidentalCount {
+            case 0:
+                return 0
+            case 1:
+                return 7
+            case 2:
+                return 2
+            case 3:
+                return 9
+            case 4:
+                return 4
+            case 5:
+                return 11
+            case 6:
+                return 6
+            case 7:
+                return 1
+            default:
+                return 0
+            }
+        }
+        else {
+            switch key.accidentalCount {
+            case 0:
+                return 0
+            case 1:
+                return 5
+            case 2:
+                return 10
+            case 3:
+                return 3
+            case 4:
+                return 8
+            case 5:
+                return 1
+            case 6:
+                return 6
+            case 7:
+                return 11
+            default:
+                return 0
+            }
+        }
+        return 0
+    }
+    
     func noteViewData(noteValue:Int) -> (Int?, String, [Int]) {
         let staffPosition = self.noteOffsets[noteValue]
-        let offsetFromBottom = staffPosition.staffPlacement[0].offset
+        let keyCol = keyColumn()
+        let offsetFromBottom = staffPosition.staffPlacement[keyCol].offset
         let offsetFromTop = (system.staffLineCount * 2) - offsetFromBottom - 2
 
         var ledgerLines:[Int] = []
@@ -205,7 +253,7 @@ class Staff : ObservableObject, Hashable  {
             }
         }
         var acc = ""
-        switch staffPosition.staffPlacement[0].acc {
+        switch staffPosition.staffPlacement[keyCol].acc {
             case 0:
                 acc=System.accFlat
             case 1:

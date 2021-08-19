@@ -1,19 +1,18 @@
 import SwiftUI
 import CoreData
-import MessageUI
 
-struct MainView1: View {
+struct AppView : View {
     @Environment(\.scenePhase) var scenePhase
 
     var body: some View {
         TabView {
-            ContentView()
+            IntervalView()
             .tabItem {
-                Label("Ride", systemImage: "bicycle.circle.fill")
+                Label("Intervals", systemImage: "music.quarternote.3")
             }
             ContentView()
             .tabItem {
-                Label("Members", systemImage: "person.3.fill")
+                Label("Members", systemImage: "music.note.list")
             }
         }
     }

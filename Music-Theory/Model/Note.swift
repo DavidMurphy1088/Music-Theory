@@ -19,7 +19,7 @@ class Note : Hashable {
         return (note1 % 12) == (note2 % 12)
     }
     
-    init(num:Int, hand:HandType) {
+    init(num:Int, hand:HandType = HandType.right) {
         self.num = num
         self.hand = hand
     }

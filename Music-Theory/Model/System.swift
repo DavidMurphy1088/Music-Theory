@@ -14,7 +14,8 @@ class System : ObservableObject  {
     static var accSharp = "\u{266f}"
     static var accNatural = "\u{266e}"
     static var accFlat = "\u{266d}"
-
+    var maxTempo = 10
+    
     init(key:KeySignature) {
         self.key = key
         self.timeSlice = []
@@ -68,7 +69,7 @@ class System : ObservableObject  {
                 for note in ts.note {
                     sampler.startNote(UInt8(note.num), withVelocity:48, onChannel:0)
                 }
-                let t = 10-self.tempo
+                let t = self.maxTempo - self.tempo
                 if t > 0 {
                     usleep(useconds_t((t) * 100000))
                 }

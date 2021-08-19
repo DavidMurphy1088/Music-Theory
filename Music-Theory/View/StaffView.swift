@@ -37,21 +37,19 @@ struct StaffView: View {
                     VStack {
                         if staff.type == StaffType.treble {
                             Text("\u{1d11e}").font(.system(size: CGFloat(lineSpacing * 7)))
-                            .border(Color.green)
                         }
                         else {
                             Text("\u{1d122}").font(.system(size: CGFloat(lineSpacing * 4)))
-                            .border(Color.green)
                         }
                     }
                     
                     HStack (spacing: 0) {
                         ForEach(0 ..< system.key.accidentalCount) { i in
                             AccidentalView(staff: staff, key:system.key, noteIdx: i, lineSpacing: lineSpacing)
-                            .frame(width: CGFloat(lineSpacing)).border(Color.green)
+                            .frame(width: CGFloat(lineSpacing))//.border(Color.green)
                         }
                     }
-                    
+
                     HStack {
                         ForEach(system.timeSlice, id: \.self) { timeSlice in
                             ZStack {
@@ -64,6 +62,7 @@ struct StaffView: View {
                     .border(Color.green)
                 }
             }
+            .border(Color.purple)
         }
     }
 }

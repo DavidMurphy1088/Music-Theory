@@ -10,7 +10,7 @@ struct ContentView: View {
     @State var ts = TimeSlice()
     
     init() {
-        let key = KeySignature(type: KeySignatureType.sharps, count: 3)
+        let key = KeySignature(type: KeySignatureType.sharps, count: 0)
         self.system = System(key: key)
         system.staff.append(Staff(system: system, type: .treble))
         system.staff.append(Staff(system: system, type: .bass))
@@ -54,6 +54,14 @@ struct ContentView: View {
                 Button("AddChord") {
                     system.addTimeSlice(ts: ts)
                     ts = TimeSlice()
+                }
+                Button("AddScale") {
+                    let scale = Scale()
+                    for note in scale.notes {
+                        ts = TimeSlice()
+                        ts.addNote(n: note)
+                        system.addTimeSlice(ts: ts)
+                    }
                 }
                 Spacer()
                 HStack {

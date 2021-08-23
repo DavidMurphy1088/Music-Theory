@@ -37,9 +37,9 @@ class Note : Hashable {
         }
     }
 
-    static func getAllOctaves(staff:Staff, note:Int) -> [Int] {
+    static func getAllOctaves(note:Int) -> [Int] {
         var notes:[Int] = []
-        for n in staff.lowestNoteValue...staff.highestNoteValue {
+        for n in 0...88 {
             if note >= n {
                 if (note - n) % 12 == 0 {
                     notes.append(n)
@@ -52,5 +52,18 @@ class Note : Hashable {
             }
         }
         return notes
+    }
+    
+    static func getClosestNote(notes:[Int], to:Int) -> Int? {
+        var closest:Int?
+        var minDist:Int?
+        for n in notes {
+            let dist = abs(n - to)
+            if minDist == nil || dist < minDist! {
+                minDist = dist
+                closest = n
+            }
+        }
+        return closest
     }
 }

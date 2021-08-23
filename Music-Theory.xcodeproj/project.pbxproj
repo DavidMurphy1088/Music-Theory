@@ -14,6 +14,7 @@
 		7B36C0B326B50A480040B87B /* Nice-Steinway-v3.8.sf2 in Resources */ = {isa = PBXBuildFile; fileRef = 7B36C0B226B50A480040B87B /* Nice-Steinway-v3.8.sf2 */; };
 		7B4E466326B623DA00998393 /* System.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B4E466226B623DA00998393 /* System.swift */; };
 		7B4E466626B6244200998393 /* SystemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B4E466526B6244200998393 /* SystemView.swift */; };
+		7B83748F26D37C8700822DBB /* ChordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B83748E26D37C8700822DBB /* ChordView.swift */; };
 		7B99A13926CE37FF00F0CFBD /* Scale.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B99A13826CE37FF00F0CFBD /* Scale.swift */; };
 		7BB2E5CE26B504F400EF7F37 /* Music_TheoryApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BB2E5CD26B504F400EF7F37 /* Music_TheoryApp.swift */; };
 		7BB2E5D026B504F400EF7F37 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BB2E5CF26B504F400EF7F37 /* ContentView.swift */; };
@@ -38,6 +39,7 @@
 		7B36C0B226B50A480040B87B /* Nice-Steinway-v3.8.sf2 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Nice-Steinway-v3.8.sf2"; sourceTree = "<group>"; };
 		7B4E466226B623DA00998393 /* System.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = System.swift; sourceTree = "<group>"; };
 		7B4E466526B6244200998393 /* SystemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemView.swift; sourceTree = "<group>"; };
+		7B83748E26D37C8700822DBB /* ChordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChordView.swift; sourceTree = "<group>"; };
 		7B99A13826CE37FF00F0CFBD /* Scale.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scale.swift; sourceTree = "<group>"; };
 		7BB2E5CA26B504F400EF7F37 /* Music-Theory.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Music-Theory.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7BB2E5CD26B504F400EF7F37 /* Music_TheoryApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Music_TheoryApp.swift; sourceTree = "<group>"; };
@@ -126,6 +128,7 @@
 			children = (
 				7BB2E5E326B505F500EF7F37 /* AccidentalView.swift */,
 				7BC9029826C78A7500E7A6D8 /* AppView.swift */,
+				7B83748E26D37C8700822DBB /* ChordView.swift */,
 				7BB2E5CF26B504F400EF7F37 /* ContentView.swift */,
 				7BC9029526C78A4200E7A6D8 /* IntervalView.swift */,
 				7BB2E5E826B5063500EF7F37 /* MainView.swift */,
@@ -209,6 +212,7 @@
 				7B36C0AE26B5094C0040B87B /* Staff.swift in Sources */,
 				7B4E466626B6244200998393 /* SystemView.swift in Sources */,
 				7BB2E5DA26B504F500EF7F37 /* Music_Theory.xcdatamodeld in Sources */,
+				7B83748F26D37C8700822DBB /* ChordView.swift in Sources */,
 				7B4E466326B623DA00998393 /* System.swift in Sources */,
 				7BC9029926C78A7500E7A6D8 /* AppView.swift in Sources */,
 				7BB2E5EB26B5063500EF7F37 /* MainView.swift in Sources */,

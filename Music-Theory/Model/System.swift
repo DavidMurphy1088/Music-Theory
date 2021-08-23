@@ -3,24 +3,22 @@ import AVKit
 import AVFoundation
 
 class System : ObservableObject  {
-    var staff:[Staff] = []
-    var key:KeySignature
-    var tempo = 5
+    @Published private var staff:[Staff] = []
     @Published var timeSlice:[TimeSlice]
+    var key:KeySignature = KeySignature(type: KeySignatureType.sharps, count: 0)
+    var tempo = 5
     let engine = AVAudioEngine()
     let sampler = AVAudioUnitSampler()
-    let ledgerLineCount = 3
-    var staffLineCount = 5
+    let ledgerLineCount = 4 //4 is required to represent low E
+    var staffLineCount = 0
     static var accSharp = "\u{266f}"
     static var accNatural = "\u{266e}"
     static var accFlat = "\u{266d}"
     var maxTempo = 10
     
-    init(key:KeySignature) {
-        self.key = key
+    init() {
         self.timeSlice = []
         staffLineCount = 5 + (2*ledgerLineCount)
-        //self.key = key
         //engine.attach(reverb)
         //reverb.loadFactoryPreset(.largeHall2)
         //reverb.loadFactoryPreset(
@@ -35,18 +33,37 @@ class System : ObservableObject  {
         do {
             //https://www.rockhoppertech.com/blog/the-great-avaudiounitsampler-workout/#soundfont
             if let url = Bundle.main.url(forResource:"Nice-Steinway-v3.8", withExtension:"sf2") {
-                print("found resource")
+                //print("found resource")
                 try sampler.loadSoundBankInstrument(at: url, program: 0, bankMSB: UInt8(kAUSampler_DefaultMelodicBankMSB), bankLSB: UInt8(kAUSampler_DefaultBankLSB))
-                print("loaded resource")
+                //print("loaded resource")
             }
-            print("try start engine")
+            //print("try start engine")
             try engine.start()
-            print("engine started", engine.mainMixerNode.description)
+            //print("engine started", engine.mainMixerNode.description)
         } catch {
             print("Couldn't start engine")
         }
     }
     
+    func setStaff(num:Int, staff:Staff) {
+        DispatchQueue.main.async {
+            if self.staff.count <= num {
+                self.staff.append(staff)
+            }
+            else {
+                self.staff[num] = staff
+            }
+        }
+    }
+    
+    func getStaff() -> [Staff] {
+        return self.staff
+    }
+    
+    func setKey(key:KeySignature) {
+        self.key = key
+    }
+
     func setTempo(temp: Int) {
         self.tempo = temp
     }
@@ -74,9 +91,6 @@ class System : ObservableObject  {
                     usleep(useconds_t((t) * 100000))
                 }
             }
-//            DispatchQueue.main.async {
-//                print("This is run on the main queue, after the previous code in outer block")
-//            }
         }
     }
     

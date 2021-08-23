@@ -4,7 +4,7 @@ import MessageUI
  
 struct StaffView: View {
     @ObservedObject var system:System
-    @ObservedObject var staff:Staff
+    var staff:Staff
     static let lineHeight = 1
     let lineSpacing = 12
         
@@ -19,7 +19,7 @@ struct StaffView: View {
         }
         return Color.blue
     }
-                
+              
     var body: some View {
         GeometryReader { geometry in
             ZStack (alignment: .leading) {
@@ -33,22 +33,23 @@ struct StaffView: View {
                     }
                     .fill(colr(line: row))
                 }
-                HStack (alignment: .top) {
-                    VStack {
-                        if staff.type == StaffType.treble {
-                            Text("\u{1d11e}").font(.system(size: CGFloat(lineSpacing * 7)))
-                        }
-                        else {
-                            Text("\u{1d122}").font(.system(size: CGFloat(lineSpacing * 4)))
-                        }
+                HStack {
+                    if staff.type == StaffType.treble {
+                        Text("\u{1d11e}").font(.system(size: CGFloat(lineSpacing * 9)))
+                        .offset(y:CGFloat(0 - lineSpacing))
                     }
-                    
+                    else {
+                        Text("\u{1d122}").font(.system(size: CGFloat(lineSpacing * 6)))
+                        .offset(y:CGFloat(0 - lineSpacing))
+                    }
+
                     HStack (spacing: 0) {
-                        ForEach(0 ..< system.key.accidentalCount) { i in
+                        ForEach(0 ..< system.key.accidentalCount, id: \.self) { i in
                             AccidentalView(staff: staff, key:system.key, noteIdx: i, lineSpacing: lineSpacing)
-                            .frame(width: CGFloat(lineSpacing))//.border(Color.green)
                         }
                     }
+                    .border(Color.green)
+                    .frame(width: CGFloat(system.staffLineCount/3 * lineSpacing)) 
 
                     HStack {
                         ForEach(system.timeSlice, id: \.self) { timeSlice in
@@ -59,10 +60,10 @@ struct StaffView: View {
                             }
                         }
                     }
-                    .border(Color.green)
                 }
             }
             .border(Color.purple)
+            .frame(height: CGFloat(system.staffLineCount * lineSpacing)) //fixed size of height for all staff lines + ledger lines
         }
     }
 }

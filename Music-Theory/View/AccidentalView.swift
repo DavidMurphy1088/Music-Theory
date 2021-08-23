@@ -14,11 +14,12 @@ struct AccidentalView: View {
         self.note = 0
         //TODO not right for all accidentals e.g > 4
         // https://www.doremistudios.com.au/key-signatures-explained/
-        for octave in -2...2 { //TODO -5,5
+        let midNote = staff.type == StaffType.treble ? 54 : 30
+
+        for octave in -3...3 { //TODO -5,5
             let note = key.type == KeySignatureType.sharps ? key.sharps[noteIdx] + (12*octave) : key.flats[noteIdx] + (12*octave)
-            let totNotes = staff.highestNoteValue - staff.lowestNoteValue
-            let midNote = staff.lowestNoteValue + totNotes/2
             let offset = abs(midNote - note)
+            //print ("   ", note, offset)
             if offset < minOffset {
                 minOffset = offset
                 self.note = note
@@ -27,6 +28,7 @@ struct AccidentalView: View {
 
         accidental = key.type == KeySignatureType.sharps ? System.accSharp : System.accFlat
         let pos = staff.noteViewData(noteValue: note)
+        //print(noteIdx, self.note, pos.0)
         offsetFromStaffTop = pos.0!
     }
 

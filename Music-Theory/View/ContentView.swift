@@ -2,7 +2,7 @@ import SwiftUI
 import CoreData
 
 struct ContentView: View {
-    var system:System
+    var system:System = System()
     static let startPitch:Double = 40
     @State private var pitch: Double = startPitch
     @State private var tempo: Double = 8
@@ -10,10 +10,10 @@ struct ContentView: View {
     @State var ts = TimeSlice()
     
     init() {
-        let key = KeySignature(type: KeySignatureType.sharps, count: 0)
-        self.system = System(key: key)
-        system.staff.append(Staff(system: system, type: .treble))
-        system.staff.append(Staff(system: system, type: .bass))
+        let key = KeySignature(type: KeySignatureType.flats, count: 4)
+        system.setKey(key: key)
+        system.setStaff(num: 0, staff: Staff(system: system, type: .treble))
+        system.setStaff(num: 1, staff: Staff(system: system, type: .bass))
     }
     
     var body: some View {
@@ -37,18 +37,15 @@ struct ContentView: View {
                     Spacer()
                     Button("Up") {
                         self.pitch += 1
-                        print(pitch)
                     }
                     Spacer()
                     Button("Down") {
                         self.pitch += -1
-                        print(pitch)
                     }
                     Spacer()
                 }
                 Button("AddNote") {
                     ts.addNote(n: Note(num: Int(pitch), hand: HandType.right))
-                    //print("Added pitch", pitch)
                 }
                 
                 Button("AddChord") {
@@ -56,7 +53,7 @@ struct ContentView: View {
                     ts = TimeSlice()
                 }
                 Button("AddScale") {
-                    let scale = Scale()
+                    let scale = Scale(key: KeySignature(type: KeySignatureType.sharps, count: 0))
                     for note in scale.notes {
                         ts = TimeSlice()
                         ts.addNote(n: note)
@@ -66,23 +63,19 @@ struct ContentView: View {
                 Spacer()
                 HStack {
                     Button("Up_Scale") {
-                        print("---")
-                        for i in 0...12 {
+                        for _ in 0...12 {
                             ts = TimeSlice()
                             system.addTimeSlice(ts: ts)
                             ts.addNote(n: Note(num: Int(pitch), hand: HandType.right))
                             self.pitch += 1
-                            print("Added scale", Int(pitch)+i, system.timeSlice.count)
                         }
                     }
                     Button("Down_Scale") {
-                        print("---")
-                        for i in 0...12 {
+                        for _ in 0...12 {
                             ts = TimeSlice()
                             system.addTimeSlice(ts: ts)
                             ts.addNote(n: Note(num: Int(pitch), hand: HandType.right))
                             self.pitch -= 1
-                            print("Added scale", Int(pitch)+i, system.timeSlice.count)
                         }
                     }
                 }
@@ -94,9 +87,7 @@ struct ContentView: View {
         }
         .padding()
         .onChange(of: tempo) { newValue in
-            print("changed tempo", tempo)
             system.setTempo(temp: Int(tempo))
-
           }
     }
 }

@@ -1,83 +1,129 @@
 import SwiftUI
 import CoreData
 
+//https://www.musictheory.net/calculators/interval
+
 struct IntervalView: View {
-    @ObservedObject var system:System
+    @StateObject var system:System = System()
     static let startPitch:Double = 40
     @State private var pitch: Double = startPitch
     @State private var tempo: Double = 4
-    @State var notes:[Note] = []
+    //@State var notes:[Note] = []
     @State var maxInterval: CGFloat = 10
-    @State var isChecked:Bool = false
     @State var intervals = Intervals()
     @State var intName:String?
-    @State var scale:Scale = Scale()
+    @State var scale:Scale?
+    @State var last1:Int?
+    @State var last2:Int?
+    @State var diatonic = true
     
     init() {
-        let key = KeySignature(type: KeySignatureType.sharps, count: 0)
-        self.system = System(key: key)
-        system.staff.append(Staff(system: system, type: .treble))
+    }
+    
+    func setKey(key:KeySignature) {
+        scale = Scale(key: key)
+        system.setKey(key: key)
+        system.setStaff(num: 0, staff: Staff(system: system, type: .treble))
     }
     
     func toggle() {
-        isChecked = !isChecked
+        diatonic = !diatonic
     }
-
+    
+    func makeInterval() {
+        system.clear()
+        intName = nil
+        let octave = Int.random(in: 0...1)
+        var r = Int.random(in: 0..<scale!.notes.count)
+        //r = 0
+        let note1 = Note(num: scale!.notes[r].num)
+        note1.num += octave * 12
+        let ts1 = TimeSlice()
+        ts1.addNote(n: note1)
+        
+        let ts2 = TimeSlice()
+        var span = 0
+        while true {
+            var note2:Note
+            if diatonic {
+                r = Int.random(in: 0..<scale!.notes.count)
+                note2 = Note(num: scale!.notes[r].num)
+                note2.num += octave * 12
+            }
+            else {
+                r = Int.random(in: -12..<12)
+                note2 = Note(num: note1.num + r)
+            }
+            
+            span = abs(note2.num - note1.num)
+            if span == 0 {
+                continue
+            }
+            if last1 == note1.num && last2 == note2.num {
+                continue
+            }
+            last1 = note1.num
+            last2 = note2.num
+            ts2.addNote(n: note2)
+            break
+        }
+        system.addTimeSlice(ts: ts1)
+        system.addTimeSlice(ts: ts2)
+        DispatchQueue.global(qos: .userInitiated).async {
+            intName = "?"
+            sleep(2)
+            intName = "\(intervals.getName(span: span) ?? "none")"
+        }
+    }
+    
     var body: some View {
         HStack {
             VStack {
                 SystemView(system: system)
-                    //.frame(height: 200)
-                    .padding()
-                HStack {
+                .padding()
+                Spacer()
+                VStack {
+                    Button("Select") {
+                        makeInterval()
+                    }
                     Spacer()
                     Button("Play") {
                         system.setTempo(temp: Int(tempo))
                         system.play()
                     }
-                    Spacer()
-                    Text("tempo")
-                    Slider(value: $tempo, in: 3...Double(system.maxTempo))
-                    Spacer()
                 }
-                HStack {
-                    Spacer()
-                    Button("Select") {
-                        system.clear()
-                        intName = nil
-                        var r = Int.random(in: 0..<scale.notes.count)
-                        var note1 = scale.notes[r]
-                        let ts1 = TimeSlice()
-                        ts1.addNote(n: note1)
-                        let ts2 = TimeSlice()
-                        r = Int.random(in: 0..<scale.notes.count)
-                        var note2 = scale.notes[r]
-                        //n += intervals.list[r].span
-                        ts2.addNote(n: note2)
-                        let span = abs(note2.num - note1.num)
-                        system.addTimeSlice(ts: ts1)
-                        system.addTimeSlice(ts: ts2)
-                        DispatchQueue.global(qos: .userInitiated).async {
-                            sleep(2)
-                            intName = "\(span), "+(intervals.getName(span: span) ?? "none")
-                        }
-                    }
-                    Spacer()
-                    Text(intName ?? "")
-                    Spacer()
-                }
-
                 Spacer()
+                HStack {
+                    Text("Tempo").padding()
+                    Slider(value: $tempo, in: 3...Double(system.maxTempo)).padding()
+                }
+                Spacer()
+                Text(intName ?? "").font(.title)
+                Spacer()
+
             }
-            VStack{
-                ForEach(intervals.list) { interval in
-                    Button(action: toggle){
-                        Image(systemName: isChecked ? "checkmark.square": "square")
-                        Text(interval.name)
+            VStack {
+                Button("Key") {
+                    let type = (Int.random(in: 0...1) == 0) ? KeySignatureType.sharps : KeySignatureType.flats
+                    let key = KeySignature(type: type, count: Int.random(in: 0...4))
+                    setKey(key: key)
+                }
+
+                Button(action: {
+                    toggle()
+                }) {
+                    HStack(spacing: 10) {
+                        Image(systemName: diatonic ? "checkmark.square": "square")
+                        Text("Diatonic")
                     }
                 }
+                .padding()
             }
-
+        }
+        .onAppear {
+            let key = KeySignature(type: KeySignatureType.flats, count: 0)
+            setKey(key: key)
         }
     }
+    
 }

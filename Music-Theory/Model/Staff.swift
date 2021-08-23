@@ -27,76 +27,71 @@ class StaffPlacementsByKey {
 class OffsetsByKey {
     var m:[String] = []
     init () {
+        // offset, sign. sign = ' ' or 0=flat, 1=natural, 2=sharp
         //  Key   C    D♭   D    E♭   E    F    G♭   G    A♭   A    B♭   B
-        m.append("0    0    0,1  0    0,0  0    0    0    0    0,1  0    0,0")  //C
-        m.append("0,2  1    0    0    0,0  1,0  0    0,2  0    0    0    0,0")  //C#
-        m.append("1    0    1    0    0,0  1    0    1    0    1    0    0,0")  //D♭
-        m.append("2,0  0    2,0  0    0,0  2,0  0    2,0  0    2,0  0    0,0")  //D
-        m.append("2    0    2    0    0,0  2    0    2    0    2    0    0,0")  //E
-        m.append("3    0    3,1  0    0,0  3    0    3,1  0    3,1  0    0,0")  //F
-        m.append("3,2  0    3    0    0,0  4,0  0    3    0    3    0    0,0")  //F#
-        m.append("4    0    4    0    0,0  4    0    4,1  0    4,1  0    0,0")  //G
-        m.append("4,2  0    4,2  0    0,0  5,0  0    4    0    4    0    0,0")  //G#
-        m.append("5    0    5    0    0,0  5    0    5    0    5    0    0,0")  //A
-        m.append("6,0  0    6,0  0    0,0  6    0    6,0  0    6,0  0    0,0")  //B♭
-        m.append("6    0    6    0    0,0  6,1  0    6    0    6    0    0,0")  //B
+        m.append("0    0    0,1  0    0,1  0    0    0    0    0,1  0    0,0")  //C
+        m.append("0,2  1    0    1,0  0    1,0  0    0,2  1    0    1,0  0,0")  //C#
+        m.append("1    0    1    1    1,1  1    0    1    1,1  1    1    0,0")  //D
+        m.append("2,0  0    2,0  2    1    2,0  0    2,0  2    2,0  2    0,0")  //E♭
+        m.append("2    0    2    2,1  2    2    0    2    2,1  2    2,1  0,0")  //E
+        m.append("3    0    3,1  3    3,1  3    0    3,1  3    3,1  3    0,0")  //F
+        m.append("3,2  0    3    4,0  3    4,0  0    3    4,0  3    4,0  0,0")  //F#
+        m.append("4    0    4    4    4,1  4    0    4    4    4,1  4    0,0")  //G
+        m.append("4,2  0    4,2  5    4    5,0  0    4,2  5    4    5,0  0,0")  //G#
+        m.append("5    0    5    5,1  5    5    0    5    5,1  5    5    0,0")  //A
+        m.append("6,0  0    6,0  6    6,0  6    0    6,0  6    6,0  6    0,0")  //B♭
+        m.append("6    0    6    6,1  6    6,1  0    6    6,1  6,1  6,1  0,0")  //B
     }
 }
 
-class Staff : ObservableObject, Hashable  {
+class Staff : Hashable { //}: ObservableObject, Hashable  {
     let system:System
     var type:StaffType
     var noteOffsets:[StaffPlacementsByKey] = []
     let linesInStaff = 5
     var lowestNoteValue:Int
-    var lowestNoteNameIdx:Int
     var highestNoteValue:Int
-    var key:KeySignature
     var staffOffsets:[Int] = []
-
 
     init(system:System, type:StaffType) {
         self.system = system
-        self.key = system.key
+        //self.key = system.key
         self.type = type
         lowestNoteValue = 0
         highestNoteValue = 88
-        lowestNoteNameIdx = 0
 
         if type == StaffType.treble {
             if system.ledgerLineCount == 0 {
                 lowestNoteValue = 44
-                lowestNoteNameIdx = 4
             }
             if system.ledgerLineCount == 1 {
                 lowestNoteValue = 40
-                lowestNoteNameIdx = 2
             }
             if system.ledgerLineCount == 2 {
                 lowestNoteValue = 37
-                lowestNoteNameIdx = 0
             }
             if system.ledgerLineCount == 3 {
                 lowestNoteValue = 33
-                lowestNoteNameIdx = 5
+            }
+            if system.ledgerLineCount == 4 {
+                lowestNoteValue = 30
             }
         }
         else {
             if system.ledgerLineCount == 0 {
                 lowestNoteValue = 23
-                lowestNoteNameIdx = 6
             }
             if system.ledgerLineCount == 1 {
                 lowestNoteValue = 20
-                lowestNoteNameIdx = 4
             }
             if system.ledgerLineCount == 2 {
                 lowestNoteValue = 16
-                lowestNoteNameIdx = 2
             }
             if system.ledgerLineCount == 3 {
                 lowestNoteValue = 13
-                lowestNoteNameIdx = 0
+            }
+            if system.ledgerLineCount == 4 {
+                lowestNoteValue = 9
             }
         }
         
@@ -122,7 +117,6 @@ class Staff : ObservableObject, Hashable  {
                     }
                     let noteParts = pair.trimmingCharacters(in: .whitespaces).components(separatedBy: ",")
                     let staffTypeOffset = type == StaffType.treble ? 0 : -2
-                    //print(line, pair, noteParts)
                     let staffOffset = Int(noteParts[0])! + (octave * 7) + ((system.ledgerLineCount - 1) * 2) + staffTypeOffset
                     
                     if col == 0 {
@@ -154,7 +148,7 @@ class Staff : ObservableObject, Hashable  {
                 }
             }
         }
-        show("")
+        //show("")
     }
     
     func show(_ lbl:String) {
@@ -177,7 +171,7 @@ class Staff : ObservableObject, Hashable  {
         //m.append("0    0    0,0  0    0,0  0    0    0    0    0,0  0    0,0")  //C
 
         if system.key.type == KeySignatureType.sharps {
-            switch key.accidentalCount {
+            switch system.key.accidentalCount {
             case 0:
                 return 0
             case 1:
@@ -199,7 +193,7 @@ class Staff : ObservableObject, Hashable  {
             }
         }
         else {
-            switch key.accidentalCount {
+            switch system.key.accidentalCount {
             case 0:
                 return 0
             case 1:
@@ -220,8 +214,7 @@ class Staff : ObservableObject, Hashable  {
                 return 0
             }
         }
-        return 0
-    }
+     }
     
     func noteViewData(noteValue:Int) -> (Int?, String, [Int]) {
         let staffPosition = self.noteOffsets[noteValue]
@@ -331,7 +324,6 @@ class Staff : ObservableObject, Hashable  {
 //                }
 //            }
 //            staffPosition.name = Note.noteNames[nameIdx]
-//            //print(note, staffPosition.name)
 //
 //            if staffPosition.positionOffset != 0 {
 //                if note == 27 {

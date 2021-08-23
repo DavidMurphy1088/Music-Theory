@@ -6,9 +6,14 @@ struct AppView : View {
 
     var body: some View {
         TabView {
+            ChordView()
+            .tabItem {
+                Label("Chord", systemImage: "music.quarternote.3")
+            }
+
             IntervalView()
             .tabItem {
-                Label("Intervals", systemImage: "music.quarternote.3")
+                Label("Intervals", systemImage: "music.note")
             }
             ContentView()
             .tabItem {

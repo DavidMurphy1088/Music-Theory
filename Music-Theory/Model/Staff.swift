@@ -44,17 +44,18 @@ class OffsetsByKey {
     }
 }
 
-class Staff : Hashable { //}: ObservableObject, Hashable  {
-    let system:System
+class Staff : ObservableObject {
+    @Published var upd = 0
+    let score:Score
     var type:StaffType
     var noteOffsets:[StaffPlacementsByKey] = []
     let linesInStaff = 5
     var lowestNoteValue:Int
     var highestNoteValue:Int
     var staffOffsets:[Int] = []
-
-    init(system:System, type:StaffType) {
-        self.system = system
+    
+    init(system:Score, type:StaffType) {
+        self.score = system
         //self.key = system.key
         self.type = type
         lowestNoteValue = 0
@@ -151,15 +152,22 @@ class Staff : Hashable { //}: ObservableObject, Hashable  {
         //show("")
     }
     
+    func update() {
+        DispatchQueue.main.async {
+            self.upd += 1
+        }
+        //score.update()
+    }
+        
     func show(_ lbl:String) {
         print("")
         for n in stride(from: noteOffsets.count-1, to: 0, by: -1) {
             let sp = noteOffsets[n]
             if sp.staffPlacement.count > 0 {
                 var acc = ""
-                if sp.staffPlacement[0].acc == 0 {acc = System.accFlat}
-                if sp.staffPlacement[0].acc == 1 {acc = System.accNatural}
-                if sp.staffPlacement[0].acc == 2 {acc = System.accSharp}
+                if sp.staffPlacement[0].acc == 0 {acc = Score.accFlat}
+                if sp.staffPlacement[0].acc == 1 {acc = Score.accNatural}
+                if sp.staffPlacement[0].acc == 2 {acc = Score.accSharp}
                 print("\(lbl) Note", n,
                       "\(sp.staffPlacement[0].offset) \(sp.staffPlacement[0].name) \(acc)")
             }
@@ -170,8 +178,8 @@ class Staff : Hashable { //}: ObservableObject, Hashable  {
         //    Key   C    D♭   D    E♭   E    F    G♭   G    A♭   A    B♭   B
         //m.append("0    0    0,0  0    0,0  0    0    0    0    0,0  0    0,0")  //C
 
-        if system.key.type == KeySignatureType.sharps {
-            switch system.key.accidentalCount {
+        if score.key.type == KeySignatureType.sharps {
+            switch score.key.accidentalCount {
             case 0:
                 return 0
             case 1:
@@ -193,7 +201,7 @@ class Staff : Hashable { //}: ObservableObject, Hashable  {
             }
         }
         else {
-            switch system.key.accidentalCount {
+            switch score.key.accidentalCount {
             case 0:
                 return 0
             case 1:
@@ -220,27 +228,27 @@ class Staff : Hashable { //}: ObservableObject, Hashable  {
         let staffPosition = self.noteOffsets[noteValue]
         let keyCol = keyColumn()
         let offsetFromBottom = staffPosition.staffPlacement[keyCol].offset
-        let offsetFromTop = (system.staffLineCount * 2) - offsetFromBottom - 2
+        let offsetFromTop = (score.staffLineCount * 2) - offsetFromBottom - 2
 
         var ledgerLines:[Int] = []
-        if abs(offsetFromBottom) <= system.ledgerLineCount*2 - 2 {
+        if abs(offsetFromBottom) <= score.ledgerLineCount*2 - 2 {
             let onSpace = abs(offsetFromBottom) % 2 == 1
             var lineOffset = 0
             if onSpace {
                 lineOffset -= 1
             }
-            for _ in 0..<(system.ledgerLineCount - offsetFromBottom/2) + lineOffset {
+            for _ in 0..<(score.ledgerLineCount - offsetFromBottom/2) + lineOffset {
                 ledgerLines.append(lineOffset)
                 lineOffset -= 2
             }
         }
-        if abs(offsetFromTop) <= system.ledgerLineCount*2 - 2 {
+        if abs(offsetFromTop) <= score.ledgerLineCount*2 - 2 {
             let onSpace = abs(offsetFromTop) % 2 == 1
             var lineOffset = 0
             if onSpace {
                 lineOffset += 1
             }
-            for _ in 0..<(system.ledgerLineCount - offsetFromTop/2) - lineOffset {
+            for _ in 0..<(score.ledgerLineCount - offsetFromTop/2) - lineOffset {
                 ledgerLines.append(lineOffset)
                 lineOffset += 2
             }
@@ -248,110 +256,16 @@ class Staff : Hashable { //}: ObservableObject, Hashable  {
         var acc = ""
         switch staffPosition.staffPlacement[keyCol].acc {
             case 0:
-                acc=System.accFlat
+                acc=Score.accFlat
             case 1:
-                acc=System.accNatural
+                acc=Score.accNatural
             case 2:
-                acc=System.accSharp
+                acc=Score.accSharp
             default:
                 acc=""
         }
         return (offsetFromTop, acc, ledgerLines)
     }
     
-//    func createNoteOffsets() {
-//        noteOffsets = [StaffPosition](repeating: StaffPosition(staffOffset: 0, posOffset: 0), count: highestNoteValue + 1)
-//        var last:Int?
-//        last = nil
-//        var staffOffset = 0
-//        var nameOffset = self.lowestNoteNameIdx
-//
-//        for n in 0...(highestNoteValue-lowestNoteValue) {
-//            let note = lowestNoteValue + n
-//            let offset = n==0 ? 0 : staffOffsets[(offsetStart + n) % staffOffsets.count]
-//            staffOffset += offset
-//
-//
-//            var posOffset = 0
-//            if last != nil {
-//                if offset == 0 {
-//                    posOffset = 1
-//                }
-//                else {
-//                    nameOffset += 1
-//                }
-//            }
-//
-//            let staffOffset = StaffPosition(staffOffset: staffOffset, posOffset: posOffset, name: Note.noteName(idx: nameOffset))
-//            last = offset
-//            noteOffsets[note] = staffOffset
-//        }
-//        show(lbl: "   create")
-//        adjustForKey()
-//        show(lbl: "after_key")
-//    }
-//
-//    func incr(_ n:Int, _ delta:Int, _ modu:Int) -> Int {
-//        var num = n + delta
-//        if num > modu-1 {
-//            num = 0
-//        }
-//        if num < 0 {
-//            num = modu-1
-//        }
-//        return num
-//    }
-//
-//    func setNoteAccidentals() {
-//        let key = KeySignature(type: KeySignatureType.sharps, count: 0)
-//        var nameIdx = 0
-//        if type == StaffType.treble {
-//            nameIdx = 0
-//        }
-//        else {
-//            nameIdx = 2
-//        }
-//        for n in 0...(highestNoteValue-lowestNoteValue) {
-//            let note = lowestNoteValue + n
-//            let staffPosition = noteOffsets[note]
-//            //nameIdx = incr(nameIdx, direction, noteNames.count)
-//            if nameIdx < 0 {
-//                nameIdx = Note.noteNames.count-1
-//            }
-//            else {
-//                if nameIdx > Note.noteNames.count-1 {
-//                    nameIdx = 0
-//                }
-//            }
-//            staffPosition.name = Note.noteNames[nameIdx]
-//
-//            if staffPosition.positionOffset != 0 {
-//                if note == 27 {
-//                    let x = 1
-//                }
-//                let flatFreq = key.accidentalFrequency(note: note+1, sigType: KeySignatureType.flats)
-//                let sharpFreq = key.accidentalFrequency(note: note-1, sigType: KeySignatureType.sharps)
-//                if flatFreq > sharpFreq {
-//                staffPosition.staffOffsetFromBottom -= 1
-//                staffPosition.positionOffset = 1
-//                //staffPosition.name = Note.noteNames[nameIdx] + System.accFlat
-//                nameIdx = incr(nameIdx, -1, Note.noteNames.count)
-//                }
-//                else {
-//                    nameIdx = incr(nameIdx, -1, Note.noteNames.count)
-//                    //staffPosition.name = Note.noteNames[nameIdx] + System.accSharp
-//                }
-//            }
-//        }
-//    }
-//
-    static func == (lhs: Staff, rhs: Staff) -> Bool {
-        return lhs.type == rhs.type
-    }
-    
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(type)
-    }
-
 }
  

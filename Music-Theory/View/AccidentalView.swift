@@ -26,7 +26,7 @@ struct AccidentalView: View {
             }
         }
 
-        accidental = key.type == KeySignatureType.sharps ? System.accSharp : System.accFlat
+        accidental = key.type == KeySignatureType.sharps ? Score.accSharp : Score.accFlat
         let pos = staff.noteViewData(noteValue: note)
         //print(noteIdx, self.note, pos.0)
         offsetFromStaffTop = pos.0!

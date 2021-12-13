@@ -1,11 +1,14 @@
 import Foundation
 
-class TimeSlice : ObservableObject, Hashable  {
-    @Published var note:[Note]
+class TimeSlice : Hashable  { //}: ObservableObject,  {
+    //@Published
+    var score:Score
+    var note:[Note] 
     private static var idIndex = 0
     private var id = 0
     
-    init() {
+    init(score:Score) {
+        self.score = score
         self.note = []
         self.id = TimeSlice.idIndex
         TimeSlice.idIndex += 1
@@ -16,9 +19,10 @@ class TimeSlice : ObservableObject, Hashable  {
     }
     
     func addNote(n:Note) {
-        DispatchQueue.main.async {
+        //DispatchQueue.main.async {
             self.note.append(n)
-        }
+        score.update()
+        //}
     }
     
     static func == (lhs: TimeSlice, rhs: TimeSlice) -> Bool {

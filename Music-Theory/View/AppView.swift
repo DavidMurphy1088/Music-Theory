@@ -6,19 +6,19 @@ struct AppView : View {
 
     var body: some View {
         TabView {
-            ChordView()
+            Test1()
             .tabItem {
-                Label("Chord", systemImage: "music.quarternote.3")
+                Label("Test1", systemImage: "music.quarternote.3")
             }
 
-            IntervalView()
-            .tabItem {
-                Label("Intervals", systemImage: "music.note")
-            }
-            ContentView()
-            .tabItem {
-                Label("Members", systemImage: "music.note.list")
-            }
+//            IntervalView()
+//            .tabItem {
+//                Label("Intervals", systemImage: "music.note")
+//            }
+//            ContentView()
+//            .tabItem {
+//                Label("Members", systemImage: "music.note.list")
+//            }
         }
     }
 }

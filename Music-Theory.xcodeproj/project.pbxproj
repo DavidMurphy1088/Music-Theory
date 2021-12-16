@@ -17,6 +17,7 @@
 		7B83748F26D37C8700822DBB /* Test1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B83748E26D37C8700822DBB /* Test1.swift */; };
 		7B83749326D37E1C00822DBB /* Chord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B83749226D37E1C00822DBB /* Chord.swift */; };
 		7B83749726D3859E00822DBB /* Voice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B83749626D3859E00822DBB /* Voice.swift */; };
+		7B90897A276734820081E689 /* todo.txt in Resources */ = {isa = PBXBuildFile; fileRef = 7B908979276734820081E689 /* todo.txt */; };
 		7B99A13926CE37FF00F0CFBD /* Scale.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B99A13826CE37FF00F0CFBD /* Scale.swift */; };
 		7BB2E5CE26B504F400EF7F37 /* Music_TheoryApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BB2E5CD26B504F400EF7F37 /* Music_TheoryApp.swift */; };
 		7BB2E5D026B504F400EF7F37 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BB2E5CF26B504F400EF7F37 /* ContentView.swift */; };
@@ -43,6 +44,7 @@
 		7B83748E26D37C8700822DBB /* Test1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Test1.swift; sourceTree = "<group>"; };
 		7B83749226D37E1C00822DBB /* Chord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chord.swift; sourceTree = "<group>"; };
 		7B83749626D3859E00822DBB /* Voice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Voice.swift; sourceTree = "<group>"; };
+		7B908979276734820081E689 /* todo.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = todo.txt; sourceTree = "<group>"; };
 		7B99A13826CE37FF00F0CFBD /* Scale.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scale.swift; sourceTree = "<group>"; };
 		7BB2E5CA26B504F400EF7F37 /* Music-Theory.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Music-Theory.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7BB2E5CD26B504F400EF7F37 /* Music_TheoryApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Music_TheoryApp.swift; sourceTree = "<group>"; };
@@ -106,6 +108,7 @@
 		7BB2E5CC26B504F400EF7F37 /* Music-Theory */ = {
 			isa = PBXGroup;
 			children = (
+				7B908979276734820081E689 /* todo.txt */,
 				7B36C0B226B50A480040B87B /* Nice-Steinway-v3.8.sf2 */,
 				7B36C0A826B5094C0040B87B /* Model */,
 				7BB2E5E226B505A200EF7F37 /* View */,
@@ -199,6 +202,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7B90897A276734820081E689 /* todo.txt in Resources */,
 				7BB2E5D526B504F500EF7F37 /* Preview Assets.xcassets in Resources */,
 				7B36C0B326B50A480040B87B /* Nice-Steinway-v3.8.sf2 in Resources */,
 				7BB2E5D226B504F500EF7F37 /* Assets.xcassets in Resources */,

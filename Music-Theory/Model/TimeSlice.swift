@@ -19,10 +19,8 @@ class TimeSlice : Hashable  { //}: ObservableObject,  {
     }
     
     func addNote(n:Note) {
-        //DispatchQueue.main.async {
-            self.note.append(n)
-        score.update()
-        //}
+        self.note.append(n)
+        score.updateStaffs()
     }
     
     static func == (lhs: TimeSlice, rhs: TimeSlice) -> Bool {

@@ -35,7 +35,7 @@ struct StaffView: View {
                     .fill(colr(line: row))
                 }
                 HStack {
-                    Text("staff:"+String(staff.upd))
+                    //Text("staff:"+String(staff.publishUpdate))
                     if staff.type == StaffType.treble {
                         Text("\u{1d11e}").font(.system(size: CGFloat(lineSpacing * 9)))
                         .offset(y:CGFloat(0 - lineSpacing))

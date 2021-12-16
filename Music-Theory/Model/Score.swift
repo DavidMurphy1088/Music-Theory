@@ -2,15 +2,15 @@ import Foundation
 import AVKit
 import AVFoundation
 
-class Score  {//}: ObservableObject  {
-    //static var instance = System()
-    //@Published
+class Score  {
+    static let engine = AVAudioEngine()
+    static let sampler = AVAudioUnitSampler()
+    static var auStarted = false
+    
     private var staff:[Staff] = []
-    //@Published var upd = 0
     var key:KeySignature = KeySignature(type: KeySignatureType.sharps, count: 0)
     var tempo = 5
-    let engine = AVAudioEngine()
-    let sampler = AVAudioUnitSampler()
+
     let ledgerLineCount = 4 //4 is required to represent low E
     var staffLineCount = 0
     static var accSharp = "\u{266f}"
@@ -18,6 +18,28 @@ class Score  {//}: ObservableObject  {
     static var accFlat = "\u{266d}"
     var maxTempo = 10
     var timeSlices:[TimeSlice] = []
+    
+    static func startAu()  {
+        engine.attach(sampler)
+        engine.connect(sampler, to:engine.mainMixerNode, format:engine.mainMixerNode.outputFormat(forBus: 0))
+        Score.auStarted = true
+        DispatchQueue.global(qos: .userInitiated).async {
+            print("Start AU engine")
+            do {
+                //https://www.rockhoppertech.com/blog/the-great-avaudiounitsampler-workout/#soundfont
+                if let url = Bundle.main.url(forResource:"Nice-Steinway-v3.8", withExtension:"sf2") {
+                    //print("found resource")
+                    try Score.sampler.loadSoundBankInstrument(at: url, program: 0, bankMSB: UInt8(kAUSampler_DefaultMelodicBankMSB), bankLSB: UInt8(kAUSampler_DefaultBankLSB))
+                    //print("loaded resource")
+                }
+                //print("try start engine")
+                try Score.engine.start()
+                print("Started AU engine")
+            } catch {
+                print("Couldn't start engine")
+            }
+        }
+    }
     
     init() {
         staffLineCount = 5 + (2*ledgerLineCount)
@@ -29,25 +51,14 @@ class Score  {//}: ObservableObject  {
         // Connect the nodes.
         //engine.connect(sampler, to: reverb, format: nil)
         //engine.connect(reverb, to: engine.mainMixerNode, format:engine.mainMixerNode.outputFormat(forBus: 0))
-        engine.attach(sampler)
-        engine.connect(sampler, to:engine.mainMixerNode, format:engine.mainMixerNode.outputFormat(forBus: 0))
+
         
-        do {
-            //https://www.rockhoppertech.com/blog/the-great-avaudiounitsampler-workout/#soundfont
-            if let url = Bundle.main.url(forResource:"Nice-Steinway-v3.8", withExtension:"sf2") {
-                //print("found resource")
-                try sampler.loadSoundBankInstrument(at: url, program: 0, bankMSB: UInt8(kAUSampler_DefaultMelodicBankMSB), bankLSB: UInt8(kAUSampler_DefaultBankLSB))
-                //print("loaded resource")
-            }
-            //print("try start engine")
-            try engine.start()
-            //print("engine started", engine.mainMixerNode.description)
-        } catch {
-            print("Couldn't start engine")
+        if !Score.auStarted {
+            Score.startAu()
         }
     }
     
-    func update() {
+    func updateStaffs() {
         for staff in staff {
             staff.update()
         }
@@ -70,6 +81,7 @@ class Score  {//}: ObservableObject  {
     
     func setKey(key:KeySignature) {
         self.key = key
+        updateStaffs()
     }
 
     func setTempo(temp: Int) {
@@ -83,16 +95,17 @@ class Score  {//}: ObservableObject  {
     }
     
     func clear() {
-//        DispatchQueue.main.async {
-           self.timeSlices = []
-//        }
+        self.timeSlices = []
+        for staff in staff  {
+            staff.clear()
+        }
     }
 
     func play() {
         DispatchQueue.global(qos: .userInitiated).async { [self] in
             for ts in timeSlices {
                 for note in ts.note {
-                    sampler.startNote(UInt8(note.num), withVelocity:48, onChannel:0)
+                    Score.sampler.startNote(UInt8(note.num), withVelocity:48, onChannel:0)
                 }
                 let t = self.maxTempo - self.tempo
                 if t > 0 {

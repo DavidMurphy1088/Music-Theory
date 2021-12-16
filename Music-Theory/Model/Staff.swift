@@ -45,7 +45,7 @@ class OffsetsByKey {
 }
 
 class Staff : ObservableObject {
-    @Published var upd = 0
+    @Published private var publishUpdate = 0
     let score:Score
     var type:StaffType
     var noteOffsets:[StaffPlacementsByKey] = []
@@ -154,11 +154,16 @@ class Staff : ObservableObject {
     
     func update() {
         DispatchQueue.main.async {
-            self.upd += 1
+            self.publishUpdate += 1
         }
-        //score.update()
     }
-        
+    
+    func clear() {
+        DispatchQueue.main.async {
+            self.publishUpdate = 0
+        }
+    }
+
     func show(_ lbl:String) {
         print("")
         for n in stride(from: noteOffsets.count-1, to: 0, by: -1) {

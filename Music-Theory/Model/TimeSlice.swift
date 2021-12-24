@@ -23,6 +23,13 @@ class TimeSlice : Hashable  { //}: ObservableObject,  {
         score.updateStaffs()
     }
     
+    func addChord(c:Chord) {
+        for n in c.notes {
+            self.note.append(Note(num: n))
+        }
+        score.updateStaffs()
+    }
+
     static func == (lhs: TimeSlice, rhs: TimeSlice) -> Bool {
         return lhs.id == rhs.id
     }

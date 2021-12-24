@@ -54,44 +54,43 @@ class Staff : ObservableObject {
     var highestNoteValue:Int
     var staffOffsets:[Int] = []
     
-    init(system:Score, type:StaffType) {
-        self.score = system
-        //self.key = system.key
+    init(score:Score, type:StaffType) {
+        self.score = score
         self.type = type
         lowestNoteValue = 0
         highestNoteValue = 88
 
         if type == StaffType.treble {
-            if system.ledgerLineCount == 0 {
+            if score.ledgerLineCount == 0 {
                 lowestNoteValue = 44
             }
-            if system.ledgerLineCount == 1 {
+            if score.ledgerLineCount == 1 {
                 lowestNoteValue = 40
             }
-            if system.ledgerLineCount == 2 {
+            if score.ledgerLineCount == 2 {
                 lowestNoteValue = 37
             }
-            if system.ledgerLineCount == 3 {
+            if score.ledgerLineCount == 3 {
                 lowestNoteValue = 33
             }
-            if system.ledgerLineCount == 4 {
+            if score.ledgerLineCount == 4 {
                 lowestNoteValue = 30
             }
         }
         else {
-            if system.ledgerLineCount == 0 {
+            if score.ledgerLineCount == 0 {
                 lowestNoteValue = 23
             }
-            if system.ledgerLineCount == 1 {
+            if score.ledgerLineCount == 1 {
                 lowestNoteValue = 20
             }
-            if system.ledgerLineCount == 2 {
+            if score.ledgerLineCount == 2 {
                 lowestNoteValue = 16
             }
-            if system.ledgerLineCount == 3 {
+            if score.ledgerLineCount == 3 {
                 lowestNoteValue = 13
             }
-            if system.ledgerLineCount == 4 {
+            if score.ledgerLineCount == 4 {
                 lowestNoteValue = 9
             }
         }
@@ -118,7 +117,7 @@ class Staff : ObservableObject {
                     }
                     let noteParts = pair.trimmingCharacters(in: .whitespaces).components(separatedBy: ",")
                     let staffTypeOffset = type == StaffType.treble ? 0 : -2
-                    let staffOffset = Int(noteParts[0])! + (octave * 7) + ((system.ledgerLineCount - 1) * 2) + staffTypeOffset
+                    let staffOffset = Int(noteParts[0])! + (octave * 7) + ((score.ledgerLineCount - 1) * 2) + staffTypeOffset
                     
                     if col == 0 {
                         if let lastOffset = lastOffset {
@@ -183,8 +182,8 @@ class Staff : ObservableObject {
         //    Key   C    D♭   D    E♭   E    F    G♭   G    A♭   A    B♭   B
         //m.append("0    0    0,0  0    0,0  0    0    0    0    0,0  0    0,0")  //C
 
-        if score.key.type == KeySignatureType.sharps {
-            switch score.key.accidentalCount {
+        if score.key.keySig.type == KeySignatureType.sharps {
+            switch score.key.keySig.accidentalCount {
             case 0:
                 return 0
             case 1:
@@ -206,7 +205,7 @@ class Staff : ObservableObject {
             }
         }
         else {
-            switch score.key.accidentalCount {
+            switch score.key.keySig.accidentalCount {
             case 0:
                 return 0
             case 1:

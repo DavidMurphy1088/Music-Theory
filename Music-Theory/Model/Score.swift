@@ -8,7 +8,7 @@ class Score  {
     static var auStarted = false
     
     private var staff:[Staff] = []
-    var key:KeySignature = KeySignature(type: KeySignatureType.sharps, count: 0)
+    var key:Key!
     var tempo = 5
 
     let ledgerLineCount = 4 //4 is required to represent low E
@@ -65,21 +65,19 @@ class Score  {
     }
     
     func setStaff(num:Int, staff:Staff) {
-        //DispatchQueue.main.async {
-            if self.staff.count <= num {
-                self.staff.append(staff)
-            }
-            else {
-                self.staff[num] = staff
-            }
-        //}
+        if self.staff.count <= num {
+            self.staff.append(staff)
+        }
+        else {
+            self.staff[num] = staff
+        }
     }
     
     func getStaff() -> [Staff] {
         return self.staff
     }
     
-    func setKey(key:KeySignature) {
+    func setKey(key:Key) {
         self.key = key
         updateStaffs()
     }

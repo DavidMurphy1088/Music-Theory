@@ -44,14 +44,15 @@ struct StaffView: View {
                         Text("\u{1d122}").font(.system(size: CGFloat(lineSpacing * 6)))
                         .offset(y:CGFloat(0 - lineSpacing))
                     }
-
-                    HStack (spacing: 0) {
-                        ForEach(0 ..< score.key.accidentalCount, id: \.self) { i in
-                            AccidentalView(staff: staff, key:score.key, noteIdx: i, lineSpacing: lineSpacing)
+                    if score.key != nil {
+                        HStack (spacing: 0) {
+                            ForEach(0 ..< score.key.keySig.accidentalCount, id: \.self) { i in
+                                AccidentalView(staff: staff, key:score.key.keySig, noteIdx: i, lineSpacing: lineSpacing)
+                            }
                         }
+                        .border(Color.green)
+                        .frame(width: CGFloat(score.staffLineCount/3 * lineSpacing))
                     }
-                    .border(Color.green)
-                    .frame(width: CGFloat(score.staffLineCount/3 * lineSpacing)) 
 
                     HStack {
                         ForEach(score.timeSlices, id: \.self) { timeSlice in

@@ -10,6 +10,10 @@ struct AppView : View {
     
     var body: some View {
         TabView {
+            TriadView()
+            .tabItem {
+                Label("Triads", systemImage: "pyramid")
+            }
 
             IntervalView()
             .tabItem {

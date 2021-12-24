@@ -1,13 +1,28 @@
 class Chord : Identifiable {
     var notes:[Int] = []
     
-    init(key:KeySignature) {
-        let f = key.firstScaleNote()
-        let o = Note.getAllOctaves(note: f)
-        let n = Note.getClosestNote(notes: o, to: 40)!
-        notes.append(n)
-        //notes.append(n + 4)
-        //notes.append(n + 7)
-        //notes.append(n + 12)
+    enum ChordType {
+        case major
+        case minor
+        case diminished
+    }
+    
+    init() {
+    }
+    
+    func makeTriad(root: Int, type:ChordType) {
+        notes.append(root)
+        if type == ChordType.major {
+            notes.append(root+4)
+        }
+        else {
+            notes.append(root+3)
+        }
+        if type == ChordType.diminished {
+            notes.append(root+6)
+        }
+        else {
+            notes.append(root+7)
+        }
     }
 }

@@ -9,13 +9,13 @@ struct Test1: View {
     init() {
         let score = Score()
         score.tempo = 8
-        let staff = Staff(system: score, type: .treble)
+        let staff = Staff(score: score, type: .treble)
         score.setStaff(num: 0, staff: staff)
         self.score = score
         self.staff = staff
     }
 
-    func setKey(key:KeySignature) {
+    func setKey(key:Key) {
         score.setKey(key: key)
         //system.setStaff(num: 1, staff: Staff(system: system, type: .bass))
     }
@@ -53,7 +53,8 @@ struct Test1: View {
         }
         .onAppear {
             print("test1 ON_APPEAR")
-            let key:KeySignature = KeySignature(type: KeySignatureType.flats, count: 0)
+            let keySig:KeySignature = KeySignature(type: KeySignatureType.flats, count: 0)
+            let key = Key(type: Key.KeyType.major, keySig: keySig)
             setKey(key: key)
         }
     }

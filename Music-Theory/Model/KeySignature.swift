@@ -23,20 +23,7 @@ class KeySignature {
         }
     }
 
-    func firstScaleNote() -> Int {
-        var note = 40
-        if accidentalCount > 0 {
-            if type == KeySignatureType.sharps {
-                note = sharps[accidentalCount-1] + 2
-            }
-            else {
-                note = flats[accidentalCount-1] - 6
-            }
-            let all = Note.getAllOctaves(note: note)
-            note = Note.getClosestNote(notes: all, to: 40)!
-        }
-        return note
-    }
+
     
     // how frequently is this note in a key signature
     func accidentalFrequency(note:Int, sigType: KeySignatureType) -> Int {

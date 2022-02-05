@@ -1,7 +1,6 @@
 import Foundation
 
 class TimeSlice : Hashable  { //}: ObservableObject,  {
-    //@Published
     var score:Score
     var note:[Note] 
     private static var idIndex = 0
@@ -25,7 +24,7 @@ class TimeSlice : Hashable  { //}: ObservableObject,  {
     
     func addChord(c:Chord) {
         for n in c.notes {
-            self.note.append(Note(num: n))
+            self.note.append(n)
         }
         score.updateStaffs()
     }

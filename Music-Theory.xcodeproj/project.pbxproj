@@ -14,11 +14,10 @@
 		7B36C0B326B50A480040B87B /* Nice-Steinway-v3.8.sf2 in Resources */ = {isa = PBXBuildFile; fileRef = 7B36C0B226B50A480040B87B /* Nice-Steinway-v3.8.sf2 */; };
 		7B4E466326B623DA00998393 /* Score.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B4E466226B623DA00998393 /* Score.swift */; };
 		7B4E466626B6244200998393 /* ScoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B4E466526B6244200998393 /* ScoreView.swift */; };
-		7B7BB78C2775612400DB5339 /* TriadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B7BB78B2775612400DB5339 /* TriadView.swift */; };
+		7B7BB78C2775612400DB5339 /* DegreeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B7BB78B2775612400DB5339 /* DegreeView.swift */; };
 		7B7BB79027756D4900DB5339 /* Key.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B7BB78F27756D4900DB5339 /* Key.swift */; };
 		7B83748F26D37C8700822DBB /* Test1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B83748E26D37C8700822DBB /* Test1.swift */; };
 		7B83749326D37E1C00822DBB /* Chord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B83749226D37E1C00822DBB /* Chord.swift */; };
-		7B83749726D3859E00822DBB /* Voice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B83749626D3859E00822DBB /* Voice.swift */; };
 		7B90897A276734820081E689 /* todo.txt in Resources */ = {isa = PBXBuildFile; fileRef = 7B908979276734820081E689 /* todo.txt */; };
 		7B99A13926CE37FF00F0CFBD /* Scale.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B99A13826CE37FF00F0CFBD /* Scale.swift */; };
 		7BB2E5CE26B504F400EF7F37 /* Music_TheoryApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BB2E5CD26B504F400EF7F37 /* Music_TheoryApp.swift */; };
@@ -43,11 +42,10 @@
 		7B36C0B226B50A480040B87B /* Nice-Steinway-v3.8.sf2 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Nice-Steinway-v3.8.sf2"; sourceTree = "<group>"; };
 		7B4E466226B623DA00998393 /* Score.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Score.swift; sourceTree = "<group>"; };
 		7B4E466526B6244200998393 /* ScoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreView.swift; sourceTree = "<group>"; };
-		7B7BB78B2775612400DB5339 /* TriadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TriadView.swift; sourceTree = "<group>"; };
+		7B7BB78B2775612400DB5339 /* DegreeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DegreeView.swift; sourceTree = "<group>"; };
 		7B7BB78F27756D4900DB5339 /* Key.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Key.swift; sourceTree = "<group>"; };
 		7B83748E26D37C8700822DBB /* Test1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Test1.swift; sourceTree = "<group>"; };
 		7B83749226D37E1C00822DBB /* Chord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chord.swift; sourceTree = "<group>"; };
-		7B83749626D3859E00822DBB /* Voice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Voice.swift; sourceTree = "<group>"; };
 		7B908979276734820081E689 /* todo.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = todo.txt; sourceTree = "<group>"; };
 		7B99A13826CE37FF00F0CFBD /* Scale.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scale.swift; sourceTree = "<group>"; };
 		7BB2E5CA26B504F400EF7F37 /* Music-Theory.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Music-Theory.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -87,7 +85,6 @@
 				7B36C0AA26B5094C0040B87B /* Staff.swift */,
 				7B4E466226B623DA00998393 /* Score.swift */,
 				7B83749226D37E1C00822DBB /* Chord.swift */,
-				7B83749626D3859E00822DBB /* Voice.swift */,
 				7B00BBF827671A9300F88721 /* TimeSlice.swift */,
 				7B7BB78F27756D4900DB5339 /* Key.swift */,
 			);
@@ -146,7 +143,7 @@
 				7BB2E5E626B5063500EF7F37 /* NoteView.swift */,
 				7BB2E5E726B5063500EF7F37 /* StaffView.swift */,
 				7B4E466526B6244200998393 /* ScoreView.swift */,
-				7B7BB78B2775612400DB5339 /* TriadView.swift */,
+				7B7BB78B2775612400DB5339 /* DegreeView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -237,13 +234,12 @@
 				7BB2E5D026B504F400EF7F37 /* ContentView.swift in Sources */,
 				7B7BB79027756D4900DB5339 /* Key.swift in Sources */,
 				7B36C0AF26B5094C0040B87B /* Note.swift in Sources */,
-				7B83749726D3859E00822DBB /* Voice.swift in Sources */,
 				7BB2E5EA26B5063500EF7F37 /* StaffView.swift in Sources */,
 				7BB2E5CE26B504F400EF7F37 /* Music_TheoryApp.swift in Sources */,
 				7B00BBF927671A9300F88721 /* TimeSlice.swift in Sources */,
 				7B99A13926CE37FF00F0CFBD /* Scale.swift in Sources */,
 				7BB2E5E426B505F500EF7F37 /* AccidentalView.swift in Sources */,
-				7B7BB78C2775612400DB5339 /* TriadView.swift in Sources */,
+				7B7BB78C2775612400DB5339 /* DegreeView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -48,15 +48,17 @@ class Staff : ObservableObject {
     @Published private var publishUpdate = 0
     let score:Score
     var type:StaffType
+    var staffNum:Int
     var noteOffsets:[StaffPlacementsByKey] = []
     let linesInStaff = 5
     var lowestNoteValue:Int
     var highestNoteValue:Int
     var staffOffsets:[Int] = []
     
-    init(score:Score, type:StaffType) {
+    init(score:Score, type:StaffType, staffNum:Int) {
         self.score = score
         self.type = type
+        self.staffNum = staffNum
         lowestNoteValue = 0
         highestNoteValue = 88
 

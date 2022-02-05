@@ -9,7 +9,7 @@ struct Test1: View {
     init() {
         let score = Score()
         score.tempo = 8
-        let staff = Staff(score: score, type: .treble)
+        let staff = Staff(score: score, type: .treble, staffNum: 0)
         score.setStaff(num: 0, staff: staff)
         self.score = score
         self.staff = staff

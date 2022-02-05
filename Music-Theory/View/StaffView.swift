@@ -19,7 +19,7 @@ struct StaffView: View {
         }
         return Color.blue
     }
-              
+      
     var body: some View {
         GeometryReader { geometry in
             ZStack (alignment: .leading) {
@@ -58,7 +58,13 @@ struct StaffView: View {
                         ForEach(score.timeSlices, id: \.self) { timeSlice in
                             ZStack {
                                 ForEach(timeSlice.note, id: \.self) { note in
-                                    NoteView(staff: staff, note: note, lineSpacing: lineSpacing)
+                                    //if the note isn't shown on both staff's the alignment between staffs is wrong
+                                    if note.staff == staff.staffNum {
+                                        NoteView(staff: staff, note: note, lineSpacing: lineSpacing, color: Color.black)
+                                    }
+                                    else {
+                                        NoteView(staff: staff, note: note, lineSpacing: lineSpacing, color: Color.white)
+                                    }
                                 }
                             }
                         }

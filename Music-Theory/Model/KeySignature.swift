@@ -23,8 +23,6 @@ class KeySignature {
         }
     }
 
-
-    
     // how frequently is this note in a key signature
     func accidentalFrequency(note:Int, sigType: KeySignatureType) -> Int {
         var pos:Int?

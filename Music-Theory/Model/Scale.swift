@@ -4,19 +4,54 @@ import Foundation
 class Scale {
     var notes:[Note] = []
     var key:Key
+    var minorType:MinorType?
     
-    init(key:Key) {
+    enum MinorType {
+        case natural
+        case harmonic
+        case melodic
+    }
+
+    init(key:Key, minorType: MinorType? = nil) {
         self.key = key
+        self.minorType = minorType
         var num = key.firstScaleNote()
-        for i in 0..<8 {
+        for i in 0..<7 {
             notes.append(Note(num: num))
-            if [2,6].contains(i) {
-                num += 1
+            if key.type == Key.KeyType.major {
+                if [2,6].contains(i) {
+                    num += 1
+                }
+                else {
+                    num += 2
+                }
             }
             else {
-                num += 2
+                if [1,4].contains(i) {
+                    num += 1
+                }
+                else {
+                    if self.minorType != nil && self.minorType == MinorType.harmonic && [5].contains(i) {
+                        num += 3
+                    }
+                    else {
+                        num += 2
+                    }
+                }
             }
         }
+    }
+    
+    func noteInScale(note: Note) -> Bool {
+        for octaveOffset in 0...4 {
+            if self.notes.contains(Note(num: note.num + octaveOffset*12)){
+                return true
+            }
+            if self.notes.contains(Note(num: note.num - octaveOffset*12)){
+                return true
+            }
+        }
+        return false
     }
     
     //list the diatonic note offsets in the scale
@@ -24,7 +59,14 @@ class Scale {
         if key.type == Key.KeyType.major {
             return [0, 2, 4, 5, 7, 9, 11]
         }
-        return [0]
+        else {
+            if self.minorType == MinorType.natural {
+                return [0, 2, 3, 5, 7, 8, 10]
+            }
+            else {
+                return [0, 2, 3, 5, 7, 8, 11]
+            }
+        }
     }
     
     //return the degree in the scale of a note offset

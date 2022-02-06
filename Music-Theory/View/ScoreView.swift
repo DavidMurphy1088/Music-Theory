@@ -3,7 +3,6 @@ import CoreData
 import MessageUI
  
 struct ScoreView: View {
-    //@ObservedObject
     var score:Score
     
     var body: some View {

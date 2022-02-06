@@ -34,6 +34,7 @@ struct StaffView: View {
                     }
                     .fill(colr(line: row))
                 }
+                Text("\n\n\n\n\n\n\n\n\n\n\(score.key.description())").font(.system(size: CGFloat(lineSpacing)))
                 HStack {
                     //Text("staff:"+String(staff.publishUpdate))
                     if staff.type == StaffType.treble {

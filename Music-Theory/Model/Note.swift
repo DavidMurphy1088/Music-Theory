@@ -7,7 +7,6 @@ enum HandType {
 
 class Note : Hashable {
     var num:Int
-    //var hand:HandType
     var staff:Int
     static let MIDDLE_C = 40
     static let noteNames:[Character] = ["A", "B", "C", "D", "E", "F", "G"]

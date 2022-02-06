@@ -45,7 +45,7 @@ class OffsetsByKey {
 }
 
 class Staff : ObservableObject {
-    @Published private var publishUpdate = 0
+    @Published  var publishUpdate = 0
     let score:Score
     var type:StaffType
     var staffNum:Int
@@ -153,9 +153,15 @@ class Staff : ObservableObject {
         //show("")
     }
     
+    func keyDescription() -> String {
+        return self.score.key.description()
+    }
+    
     func update() {
         DispatchQueue.main.async {
             self.publishUpdate += 1
+            print("------------ published staff change", self.publishUpdate)
+
         }
     }
     
@@ -184,7 +190,7 @@ class Staff : ObservableObject {
         //    Key   C    D♭   D    E♭   E    F    G♭   G    A♭   A    B♭   B
         //m.append("0    0    0,0  0    0,0  0    0    0    0    0,0  0    0,0")  //C
 
-        if score.key.keySig.type == KeySignatureType.sharps {
+        if score.key.keySig.accidentalType == KeySignatureAccidentalType.sharps {
             switch score.key.keySig.accidentalCount {
             case 0:
                 return 0

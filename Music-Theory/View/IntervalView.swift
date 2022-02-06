@@ -5,13 +5,9 @@ import CoreData
 //https://www.musicca.com/interval-song-chart
 
 struct IntervalView: View {
-    @State var score:Score 
+    @State var score:Score
     @ObservedObject var staff:Staff
-    static let startPitch:Double = 40
-    @State private var pitch: Double = startPitch
     @State private var tempo: Double = 3
-    @State var maxInterval: CGFloat = 10
-    @State var intervals = Intervals()
     @State var intName:String?
     @State var scale:Scale
     @State var diatonic = true
@@ -21,32 +17,36 @@ struct IntervalView: View {
     @State var lastNote1 = 0
     @State var lastNote2 = 0
     @State var queuedSpan = 0
-    @State var lastKey:Key
-    @State var key:Key
-
+    @State var intervalNotes: (Note, Note)
+    @State var note1ScaleOffset = 0
+    
     init() {
+        //let key = Key(type: Key.KeyType.minor, keySig: KeySignature(type: KeySignatureAccidentalType.sharps, count: 0))
+        let key = Key(type: Key.KeyType.minor, keySig: KeySignature(type: KeySignatureAccidentalType.sharps, count: 3))
         let score = Score()
-        score.tempo = 8
+        score.key = key
         let staff = Staff(score: score, type: .treble, staffNum: 0)
+        score.tempo = 8
         score.setStaff(num: 0, staff: staff)
-        self.score = score
+
         self.staff = staff
-        let key = Key(type: Key.KeyType.major, keySig: KeySignature(type: KeySignatureType.flats, count: 0))
-        self.scale = Scale(key: key)
-        self.key = key
-        self.lastKey = key
+        self.scale = Scale(key: key, minorType: Scale.MinorType.harmonic)
+        self.score = score
+        self.intervalNotes = (Note(num: 0), Note(num: 0))
     }
     
     func setKey(key:Key) {
-        scale = Scale(key: key)
+        scale = Scale(key: key, minorType: Scale.MinorType.harmonic)
         score.setKey(key: key)
+        print ("KEY======", key.description())
     }
     
-    func makeInterval() {
+    func makeInterval() -> [Note] {
         intName = nil
+        var notes:[Note] = []
         
         while true {
-            var note1ScaleOffset = 0
+            note1ScaleOffset = 0
             if !fixedRoot {
                 let idx = Int.random(in: 0..<scale.diatonicOffsets().count)
                 //let idx = 6
@@ -56,7 +56,8 @@ struct IntervalView: View {
             //let note1 = Note(num: scale.notes[root].num)
             let note1 = Note(num: scale.notes[0].num + note1ScaleOffset)
             
-            let note2Distance = Int.random(in: -12..<12)
+            var note2Distance = Int.random(in: -12..<12)
+            note2Distance = 12
             if note2Distance == 0 {
                 continue
             }
@@ -86,30 +87,39 @@ struct IntervalView: View {
             }
             
             print("-----> end make int", note1.num, note2.num, note1ScaleOffset, note2Distance)
-
+            
             if note1.num == lastNote1 && note2.num == lastNote2 {
                 continue
             }
-            let ts1 = score.addTimeSlice()
-            ts1.addNote(n: note1)
-            let ts2 = score.addTimeSlice()
-            ts2.addNote(n: note2)
-            lastNote1 = note1.num
-            lastNote2 = note2.num
-
-            DispatchQueue.global(qos: .userInitiated).async {
-                intName = "?"
-                queuedSpan = note2Distance
-                sleep(UInt32(2))
-                if note2Distance == queuedSpan {
-                    intName = "\(intervals.getName(span: abs(note2Distance)) ?? "none")"
-                }
-            }
-            break
+            notes.append(note1)
+            notes.append(note2)
+            return notes
         }
-
     }
     
+    func notesToScore(notes : [Note]) {
+        for note in notes {
+            let ts = score.addTimeSlice()
+            ts.addNote(n: note)
+        }
+    }
+    
+    func makeNoteSteps(interval: (Note, Note)) -> [Note] {
+        var steps : [Note] = []
+        let inc = interval.0.num < interval.1.num ? 1 : -1
+        var num = interval.0.num
+        while (num != interval.1.num) {
+            let note = Note(num: num)
+            if self.scale.noteInScale(note: note) {
+                steps.append(note)
+            }
+            num += inc
+        }
+
+        steps.append(interval.1)
+        return steps
+    }
+
     var body: some View {
 
         VStack {
@@ -118,15 +128,40 @@ struct IntervalView: View {
             Button("Select") {
                 intName = ""
                 score.clear()
-                makeInterval()
+                let notes = makeInterval()
+                self.intervalNotes = (notes[0], notes[1])
+                notesToScore(notes: notes)
+
+                DispatchQueue.global(qos: .userInitiated).async {
+                    intName = "?"
+                    let span = notes[1].num - notes[0].num
+                    queuedSpan = span
+                    sleep(UInt32(2))
+                    var intervals = Intervals()
+                    if span == queuedSpan {
+                        intName = "\(intervals.getName(span: abs(span)) ?? "none")"
+                    }
+                }
                 score.setTempo(temp: Int(tempo))
                 score.play()
             }
             Spacer()
             Spacer()
-            Button("Play") {
-                score.setTempo(temp: Int(tempo))
-                score.play()
+            HStack {
+                Spacer()
+                Button("Play") {
+                    score.setTempo(temp: Int(tempo))
+                    score.play()
+                }
+                Spacer()
+                Button("Play Steps") {
+                    score.clear()
+                    let notes = makeNoteSteps(interval: self.intervalNotes)
+                    notesToScore(notes: notes)
+                    score.setTempo(temp: Int(tempo * 2))
+                    score.play()
+                }
+                Spacer()
             }
 
             Spacer()
@@ -176,27 +211,28 @@ struct IntervalView: View {
                     }
                 }
                 //Spacer()
-                Button("Key") {
-                    score.clear()
-                    while (true) {
-                        let type = (Int.random(in: 0...1) == 0) ? KeySignatureType.sharps : KeySignatureType.flats
-                        let keySig = KeySignature(type: type, count: Int.random(in: 0...4))
-                        if keySig.flats != lastKey.keySig.flats || keySig.sharps != lastKey.keySig.sharps {
-                            let key = Key(type: Key.KeyType.major, keySig: keySig)
-                            setKey(key: key)
-                            lastKey = key
-                            break
+                HStack {
+                    Text("\(self.staff.publishUpdate)")
+                    Text("\(self.staff.keyDescription())")
+                    Button("Change Key") {
+                        var key = self.score.key
+                        while key == self.score.key {
+                            let accType = (Int.random(in: 0...1) == 0) ? KeySignatureAccidentalType.sharps : KeySignatureAccidentalType.flats
+                            let keySig = KeySignature(type: accType, count: Int.random(in: 0...4))
+                            var keyType = Key.KeyType.major
+                            let r = Int.random(in: 1...1)
+                            if (r == 1) {
+                                keyType = Key.KeyType.minor
+                            }
+                            key = Key(type: keyType, keySig: keySig)
                         }
+                        score.clear()
+                        setKey(key: key!)
                     }
                 }
             }
-            //Spacer()
         }
 
-//        .onAppear {
-//            setKey(key: key)
-//            lastKey = key
-//        }
     }
     
 }

@@ -17,16 +17,15 @@ struct AccidentalView: View {
         let midNote = staff.type == StaffType.treble ? 54 : 30
 
         for octave in -3...3 { //TODO -5,5
-            let note = key.type == KeySignatureType.sharps ? key.sharps[noteIdx] + (12*octave) : key.flats[noteIdx] + (12*octave)
+            let note = key.accidentalType == KeySignatureAccidentalType.sharps ? key.sharps[noteIdx] + (12*octave) : key.flats[noteIdx] + (12*octave)
             let offset = abs(midNote - note)
-            //print ("   ", note, offset)
             if offset < minOffset {
                 minOffset = offset
                 self.note = note
             }
         }
 
-        accidental = key.type == KeySignatureType.sharps ? Score.accSharp : Score.accFlat
+        accidental = key.accidentalType == KeySignatureAccidentalType.sharps ? Score.accSharp : Score.accFlat
         let pos = staff.noteViewData(noteValue: note)
         //print(noteIdx, self.note, pos.0)
         offsetFromStaffTop = pos.0!

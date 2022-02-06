@@ -2,7 +2,7 @@ import Foundation
 import AVKit
 import AVFoundation
 
-class Score  {
+class Score {
     static let engine = AVAudioEngine()
     static let sampler = AVAudioUnitSampler()
     static var auStarted = false

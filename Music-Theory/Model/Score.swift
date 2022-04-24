@@ -103,12 +103,17 @@ class Score {
         DispatchQueue.global(qos: .userInitiated).async { [self] in
             for ts in timeSlices {
                 for note in ts.note {
-                    Score.sampler.startNote(UInt8(note.num), withVelocity:48, onChannel:0)
+                    Score.sampler.startNote(UInt8(note.num+12), withVelocity:48, onChannel:0)
                 }
+//                usleep(9 * 100000)
+//                for note in ts.note {
+//                    Score.sampler.startNote(UInt8(note.num+12), withVelocity:48, onChannel:0)
+//                }
                 let t = self.maxTempo - self.tempo
                 if t > 0 {
                     usleep(useconds_t((t) * 100000))
                 }
+                
             }
         }
     }

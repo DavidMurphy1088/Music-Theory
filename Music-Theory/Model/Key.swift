@@ -82,8 +82,8 @@ class Key : Equatable {
             note -= 3
         }
         let all = Note.getAllOctaves(note: note)
-        note = Note.getClosestNote(notes: all, to: 40)!
-        //}
+        //note = Note.getClosestNote(notes: all, to: 40)!
+        note = Note.getClosestNote(notes: all, to: 45)!
         return note
     }
 }

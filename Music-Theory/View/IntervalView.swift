@@ -21,8 +21,8 @@ struct IntervalView: View {
     @State var note1ScaleOffset = 0
     
     init() {
-        //let key = Key(type: Key.KeyType.minor, keySig: KeySignature(type: KeySignatureAccidentalType.sharps, count: 0))
-        let key = Key(type: Key.KeyType.minor, keySig: KeySignature(type: KeySignatureAccidentalType.sharps, count: 3))
+        let key = Key(type: Key.KeyType.major, keySig: KeySignature(type: KeySignatureAccidentalType.sharps, count: 0))
+        //let key = Key(type: Key.KeyType.minor, keySig: KeySignature(type: KeySignatureAccidentalType.sharps, count: 3))
         let score = Score()
         score.key = key
         let staff = Staff(score: score, type: .treble, staffNum: 0)
@@ -57,7 +57,7 @@ struct IntervalView: View {
             let note1 = Note(num: scale.notes[0].num + note1ScaleOffset)
             
             var note2Distance = Int.random(in: -12..<12)
-            note2Distance = 12
+            //note2Distance = 12
             if note2Distance == 0 {
                 continue
             }

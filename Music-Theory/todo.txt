@@ -1,1 +1,5 @@
+notes
+https://musictheory.pugetsound.edu/mt21c/RomanNumeralPracticeExercises.html
+
+todo
 find a faster loading AU engine

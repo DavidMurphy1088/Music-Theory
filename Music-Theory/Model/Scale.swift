@@ -31,14 +31,12 @@ class Scale {
                     num += 1
                 }
                 else {
-                    if self.minorType != nil && self.minorType == MinorType.harmonic && [5].contains(i) {
-                        num += 3
-                    }
-                    else {
-                        num += 2
-                    }
+                    num += 2
                 }
             }
+        }
+        if self.minorType != nil && self.minorType == MinorType.harmonic {
+            notes[6].num += 1
         }
     }
     

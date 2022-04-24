@@ -43,4 +43,13 @@ class Chord : Identifiable {
         }
         return res
     }
+    
+    func move(index: Int) {
+        let octaves = Note.getAllOctaves(note: self.notes[index].num)
+        let note = Note.getClosestNote(notes: octaves, to: 45)!
+        let offset = self.notes[index].num - note
+        for i in 0...self.notes.count-1 {
+            self.notes[i].num -= offset
+        }
+    }
 }

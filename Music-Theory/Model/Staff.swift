@@ -160,7 +160,6 @@ class Staff : ObservableObject {
     func update() {
         DispatchQueue.main.async {
             self.publishUpdate += 1
-            print("------------ published staff change", self.publishUpdate)
 
         }
     }

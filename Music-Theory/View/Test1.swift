@@ -16,7 +16,7 @@ struct Test1: View {
     }
 
     func setKey(key:Key) {
-        score.setKey(key: key)
+        score.setKey(key: key, minorType: Scale.MinorType.natural)
         //system.setStaff(num: 1, staff: Staff(system: system, type: .bass))
     }
 

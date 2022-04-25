@@ -37,7 +37,7 @@ struct IntervalView: View {
     
     func setKey(key:Key) {
         scale = Scale(key: key, minorType: Scale.MinorType.harmonic)
-        score.setKey(key: key)
+        score.setKey(key: key, minorType: Scale.MinorType.natural)
         print ("KEY======", key.description())
     }
     
@@ -227,7 +227,7 @@ struct IntervalView: View {
                             key = Key(type: keyType, keySig: keySig)
                         }
                         score.clear()
-                        setKey(key: key!)
+                        setKey(key: key)
                     }
                 }
             }

@@ -19,7 +19,15 @@ struct StaffView: View {
         }
         return Color.blue
     }
-      
+    
+    func keyDesc() -> String {
+        var desc = score.key.description()
+        if self.staff.score.key.type == Key.KeyType.minor {
+            desc += self.score.minorScaleType == Scale.MinorType.natural ? " (Natural)" : " (Harmonic)"
+        }
+        return desc
+    }
+    
     var body: some View {
         GeometryReader { geometry in
             ZStack (alignment: .leading) {
@@ -34,7 +42,7 @@ struct StaffView: View {
                     }
                     .fill(colr(line: row))
                 }
-                Text("\n\n\n\n\n\n\n\n\n\n\(score.key.description())").font(.system(size: CGFloat(lineSpacing)))
+                Text("\n\n\n\n\n\n\n\n\n\n\(self.keyDesc())").font(.system(size: CGFloat(lineSpacing)))
                 HStack {
                     //Text("staff:"+String(staff.publishUpdate))
                     if staff.type == StaffType.treble {

@@ -24,8 +24,8 @@ struct DegreeView: View {
     }
 
     func setKey(key:Key) {
-        self.score.setKey(key: key)
-        let x = Scale(key: key)
+        self.score.setKey(key: key, minorType: Scale.MinorType.natural)
+        //let x = Scale(key: key)
         self.scale = Scale(key: key)
     }
 
@@ -132,7 +132,7 @@ struct DegreeView: View {
                             let keyType = Int.random(in: 0..<2) == 0 ? Key.KeyType.major : Key.KeyType.minor
                             newKey = Key(type: keyType, keySig: KeySignature(type: type, count: accs))
                         }
-                        self.setKey(key: newKey!)
+                        self.setKey(key: newKey)
                     }
                     Spacer()
                     HStack {

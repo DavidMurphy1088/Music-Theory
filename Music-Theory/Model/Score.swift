@@ -8,8 +8,10 @@ class Score {
     static var auStarted = false
     
     private var staff:[Staff] = []
-    var key:Key!
+    var key:Key = Key(type: Key.KeyType.major, keySig: KeySignature(type: KeySignatureAccidentalType.sharps, count: 0))
+    var minorScaleType = Scale.MinorType.natural
     var tempo = 5
+    var pitchAdjust = 5
 
     let ledgerLineCount = 4 //4 is required to represent low E
     var staffLineCount = 0
@@ -51,7 +53,6 @@ class Score {
         // Connect the nodes.
         //engine.connect(sampler, to: reverb, format: nil)
         //engine.connect(reverb, to: engine.mainMixerNode, format:engine.mainMixerNode.outputFormat(forBus: 0))
-
         
         if !Score.auStarted {
             Score.startAu()
@@ -77,13 +78,17 @@ class Score {
         return self.staff
     }
     
-    func setKey(key:Key) {
+    func setKey(key:Key, minorType:Scale.MinorType) {
         self.key = key
+        self.minorScaleType = minorType
         updateStaffs()
     }
 
-    func setTempo(temp: Int) {
+    func setTempo(temp: Int, pitch: Int? = nil) {
         self.tempo = temp
+        if let setPitch = pitch {
+            self.pitchAdjust = setPitch
+        }
     }
     
     func addTimeSlice() -> TimeSlice {
@@ -99,11 +104,18 @@ class Score {
         }
     }
 
-    func play() {
+    func play(select: [Int]? = nil) {
         DispatchQueue.global(qos: .userInitiated).async { [self] in
+            var index = 0
             for ts in timeSlices {
+                if let selected = select {
+                    if !selected.contains(index) {
+                        index += 1
+                        continue
+                    }
+                }
                 for note in ts.note {
-                    Score.sampler.startNote(UInt8(note.num+12), withVelocity:48, onChannel:0)
+                    Score.sampler.startNote(UInt8(note.num + 12 + self.pitchAdjust), withVelocity:48, onChannel:0)
                 }
 //                usleep(9 * 100000)
 //                for note in ts.note {
@@ -111,9 +123,9 @@ class Score {
 //                }
                 let t = self.maxTempo - self.tempo
                 if t > 0 {
-                    usleep(useconds_t((t) * 100000))
+                    usleep(useconds_t((t) * 2 * 100000))
                 }
-                
+                index += 1
             }
         }
     }

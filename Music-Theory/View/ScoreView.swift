@@ -3,12 +3,18 @@ import CoreData
 import MessageUI
  
 struct ScoreView: View {
-    var score:Score
+    @ObservedObject var score:Score
     
     var body: some View {
-        //Text("sys:"+String(system.upd))
-        ForEach(score.getStaff(), id: \.self.type) { staff in
-            StaffView(score: score, staff: staff)
+
+        VStack {
+            Text("\(score.keyDesc())")//.font(.system(size: CGFloat(lineSpacing)))
+            ForEach(score.getStaff(), id: \.self.type) { staff in
+                StaffView(score: score, staff: staff)
+                    .frame(height: CGFloat(score.staffLineCount * score.lineSpacing)) //fixed size of height for all staff lines + ledger lines
+                    //.border(Color.purple)
+            }
         }
+        .frame(height: 12 + 2 * CGFloat(score.staffLineCount * score.lineSpacing))
     }
 }

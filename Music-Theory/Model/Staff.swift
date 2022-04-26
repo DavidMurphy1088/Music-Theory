@@ -24,7 +24,7 @@ class StaffPlacementsByKey {
     var staffPlacement:[StaffPlacement] = []
 }
 
-class OffsetsByKey {
+class OffsetsInStaffByKey {
     var m:[String] = []
     init () {
         // offset, sign. sign = ' ' or 0=flat, 1=natural, 2=sharp
@@ -45,7 +45,7 @@ class OffsetsByKey {
 }
 
 class Staff : ObservableObject {
-    @Published  var publishUpdate = 0
+    @Published var publishUpdate = 0
     let score:Score
     var type:StaffType
     var staffNum:Int
@@ -99,7 +99,7 @@ class Staff : ObservableObject {
         
         noteOffsets = [StaffPlacementsByKey](repeating: StaffPlacementsByKey(), count: highestNoteValue + 1)
         var noteIdx = 4
-        let m = OffsetsByKey()
+        let m = OffsetsInStaffByKey()
         var allDone = false
         var octaveCtr = 0
         var nameCtr = 2

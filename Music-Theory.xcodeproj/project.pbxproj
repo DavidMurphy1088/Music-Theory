@@ -14,7 +14,7 @@
 		7B36C0B326B50A480040B87B /* Nice-Steinway-v3.8.sf2 in Resources */ = {isa = PBXBuildFile; fileRef = 7B36C0B226B50A480040B87B /* Nice-Steinway-v3.8.sf2 */; };
 		7B4E466326B623DA00998393 /* Score.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B4E466226B623DA00998393 /* Score.swift */; };
 		7B4E466626B6244200998393 /* ScoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B4E466526B6244200998393 /* ScoreView.swift */; };
-		7B6345252814729C00D7690F /* HarmonicAnalysis.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B6345242814729B00D7690F /* HarmonicAnalysis.swift */; };
+		7B6345252814729C00D7690F /* ChordIdentification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B6345242814729B00D7690F /* ChordIdentification.swift */; };
 		7B7BB78C2775612400DB5339 /* DegreeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B7BB78B2775612400DB5339 /* DegreeView.swift */; };
 		7B7BB79027756D4900DB5339 /* Key.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B7BB78F27756D4900DB5339 /* Key.swift */; };
 		7B83748F26D37C8700822DBB /* Test1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B83748E26D37C8700822DBB /* Test1.swift */; };
@@ -27,9 +27,10 @@
 		7BB2E5D526B504F500EF7F37 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7BB2E5D426B504F500EF7F37 /* Preview Assets.xcassets */; };
 		7BB2E5D726B504F500EF7F37 /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BB2E5D626B504F500EF7F37 /* Persistence.swift */; };
 		7BB2E5DA26B504F500EF7F37 /* Music_Theory.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 7BB2E5D826B504F500EF7F37 /* Music_Theory.xcdatamodeld */; };
-		7BB2E5E426B505F500EF7F37 /* AccidentalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BB2E5E326B505F500EF7F37 /* AccidentalView.swift */; };
+		7BB2E5E426B505F500EF7F37 /* KeySignatureAccidentalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BB2E5E326B505F500EF7F37 /* KeySignatureAccidentalView.swift */; };
 		7BB2E5E926B5063500EF7F37 /* NoteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BB2E5E626B5063500EF7F37 /* NoteView.swift */; };
 		7BB2E5EA26B5063500EF7F37 /* StaffView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BB2E5E726B5063500EF7F37 /* StaffView.swift */; };
+		7BC7551528178DEA00007B7C /* DegreesSelect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BC7551428178DEA00007B7C /* DegreesSelect.swift */; };
 		7BC9029626C78A4200E7A6D8 /* IntervalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BC9029526C78A4200E7A6D8 /* IntervalView.swift */; };
 		7BC9029926C78A7500E7A6D8 /* AppView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BC9029826C78A7500E7A6D8 /* AppView.swift */; };
 		7BC9029C26C78DB100E7A6D8 /* Interval.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BC9029B26C78DB100E7A6D8 /* Interval.swift */; };
@@ -43,7 +44,7 @@
 		7B36C0B226B50A480040B87B /* Nice-Steinway-v3.8.sf2 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Nice-Steinway-v3.8.sf2"; sourceTree = "<group>"; };
 		7B4E466226B623DA00998393 /* Score.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Score.swift; sourceTree = "<group>"; };
 		7B4E466526B6244200998393 /* ScoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreView.swift; sourceTree = "<group>"; };
-		7B6345242814729B00D7690F /* HarmonicAnalysis.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HarmonicAnalysis.swift; sourceTree = "<group>"; };
+		7B6345242814729B00D7690F /* ChordIdentification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChordIdentification.swift; sourceTree = "<group>"; };
 		7B7BB78B2775612400DB5339 /* DegreeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DegreeView.swift; sourceTree = "<group>"; };
 		7B7BB78F27756D4900DB5339 /* Key.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Key.swift; sourceTree = "<group>"; };
 		7B83748E26D37C8700822DBB /* Test1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Test1.swift; sourceTree = "<group>"; };
@@ -58,9 +59,10 @@
 		7BB2E5D626B504F500EF7F37 /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
 		7BB2E5D926B504F500EF7F37 /* Music_Theory.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Music_Theory.xcdatamodel; sourceTree = "<group>"; };
 		7BB2E5DB26B504F500EF7F37 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		7BB2E5E326B505F500EF7F37 /* AccidentalView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccidentalView.swift; sourceTree = "<group>"; };
+		7BB2E5E326B505F500EF7F37 /* KeySignatureAccidentalView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeySignatureAccidentalView.swift; sourceTree = "<group>"; };
 		7BB2E5E626B5063500EF7F37 /* NoteView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoteView.swift; sourceTree = "<group>"; };
 		7BB2E5E726B5063500EF7F37 /* StaffView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StaffView.swift; sourceTree = "<group>"; };
+		7BC7551428178DEA00007B7C /* DegreesSelect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DegreesSelect.swift; sourceTree = "<group>"; };
 		7BC9029526C78A4200E7A6D8 /* IntervalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntervalView.swift; sourceTree = "<group>"; };
 		7BC9029826C78A7500E7A6D8 /* AppView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppView.swift; sourceTree = "<group>"; };
 		7BC9029B26C78DB100E7A6D8 /* Interval.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Interval.swift; sourceTree = "<group>"; };
@@ -137,7 +139,8 @@
 		7BB2E5E226B505A200EF7F37 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				7BB2E5E326B505F500EF7F37 /* AccidentalView.swift */,
+				7BC7551328178DCD00007B7C /* Settings */,
+				7BB2E5E326B505F500EF7F37 /* KeySignatureAccidentalView.swift */,
 				7BC9029826C78A7500E7A6D8 /* AppView.swift */,
 				7B83748E26D37C8700822DBB /* Test1.swift */,
 				7BB2E5CF26B504F400EF7F37 /* ContentView.swift */,
@@ -146,9 +149,17 @@
 				7BB2E5E726B5063500EF7F37 /* StaffView.swift */,
 				7B4E466526B6244200998393 /* ScoreView.swift */,
 				7B7BB78B2775612400DB5339 /* DegreeView.swift */,
-				7B6345242814729B00D7690F /* HarmonicAnalysis.swift */,
+				7B6345242814729B00D7690F /* ChordIdentification.swift */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		7BC7551328178DCD00007B7C /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				7BC7551428178DEA00007B7C /* DegreesSelect.swift */,
+			);
+			path = Settings;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -228,6 +239,7 @@
 				7B83748F26D37C8700822DBB /* Test1.swift in Sources */,
 				7B4E466326B623DA00998393 /* Score.swift in Sources */,
 				7BC9029926C78A7500E7A6D8 /* AppView.swift in Sources */,
+				7BC7551528178DEA00007B7C /* DegreesSelect.swift in Sources */,
 				7B83749326D37E1C00822DBB /* Chord.swift in Sources */,
 				7B36C0B026B5094C0040B87B /* KeySignature.swift in Sources */,
 				7BC9029C26C78DB100E7A6D8 /* Interval.swift in Sources */,
@@ -238,11 +250,11 @@
 				7B7BB79027756D4900DB5339 /* Key.swift in Sources */,
 				7B36C0AF26B5094C0040B87B /* Note.swift in Sources */,
 				7BB2E5EA26B5063500EF7F37 /* StaffView.swift in Sources */,
-				7B6345252814729C00D7690F /* HarmonicAnalysis.swift in Sources */,
+				7B6345252814729C00D7690F /* ChordIdentification.swift in Sources */,
 				7BB2E5CE26B504F400EF7F37 /* Music_TheoryApp.swift in Sources */,
 				7B00BBF927671A9300F88721 /* TimeSlice.swift in Sources */,
 				7B99A13926CE37FF00F0CFBD /* Scale.swift in Sources */,
-				7BB2E5E426B505F500EF7F37 /* AccidentalView.swift in Sources */,
+				7BB2E5E426B505F500EF7F37 /* KeySignatureAccidentalView.swift in Sources */,
 				7B7BB78C2775612400DB5339 /* DegreeView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

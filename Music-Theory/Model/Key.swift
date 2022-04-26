@@ -31,8 +31,6 @@ class Key : Equatable {
                 desc = self.type == KeyType.major ? "A" : "F#"
             case 4:
                 desc = self.type == KeyType.major ? "E" : "C#"
-            case 5:
-                desc = self.type == KeyType.major ? "B" : "A"+Score.accFlat
             default:
                 desc = "unknown"
             }
@@ -51,6 +49,8 @@ class Key : Equatable {
                 desc = self.type == KeyType.major ? "A"+Score.accFlat : "F"
             case 5:
                 desc = self.type == KeyType.major ? "D"+Score.accFlat : "B"+Score.accFlat
+            case 6:
+                desc = self.type == KeyType.major ? "G"+Score.accFlat : "E"+Score.accFlat
             default:
                 desc = "unknown"
             }
@@ -82,7 +82,6 @@ class Key : Equatable {
             note -= 3
         }
         let all = Note.getAllOctaves(note: note)
-        //note = Note.getClosestNote(notes: all, to: 40)!
         note = Note.getClosestNote(notes: all, to: 45)!
         return note
     }

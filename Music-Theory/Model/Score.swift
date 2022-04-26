@@ -2,18 +2,19 @@ import Foundation
 import AVKit
 import AVFoundation
 
-class Score {
+class Score : ObservableObject {
     static let engine = AVAudioEngine()
     static let sampler = AVAudioUnitSampler()
     static var auStarted = false
-    
+    let ledgerLineCount = 3//4 is required to represent low E
+    let lineSpacing = 10
+
     private var staff:[Staff] = []
-    var key:Key = Key(type: Key.KeyType.major, keySig: KeySignature(type: KeySignatureAccidentalType.sharps, count: 0))
+    @Published var key:Key = Key(type: Key.KeyType.major, keySig: KeySignature(type: KeySignatureAccidentalType.sharps, count: 0))
     var minorScaleType = Scale.MinorType.natural
     var tempo = 5
     var pitchAdjust = 5
 
-    let ledgerLineCount = 4 //4 is required to represent low E
     var staffLineCount = 0
     static var accSharp = "\u{266f}"
     static var accNatural = "\u{266e}"
@@ -78,9 +79,19 @@ class Score {
         return self.staff
     }
     
+    func keyDesc() -> String {
+        var desc = key.description()
+        if key.type == Key.KeyType.minor {
+            desc += minorScaleType == Scale.MinorType.natural ? " (Natural)" : " (Harmonic)"
+        }
+        return desc
+    }
+    
     func setKey(key:Key, minorType:Scale.MinorType) {
-        self.key = key
-        self.minorScaleType = minorType
+        DispatchQueue.main.async {
+            self.key = key
+            self.minorScaleType = minorType
+        }
         updateStaffs()
     }
 

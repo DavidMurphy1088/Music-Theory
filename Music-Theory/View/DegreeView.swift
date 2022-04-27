@@ -18,15 +18,15 @@ struct DegreeView: View {
         score.setStaff(num: 0, staff: staff)
         score.setStaff(num: 1, staff: staff1)
         score.key = Key(type: Key.KeyType.major, keySig: KeySignature(type: KeySignatureAccidentalType.flats, count: 0))
-        self.scale = Scale(key: score.key)
+        self.scale = Scale(score: score)
         self.score = score
         self.staff = staff
     }
 
     func setKey(key:Key) {
-        self.score.setKey(key: key, minorType: Scale.MinorType.natural)
+        self.score.setKey(key: key)
         //let x = Scale(key: key)
-        self.scale = Scale(key: key)
+        self.scale = Scale(score: score)
     }
 
 //    func establishKey() {

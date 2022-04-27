@@ -31,11 +31,8 @@ class Score : ObservableObject {
             do {
                 //https://www.rockhoppertech.com/blog/the-great-avaudiounitsampler-workout/#soundfont
                 if let url = Bundle.main.url(forResource:"Nice-Steinway-v3.8", withExtension:"sf2") {
-                    //print("found resource")
                     try Score.sampler.loadSoundBankInstrument(at: url, program: 0, bankMSB: UInt8(kAUSampler_DefaultMelodicBankMSB), bankLSB: UInt8(kAUSampler_DefaultBankLSB))
-                    //print("loaded resource")
                 }
-                //print("try start engine")
                 try Score.engine.start()
                 print("Started AU engine")
             } catch {
@@ -87,10 +84,10 @@ class Score : ObservableObject {
         return desc
     }
     
-    func setKey(key:Key, minorType:Scale.MinorType) {
+    func setKey(key:Key) {
+        self.key = key
         DispatchQueue.main.async {
             self.key = key
-            self.minorScaleType = minorType
         }
         updateStaffs()
     }

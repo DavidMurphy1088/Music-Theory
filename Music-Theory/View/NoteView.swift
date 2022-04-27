@@ -44,7 +44,7 @@ struct NoteView: View {
                     }
                     Text(accidental)
                         .frame(width: CGFloat(ledgerLineWidth * 3), alignment: .leading)
-                        .position(x: geometry.size.width/2, y: CGFloat(offsetFromStaffTop! * lineSpacing/2))
+                        .position(x: geometry.size.width/2 - 8, y: CGFloat(offsetFromStaffTop! * lineSpacing/2))
 
                     Ellipse()
                         //the note ellipses line up in the center of the view

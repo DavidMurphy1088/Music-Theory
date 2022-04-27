@@ -30,15 +30,14 @@ struct IntervalView: View {
         score.setStaff(num: 0, staff: staff)
 
         self.staff = staff
-        self.scale = Scale(key: key, minorType: Scale.MinorType.harmonic)
+        self.scale = Scale(score: score)
         self.score = score
         self.intervalNotes = (Note(num: 0), Note(num: 0))
     }
     
     func setKey(key:Key) {
-        scale = Scale(key: key, minorType: Scale.MinorType.harmonic)
-        score.setKey(key: key, minorType: Scale.MinorType.natural)
-        print ("KEY======", key.description())
+        score.setKey(key: key)
+        scale = Scale(score: score)
     }
     
     func makeInterval() -> [Note] {
@@ -51,7 +50,6 @@ struct IntervalView: View {
                 let idx = Int.random(in: 0..<scale.diatonicOffsets().count)
                 //let idx = 6
                 note1ScaleOffset = scale.diatonicOffsets()[idx]
-                print("===", idx, note1ScaleOffset)
             }
             //let note1 = Note(num: scale.notes[root].num)
             let note1 = Note(num: scale.notes[0].num + note1ScaleOffset)
@@ -85,8 +83,6 @@ struct IntervalView: View {
                 note2.num += 12
                 note1.num += 12
             }
-            
-            print("-----> end make int", note1.num, note2.num, note1ScaleOffset, note2Distance)
             
             if note1.num == lastNote1 && note2.num == lastNote2 {
                 continue

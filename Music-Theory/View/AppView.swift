@@ -5,7 +5,7 @@ struct AppView : View {
     @Environment(\.scenePhase) var scenePhase
     
     init() {
-        print("App VIEW STARTED")
+
     }
     
     var body: some View {

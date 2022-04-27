@@ -171,7 +171,6 @@ class Staff : ObservableObject {
     }
 
     func show(_ lbl:String) {
-        print("")
         for n in stride(from: noteOffsets.count-1, to: 0, by: -1) {
             let sp = noteOffsets[n]
             if sp.staffPlacement.count > 0 {

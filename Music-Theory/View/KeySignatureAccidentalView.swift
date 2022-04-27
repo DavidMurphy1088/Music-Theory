@@ -58,7 +58,6 @@ struct KeySignatureAccidentalView: View {
         if staff.type == StaffType.bass {
             offsetFromStaffTop += 2
         }
-        print(staff.type, noteIdx)
     }
     
     var body: some View {

@@ -3,8 +3,7 @@ import Foundation
 
 class Scale {
     var notes:[Note] = []
-    var key:Key
-    var minorType:MinorType?
+    var score:Score
     
     enum MinorType {
         case natural
@@ -12,13 +11,14 @@ class Scale {
         case melodic
     }
 
-    init(key:Key, minorType: MinorType? = nil) {
-        self.key = key
-        self.minorType = minorType
-        var num = key.firstScaleNote()
+    //init(key:Key, minorType: MinorType? = nil) {
+    init(score:Score) {
+        self.score = score
+        //self.minorType = minorType
+        var num = score.key.firstScaleNote()
         for i in 0..<7 {
             notes.append(Note(num: num))
-            if key.type == Key.KeyType.major {
+            if score.key.type == Key.KeyType.major {
                 if [2,6].contains(i) {
                     num += 1
                 }
@@ -36,7 +36,7 @@ class Scale {
             }
         }
         //melodic minor not yet supported
-        if self.minorType != nil && self.minorType == MinorType.harmonic {
+        if self.score.minorScaleType == MinorType.harmonic {
             notes[6].num += 1
         }
     }
@@ -55,11 +55,11 @@ class Scale {
     
     //list the diatonic note offsets in the scale
     func diatonicOffsets() -> [Int] {
-        if key.type == Key.KeyType.major {
+        if score.key.type == Key.KeyType.major {
             return [0, 2, 4, 5, 7, 9, 11]
         }
         else {
-            if self.minorType == MinorType.natural {
+            if self.score.minorScaleType == MinorType.natural {
                 return [0, 2, 3, 5, 7, 8, 10]
             }
             else {
@@ -70,7 +70,7 @@ class Scale {
     
     //return the degree in the scale of a note offset
     func noteDegree(offset:Int) -> Int {
-        if key.type == Key.KeyType.major {
+        if score.key.type == Key.KeyType.major {
             switch offset {
             case 0:
                 return 1
@@ -105,12 +105,12 @@ class Scale {
             case 8:
                 return 6
             case 10:
-                if self.minorType == MinorType.natural {
+                if score.minorScaleType == MinorType.natural {
                     return 7
                 }
                 return 0
             case 11:
-                if self.minorType == MinorType.harmonic {
+                if score.minorScaleType == MinorType.harmonic {
                     return 7
                 }
                 return 0
@@ -129,7 +129,7 @@ class Scale {
         case 5: return "Dominant"
         case 6: return "Submediant"
         case 7:
-            if self.minorType == MinorType.harmonic {
+            if score.minorScaleType == MinorType.harmonic {
                 return "Leading Tone"
             }
             else {

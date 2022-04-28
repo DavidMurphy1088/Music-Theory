@@ -112,6 +112,25 @@ class Score : ObservableObject {
         }
     }
 
+    func play(chord: Chord) {
+        DispatchQueue.global(qos: .userInitiated).async { [self] in
+            let t = self.maxTempo - self.tempo
+            for i in [0,1] {
+                for note in chord.notes {
+                    if i > 0 {
+                        if t > 0 {
+                            usleep(useconds_t((t) * 2 * 100000))
+                        }
+                        Score.sampler.startNote(UInt8(note.num + 12 + self.pitchAdjust), withVelocity:48, onChannel:0)
+                    }
+                }
+                if i == 0 {
+                    usleep(500000)
+                }
+            }
+        }
+    }
+    
     func play(select: [Int]? = nil) {
         DispatchQueue.global(qos: .userInitiated).async { [self] in
             var index = 0
@@ -125,10 +144,6 @@ class Score : ObservableObject {
                 for note in ts.note {
                     Score.sampler.startNote(UInt8(note.num + 12 + self.pitchAdjust), withVelocity:48, onChannel:0)
                 }
-//                usleep(9 * 100000)
-//                for note in ts.note {
-//                    Score.sampler.startNote(UInt8(note.num+12), withVelocity:48, onChannel:0)
-//                }
                 let t = self.maxTempo - self.tempo
                 if t > 0 {
                     usleep(useconds_t((t) * 2 * 100000))

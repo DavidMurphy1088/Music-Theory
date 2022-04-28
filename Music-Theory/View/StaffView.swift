@@ -19,8 +19,6 @@ struct StaffView: View {
         return Color.blue
     }
     
-
-    
     var body: some View {
         GeometryReader { geometry in
             ZStack (alignment: .leading) {

@@ -24,7 +24,7 @@ struct DegreeView: View {
     }
 
     func setKey(key:Key) {
-        self.score.setKey(key: key)
+//        self.score.setKey(key: key)
         //let x = Scale(key: key)
         self.scale = Scale(score: score)
     }

@@ -14,6 +14,8 @@ struct HarmonicAnalysisView: View {
     @State var widen = false
     @State var degreesSelected:[Int] = [0,0,0,1,1,0,0]
     @State var degreeNames:[String]
+    @State var lastScaleDegree = 0
+    @State var lastDegreeChord:Chord?
     
     init() {
         let score = Score()
@@ -56,14 +58,22 @@ struct HarmonicAnalysisView: View {
         var scaleDegree = 0
         while scaleDegree == 0 {
             let i = Int.random(in: 0..<7)
-            if degreesSelected[i] == 1 {
-                scaleDegree = i+1
-                break
+            if degreesSelected[i] == 0 {
+                continue
             }
+            if !inversions && degreesSelected.filter({$0 == 1}).count > 1 {
+                if i+1 == lastScaleDegree {
+                    continue
+                }
+            }
+            scaleDegree = i+1
+            break
         }
+        lastScaleDegree = scaleDegree
+        
         //scaleDegree = 4
         ts = score.addTimeSlice()
-        var c2 = Chord()
+        var degreeChord = Chord()
         var triadType = Chord.ChordType.major
         if score.key.type == Key.KeyType.major {
             let minors = [2,3,6]
@@ -101,10 +111,11 @@ struct HarmonicAnalysisView: View {
         }
 
         let rootNote = scale.notes[scaleDegree - 1]
-        c2.makeTriad(root: rootNote.num, type: triadType)
+        degreeChord.makeTriad(root: rootNote.num, type: triadType)
+        self.lastDegreeChord = degreeChord
         if score.key.type == Key.KeyType.minor && scaleDegree == 3 && score.minorScaleType == Scale.MinorType.harmonic {
             //augmented
-            c2.notes[2].num += 1
+            degreeChord.notes[2].num += 1
         }
         var inversion = 0
         if inversions {
@@ -112,18 +123,18 @@ struct HarmonicAnalysisView: View {
         }
 
         //print("offset", offset, "inversion", inversion)
-        c2 = c2.makeInversion(inv: inversion)
-        c2.move(index: 0)
+        degreeChord = degreeChord.makeInversion(inv: inversion)
+        degreeChord.move(index: 0)
         if widen {
-            c2.notes[1].num += 12
+            degreeChord.notes[1].num += 12
         }
-        bass = c2.notes[0].num
+        bass = degreeChord.notes[0].num
         all = Note.getAllOctaves(note: bass)
         bass = Note.getClosestNote(notes: all, to: 40 - 12)!
-        c2.notes.append(Note(num: bass))
-        c2.notes[3].staff = 1
+        degreeChord.notes.append(Note(num: bass))
+        degreeChord.notes[3].staff = 1
 
-        ts.addChord(c: c2)
+        ts.addChord(c: degreeChord)
         lastOffsets.append(scaleDegree)
         if lastOffsets.count > 2 {
             lastOffsets.removeFirst()
@@ -144,6 +155,13 @@ struct HarmonicAnalysisView: View {
             degreeName = "\(degreeNames[scaleDegree-1]) \(scale.degreeName(degree: scaleDegree)), \(invName)"
             //}
         }
+    }
+    
+    func playDegree() {
+        let chord:Chord = self.lastDegreeChord!
+
+        score.play(select: [1])
+        score.play(chord: chord)
     }
     
     func writeScale(scale: Scale) {
@@ -261,8 +279,9 @@ struct HarmonicAnalysisView: View {
                     Spacer()
                     Button("Degree") {
                         score.setTempo(temp: Int(tempo), pitch: Int(pitchAdjust))
-                        score.play(select: [1])
+                        playDegree()
                     }
+                    .disabled(self.lastDegreeChord == nil)
                     Spacer()
                     Button("Scale") {
                         score.setTempo(temp: Int(tempo), pitch: Int(pitchAdjust))

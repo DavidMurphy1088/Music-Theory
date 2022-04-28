@@ -15,24 +15,19 @@ struct AppView : View {
                 Label("Analysis", systemImage: "music.note.list")
             }
 
-            IntervalView()
-            .tabItem {
-                Label("Intervals", systemImage: "music.note")
-            }
-            DegreeView()
-            .tabItem {
-                Label("Triads", systemImage: "music.quarternote.3")
-            }
-            Test1()
-            .tabItem {
-                Label("Test1", systemImage: "pyramid")
-            }
-
-
-//            ContentView()
+//            IntervalView()
 //            .tabItem {
-//                Label("Members", systemImage: "music.note.list")
+//                Label("Intervals", systemImage: "music.note")
 //            }
+//            DegreeView()
+//            .tabItem {
+//                Label("Triads", systemImage: "music.quarternote.3")
+//            }
+//            Test1()
+//            .tabItem {
+//                Label("Test1", systemImage: "pyramid")
+//            }
+
         }
     }
 }

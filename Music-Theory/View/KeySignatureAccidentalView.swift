@@ -40,7 +40,18 @@ struct KeySignatureAccidentalView: View {
     init(staff:Staff, key:KeySignature, noteIdx:Int, lineSpacing: Int) {
         accidental = key.accidentalType == KeySignatureAccidentalType.sharps ? Score.accSharp : Score.accFlat
         self.lineSpacing = lineSpacing
-        //if key.accidentalType == KeySignatureAccidentalType.flats {
+        if key.accidentalType == KeySignatureAccidentalType.sharps {
+            switch noteIdx {
+            case 0: offsetFromStaffTop = 1
+            case 1: offsetFromStaffTop = 4
+            case 2: offsetFromStaffTop = 0
+            case 3: offsetFromStaffTop = 3
+            case 4: offsetFromStaffTop = 6
+            case 5: offsetFromStaffTop = 2
+            default: offsetFromStaffTop = 0
+            }
+        }
+        else {
             switch noteIdx {
             case 0: offsetFromStaffTop = 4
             case 1: offsetFromStaffTop = 1
@@ -50,7 +61,8 @@ struct KeySignatureAccidentalView: View {
             case 5: offsetFromStaffTop = 3
             default: offsetFromStaffTop = 0
             }
-//
+        }
+
         if key.accidentalType == KeySignatureAccidentalType.sharps {
             offsetFromStaffTop -= 1
         }
@@ -62,7 +74,6 @@ struct KeySignatureAccidentalView: View {
     
     var body: some View {
         Text(accidental).font(.title)
-            .position(x: CGFloat(lineSpacing/2), y: CGFloat(offsetFromStaffTop * lineSpacing/2))
+            .position(x: CGFloat(lineSpacing/2), y: CGFloat(offsetFromStaffTop * lineSpacing/2) + 1)
     }
 }
-

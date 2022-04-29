@@ -2,19 +2,15 @@ import Foundation
 import AVKit
 import AVFoundation
 
-enum KeySignatureAccidentalType {
-    case sharps
-    case flats
-}
 
 class KeySignature {
-    var accidentalType:KeySignatureAccidentalType
+    var accidentalType:AccidentalType
     var sharps:[Int] = []
     var flats:[Int] =  []
     var accidentalCount:Int
     var maxAccidentals = 7
     
-    init(type:KeySignatureAccidentalType, count:Int) {
+    init(type:AccidentalType, count:Int) {
         self.accidentalType = type
         self.accidentalCount = count
         for i in 0..<count {
@@ -24,9 +20,9 @@ class KeySignature {
     }
 
     // how frequently is this note in a key signature
-    func accidentalFrequency(note:Int, sigType: KeySignatureAccidentalType) -> Int {
+    func accidentalFrequency(note:Int, sigType: AccidentalType) -> Int {
         var pos:Int?
-        if sigType == KeySignatureAccidentalType.sharps {
+        if sigType == AccidentalType.sharp {
             for i in 0...sharps.count-1 {
                 if Note.isSameNote(note1: note, note2: sharps[i]) {
                     pos = i

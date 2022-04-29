@@ -17,7 +17,7 @@ struct DegreeView: View {
         let staff1 = Staff(score: score, type: .bass, staffNum: 1)
         score.setStaff(num: 0, staff: staff)
         score.setStaff(num: 1, staff: staff1)
-        score.key = Key(type: Key.KeyType.major, keySig: KeySignature(type: KeySignatureAccidentalType.flats, count: 0))
+        score.key = Key(type: Key.KeyType.major, keySig: KeySignature(type: AccidentalType.flat, count: 0))
         self.scale = Scale(score: score)
         self.score = score
         self.staff = staff
@@ -130,7 +130,7 @@ struct DegreeView: View {
                             score.clear()
                             var newKey = score.key
                             while newKey == score.key {
-                                let type = Int.random(in: 0..<2) < 1 ? KeySignatureAccidentalType.flats : KeySignatureAccidentalType.sharps
+                                let type = Int.random(in: 0..<2) < 1 ? AccidentalType.flat : AccidentalType.sharp
                                 let accs = Int.random(in: 0..<4)
                                 let keyType = Int.random(in: 0..<2) == 0 ? Key.KeyType.major : Key.KeyType.minor
                                 newKey = Key(type: keyType, keySig: KeySignature(type: type, count: accs))

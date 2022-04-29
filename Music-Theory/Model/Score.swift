@@ -10,7 +10,7 @@ class Score : ObservableObject {
     let lineSpacing = 10
 
     private var staff:[Staff] = []
-    @Published var key:Key = Key(type: Key.KeyType.major, keySig: KeySignature(type: KeySignatureAccidentalType.sharps, count: 0))
+    @Published var key:Key = Key(type: Key.KeyType.major, keySig: KeySignature(type: AccidentalType.sharp, count: 0))
     var minorScaleType = Scale.MinorType.natural
     var tempo = 5
     var pitchAdjust = 5

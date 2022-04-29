@@ -16,7 +16,13 @@ struct HarmonicAnalysisView: View {
     @State var degreeNames:[String]
     @State var lastScaleDegree = 0
     @State var lastDegreeChord:Chord?
+    @State var lastKey:Key?
     
+    @State var newKeyMajor = true
+    @State var newKeyMinor = false
+    @State var randomKeyMajor = false
+    @State var randomKeyMinor = false
+
     init() {
         let score = Score()
         score.tempo = 8
@@ -24,9 +30,10 @@ struct HarmonicAnalysisView: View {
         let staff1 = Staff(score: score, type: .bass, staffNum: 1)
         score.setStaff(num: 0, staff: staff)
         score.setStaff(num: 1, staff: staff1)
-        //score.key = Key(type: Key.KeyType.major, keySig: KeySignature(type: KeySignatureAccidentalType.sharps, count: 0))
+        score.key = Key(type: Key.KeyType.major, keySig: KeySignature(type: AccidentalType.sharp, count: 3))
+        //score.key = Key(type: Key.KeyType.major, keySig: KeySignature(type: AccidentalType.flat, count: 6))
         //score.key = Key(type: Key.KeyType.minor, keySig: KeySignature(type: KeySignatureAccidentalType.flats, count: 6))
-        score.key = Key(type: Key.KeyType.minor, keySig: KeySignature(type: KeySignatureAccidentalType.flats, count: 0))
+        //score.key = Key(type: Key.KeyType.minor, keySig: KeySignature(type: AccidentalType.flat, count: 5))
         score.minorScaleType = Scale.MinorType.harmonic
         
         self.score = score
@@ -35,10 +42,20 @@ struct HarmonicAnalysisView: View {
         //self.scale = Scale(key: score.key, minorType: Scale.MinorType.harmonic)
         self.scale = Scale(score: score)
         self.degreeNames = ["I", "ii", "iii", "IV", "V", "vi", "viio"]
+        lastKey = score.key
     }
     
     func makeChord() {
         score.clear()
+        if self.randomKeyMajor {
+            self.newKey(type: Key.KeyType.major)
+        }
+        else {
+            if self.randomKeyMinor {
+                self.newKey(type: Key.KeyType.minor)
+            }
+        }
+
         let root = Chord()
         let chordType = score.key.type == Key.KeyType.major ? Chord.ChordType.major : Chord.ChordType.minor
         root.makeTriad(root: score.key.firstScaleNote(), type: chordType)
@@ -148,18 +165,13 @@ struct HarmonicAnalysisView: View {
         DispatchQueue.global(qos: .userInitiated).async {
             degreeName = "?"
             sleep(1)
-            //if span == queuedSpan {
-            //let degree = scale.noteDegree(offset: offset)
-            //print("  offset", offset, "degree", scaleDegree)
-            let invName = inversion == 0 ? "root" : "inversion " + "\(inversion)"
-            degreeName = "\(degreeNames[scaleDegree-1]) \(scale.degreeName(degree: scaleDegree)), \(invName)"
-            //}
+            let invName = inversion == 0 ? "" : ", Inversion " + "\(inversion)"
+            degreeName = "\(degreeNames[scaleDegree-1]) \(scale.degreeName(degree: scaleDegree)) \(invName)"
         }
     }
     
     func playDegree() {
         let chord:Chord = self.lastDegreeChord!
-
         score.play(select: [1])
         score.play(chord: chord)
     }
@@ -169,73 +181,204 @@ struct HarmonicAnalysisView: View {
         for note in scale.notes {
             let ts = score.addTimeSlice()
             ts.addNote(n: note)
-            let lo = Note(num: note.num-24)
-            lo.staff = 1
-            ts.addNote(n: lo)
+            //let lo = Note(num: note.num-24)
+            //lo.staff = 1
+            //ts.addNote(n: lo)
         }
         let hi = Note(num: scale.notes[0].num+12)
-        let lo = Note(num: scale.notes[0].num-12)
-        lo.staff = 1
+        //let lo = Note(num: scale.notes[0].num-12)
+        //lo.staff = 1
         let ts = score.addTimeSlice()
         ts.addNote(n:hi)
-        ts.addNote(n:lo)
+        //ts.addNote(n:lo)
         score.setTempo(temp: Int(tempo), pitch: Int(pitchAdjust))
     }
+    
+    func writeScaleCromo(scale: Scale) {
+        score.clear()
+        let n = scale.notes[0].num
+        for i in 0..<12 {
+            let ts = score.addTimeSlice()
+            let nt = Note(num:n+i)
+            nt.staff = 0
+            ts.addNote(n: nt)
+        }
+        score.setTempo(temp: Int(tempo), pitch: Int(pitchAdjust))
+    }
+    
+    func newKey(type:Key.KeyType? = nil) {
+        var newKey = score.key
+        while newKey == score.key {
+            let accType = Int.random(in: 0..<2) < 1 ? AccidentalType.flat : AccidentalType.sharp
+            let keyType = Int.random(in: 0..<2) == 0 ? Key.KeyType.major : Key.KeyType.minor
+            var ignoreRandom = false
+            
+            if !(self.newKeyMajor && self.newKeyMinor) {
+                if self.newKeyMajor {
+                    if keyType != Key.KeyType.major {
+                        continue
+                    }
+                }
+                else {
+                    if self.newKeyMinor {
+                        if keyType != Key.KeyType.minor {
+                            continue
+                        }
+                    }
+                }
+                ignoreRandom = true
+            }
 
+            if !ignoreRandom {
+                if !(self.randomKeyMajor && self.randomKeyMinor) {
+                    if self.randomKeyMajor {
+                        if keyType != Key.KeyType.major {
+                            continue
+                        }
+                    }
+                    else {
+                        if self.randomKeyMinor {
+                            if keyType != Key.KeyType.minor {
+                                continue
+                            }
+                        }
+                    }
+                }
+            }
+            let accCount = accType == AccidentalType.flat ? Int.random(in: 0..<7) : Int.random(in: 0..<5)
+            let key = Key(type: keyType, keySig: KeySignature(type: accType, count: accCount))
+            if key == lastKey {
+                continue
+            }
+
+            newKey = key
+        }
+
+        var minorType:Scale.MinorType = Scale.MinorType.natural
+        if newKey.type == Key.KeyType.minor {
+            let r = Int.random(in: 0..<2)
+            minorType = r == 0 ? Scale.MinorType.natural : Scale.MinorType.harmonic
+            
+        }
+        self.score.setKey(key: newKey)
+        self.score.minorScaleType = minorType
+        self.scale = Scale(score: score)
+        self.setDegreeNames()
+    }
+    
     var settings : some View {
         VStack {
-        HStack {
-            Spacer()
-            VStack {
-                ForEach(0 ..< 4, id: \.self) { i in
-                    Button(action: {
-                        degreesSelected[i] = degreesSelected[i] == 0 ? 1 : 0
-                    }) {
-                        HStack(spacing: 10) {
-                            Image(systemName: degreesSelected[i]==1 ? "checkmark.square": "square")
-                            Text("\(degreeNames[i])")
+            HStack {
+                Spacer()
+                VStack {
+                    ForEach(0 ..< 4, id: \.self) { i in
+                        Button(action: {
+                            degreesSelected[i] = degreesSelected[i] == 0 ? 1 : 0
+                        }) {
+                            HStack(spacing: 10) {
+                                Image(systemName: degreesSelected[i]==1 ? "checkmark.square": "square")
+                                Text("\(degreeNames[i])")
+                            }
+                        }
+                    }
+                
+                }
+                Spacer()
+                VStack {
+                    ForEach(4 ..< 7, id: \.self) { i in
+                        Button(action: {
+                            degreesSelected[i] = degreesSelected[i] == 0 ? 1 : 0
+                        }) {
+                            HStack(spacing: 10) {
+                                Image(systemName: degreesSelected[i]==1 ? "checkmark.square": "square")
+                                Text("\(degreeNames[i])")
+                            }
                         }
                     }
                 }
+                Spacer()
+            }
+            Spacer()
+            HStack {
+                Button(action: {
+                    inversions = !inversions
+                }) {
+                    HStack(spacing: 10) {
+                        Image(systemName: inversions ? "checkmark.square": "square")
+                        Text("Inversions")
+                    }
+                }
+                Button(action: {
+                    widen = !widen
+                }) {
+                    HStack(spacing: 10) {
+                        Image(systemName: widen ? "checkmark.square": "square")
+                        Text("Widen")
+                    }
+                }
+            }
+        }
+    }
+    
+    var setNewKey : some View {
+        VStack {
+            Spacer()
+            Button("New Key") {
+                score.clear()
+                self.newKey()
+            }
+            HStack {
+                Spacer()
+                Button(action: {
+                    self.newKeyMajor = !self.newKeyMajor
+                }) {
+                    HStack(spacing: 10) {
+                        Image(systemName: self.newKeyMajor ? "checkmark.square": "square")
+                        Text("\("Major")")
+                    }
+                }
+                Spacer()
+                Button(action: {
+                    self.newKeyMinor = !self.newKeyMinor
+                }) {
+                    HStack(spacing: 10) {
+                        Image(systemName: self.newKeyMinor ? "checkmark.square": "square")
+                        Text("\("Minor")")
+                    }
+                }
+                Spacer()
+            }
+        }
+    }
+    
+    var setRandomKeys : some View {
+        VStack {
+            Spacer()
+            Text("Random Key")
+            HStack {
+                Spacer()
+                Button(action: {
+                    self.randomKeyMajor = !self.randomKeyMajor
+                }) {
+                    HStack(spacing: 10) {
+                        Image(systemName: self.randomKeyMajor ? "checkmark.square": "square")
+                        Text("\("Major")")
+                    }
+                }
+                Spacer()
+                Button(action: {
+                    self.randomKeyMinor = !self.randomKeyMinor
+                }) {
+                    HStack(spacing: 10) {
+                        Image(systemName: self.randomKeyMinor ? "checkmark.square": "square")
+                        Text("\("Minor")")
+                    }
+                }
+                Spacer()
+            }
+        }
+    }
             
-            }
-            Spacer()
-            VStack {
-                ForEach(4 ..< 7, id: \.self) { i in
-                    Button(action: {
-                        degreesSelected[i] = degreesSelected[i] == 0 ? 1 : 0
-                    }) {
-                        HStack(spacing: 10) {
-                            Image(systemName: degreesSelected[i]==1 ? "checkmark.square": "square")
-                            Text("\(degreeNames[i])")
-                        }
-                    }
-                }
-            }
-            Spacer()
-        }
-        Spacer()
-        HStack {
-            Button(action: {
-                inversions = !inversions
-            }) {
-                HStack(spacing: 10) {
-                    Image(systemName: inversions ? "checkmark.square": "square")
-                    Text("Inversions")
-                }
-            }
-            Button(action: {
-                widen = !widen
-            }) {
-                HStack(spacing: 10) {
-                    Image(systemName: widen ? "checkmark.square": "square")
-                    Text("Widen")
-                }
-            }
-        }
-    }
-    }
-
     func someSelected() -> Bool{
         for i in degreesSelected {
             if i>0 {
@@ -261,9 +404,9 @@ struct HarmonicAnalysisView: View {
     
     var body: some View {
         //NavigationView {
-            
             VStack {
                 Spacer()
+                
                 ScoreView(score: score)
                 Button("Make Degree") {
                     makeChord()
@@ -285,8 +428,12 @@ struct HarmonicAnalysisView: View {
                     Spacer()
                     Button("Scale") {
                         score.setTempo(temp: Int(tempo), pitch: Int(pitchAdjust))
-                        //makeChord()
                         writeScale(scale: scale)
+                    }
+                    Spacer()
+                    Button("Chromo") {
+                        score.setTempo(temp: Int(tempo), pitch: Int(pitchAdjust))
+                        writeScaleCromo(scale: scale)
                     }
                     Spacer()
                 }
@@ -295,39 +442,12 @@ struct HarmonicAnalysisView: View {
                 
                 Spacer()
                 settings
+                
+                setNewKey
 
-                Spacer()
-                Button("Key") {
-                    score.clear()
-                    if false {
-                        //newKey = Key(type: score.keyType, keySig: KeySignature(type: accType, count: accCount))
-                        //self.score.setKey(key: newKey)
-                        self.score.minorScaleType = score.minorScaleType == Scale.MinorType.natural ? Scale.MinorType.harmonic : Scale.MinorType.natural
-                        self.scale = Scale(score: score)
-                        self.setDegreeNames()
-                    }
-                    else {
-                        //while newKey == score.key {
-                            let accType = Int.random(in: 0..<2) < 1 ? KeySignatureAccidentalType.flats : KeySignatureAccidentalType.sharps
-                            let keyType = Int.random(in: 0..<2) == 0 ? Key.KeyType.major : Key.KeyType.minor
-                            let accCount = accType == KeySignatureAccidentalType.flats ? Int.random(in: 0..<7) : Int.random(in: 0..<5)
-                            let newKey = Key(type: keyType, keySig: KeySignature(type: accType, count: accCount))
-                        //}
-
-                        var minorType:Scale.MinorType = Scale.MinorType.natural
-                        if newKey.type == Key.KeyType.minor {
-                            let r = Int.random(in: 0..<2)
-                            minorType = r == 0 ? Scale.MinorType.natural : Scale.MinorType.harmonic
-                            
-                        }
-                        self.score.setKey(key: newKey)
-                        print(newKey.keySig.sharps.count)
-                        self.score.minorScaleType = minorType
-                        self.scale = Scale(score: score)
-                        self.setDegreeNames()
-                    }
-                    print("change key sharps:", score.key.keySig.sharps.count, score.key.keySig.flats.count, "type:", score.key.type, "scaleType:", score.minorScaleType)
-                }
+                //Spacer()
+                setRandomKeys
+                                
                 //Spacer()
                 HStack {
                     Text("Tempo").padding()
@@ -335,20 +455,9 @@ struct HarmonicAnalysisView: View {
                     Text("Pitch").padding()
                     Slider(value: $pitchAdjust, in: 0...Double(20)).padding()
                 }
-//                    VStack {
-//                        NavigationLink(destination: DegreesSelect()) {
-//                            Text("Select Degrees")
-//                        }
-//                        .navigationTitle("Chord Identification")
-//                        .navigationBarTitleDisplayMode(.inline)
-//                    }
-            //}
+//          }
         }
-//        .onAppear {
-//                    self.setDegreeNames()
-//        }
     }
-
 }
 
 

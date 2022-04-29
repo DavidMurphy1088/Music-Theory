@@ -63,9 +63,9 @@ struct StaffView: View {
                                 if note.staff == staff.staffNum {
                                     NoteView(staff: staff, note: note, lineSpacing: score.lineSpacing, color: Color.black)
                                 }
-                                else {
-                                    NoteView(staff: staff, note: note, lineSpacing: score.lineSpacing, color: Color.white)
-                                }
+//                                else {
+//                                    NoteView(staff: staff, note: note, lineSpacing: score.lineSpacing, color: Color.white)
+//                                }
                             }
                         }
                     }

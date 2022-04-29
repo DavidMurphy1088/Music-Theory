@@ -14,12 +14,13 @@ class Key : Equatable {
     }
     
     static func == (lhs: Key, rhs: Key) -> Bool {
-        return (lhs.type == rhs.type) && (lhs.keySig.accidentalCount == rhs.keySig.accidentalCount) && (lhs.keySig.accidentalType == rhs.keySig.accidentalType) 
+        return (lhs.type == rhs.type) && (lhs.keySig.accidentalCount == rhs.keySig.accidentalCount) &&
+        (lhs.keySig.accidentalType == rhs.keySig.accidentalType) 
     }
     
     func description() -> String {
         var desc = ""
-        if keySig.accidentalType == KeySignatureAccidentalType.sharps {
+        if keySig.accidentalType == AccidentalType.sharp {
             switch self.keySig.accidentalCount {
             case 0:
                 desc = self.type == KeyType.major ? "C" : "A"
@@ -71,7 +72,7 @@ class Key : Equatable {
     func firstScaleNote() -> Int {
         var note = 40
         if keySig.accidentalCount > 0 {
-            if self.keySig.accidentalType == KeySignatureAccidentalType.sharps {
+            if self.keySig.accidentalType == AccidentalType.sharp {
                 note = keySig.sharps[keySig.accidentalCount-1] + 2
             }
             else {

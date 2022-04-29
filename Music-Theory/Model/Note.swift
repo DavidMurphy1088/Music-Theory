@@ -1,14 +1,17 @@
 import Foundation
 
+enum AccidentalType {
+    case sharp
+    case flat
+}
+
 enum HandType {
     case left
     case right
 }
 
 class Note : Hashable {
-    var name:Character
-    var accidental: KeySignatureAccidentalType
-    private var num:Int
+    var num:Int
     var staff:Int
     static let MIDDLE_C = 40
     static let noteNames:[Character] = ["A", "B", "C", "D", "E", "F", "G"]
@@ -21,9 +24,8 @@ class Note : Hashable {
         return (note1 % 12) == (note2 % 12)
     }
     
-    init(name:Character, accidental:KeySignatureAccidentalType?=nil, staff:Int = 0) {
-        //self.num = num
-        self.name = name
+    init(num:Int, staff:Int = 0) {
+        self.num = num
         self.staff = staff
     }
     

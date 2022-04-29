@@ -25,22 +25,22 @@ class StaffPlacementsByKey {
 }
 
 class OffsetsInStaffByKey {
-    var m:[String] = []
+    var noteOffsetByKey:[String] = []
     init () {
         // offset, sign. sign = ' ' or 0=flat, 1=natural, 2=sharp
-        //  Key   C    D♭   D    E♭   E    F    G♭   G    A♭   A    B♭   B
-        m.append("0    0    0,1  0    0,1  0    0    0    0    0,1  0    0,0")  //C
-        m.append("0,2  1    0    1,0  0    1,0  0    0,2  1    0    1,0  0,0")  //C#
-        m.append("1    0    1    1    1,1  1    0    1    1,1  1    1    0,0")  //D
-        m.append("2,0  0    2,0  2    1    2,0  0    2,0  2    2,0  2    0,0")  //E♭
-        m.append("2    0    2    2,1  2    2    0    2    2,1  2    2,1  0,0")  //E
-        m.append("3    0    3,1  3    3,1  3    0    3,1  3    3,1  3    0,0")  //F
-        m.append("3,2  0    3    4,0  3    4,0  0    3    4,0  3    4,0  0,0")  //F#
-        m.append("4    0    4    4    4,1  4    0    4    4    4,1  4    0,0")  //G
-        m.append("4,2  0    4,2  5    4    5,0  0    4,2  5    4    5,0  0,0")  //G#
-        m.append("5    0    5    5,1  5    5    0    5    5,1  5    5    0,0")  //A
-        m.append("6,0  0    6,0  6    6,0  6    0    6,0  6    6,0  6    0,0")  //B♭
-        m.append("6    0    6    6,1  6    6,1  0    6    6,1  6,1  6,1  0,0")  //B
+        //  Key                 C    D♭   D    E♭   E    F    G♭   G    A♭   A    B♭   B
+        noteOffsetByKey.append("0    0    0,1  0    0,1  0    0,1  0    0    0,1  0    0,0")  //C
+        noteOffsetByKey.append("0,2  1    0    1,0  0    1,0  1    0,2  1    0    1,0  0,0")  //C#
+        noteOffsetByKey.append("1    1,1  1    1    1,1  1    1,1  1    1,1  1    1    0,0")  //D
+        noteOffsetByKey.append("2,0  2    2,0  2    1    2,0  2    2,0  2    1,2  2    0,0")  //E♭
+        noteOffsetByKey.append("2    2,1  2    2,1  2    2    2,1  2    2,1  2    2,1  0,0")  //E
+        noteOffsetByKey.append("3    3    3,1  3    3,1  3    3    3,1  3    3,1  3    0,0")  //F
+        noteOffsetByKey.append("3,2  4    3    4,0  3    4,0  4    3    4,0  3    4,0  0,0")  //F#
+        noteOffsetByKey.append("4    4,1  4    4    4,1  4    4,1  4    4    4,1  4    0,0")  //G
+        noteOffsetByKey.append("4,2  5    4,2  5    4    5,0  5    4,2  5    4    5,0  0,0")  //G#
+        noteOffsetByKey.append("5    5,1  5    5,1  5    5    5,1  5    5,1  5    5    0,0")  //A
+        noteOffsetByKey.append("6,0  6    6,0  6    6,0  6    6    6,0  6    6,0  6    0,0")  //B♭
+        noteOffsetByKey.append("6    6,1  6    6,1  6    6,1  6,1  6    6,1  6    6,1  0,0")  //B
     }
 }
 
@@ -99,14 +99,14 @@ class Staff : ObservableObject {
         
         noteOffsets = [StaffPlacementsByKey](repeating: StaffPlacementsByKey(), count: highestNoteValue + 1)
         var noteIdx = 4
-        let m = OffsetsInStaffByKey()
+        let offsetsInStaffByKey = OffsetsInStaffByKey()
         var allDone = false
         var octaveCtr = 0
         var nameCtr = 2
         var lastOffset:Int? = nil
 
         while !allDone {
-            for line in m.m {
+            for line in offsetsInStaffByKey.noteOffsetByKey {
                 let sp = StaffPlacementsByKey()
                 let pairs = line.components(separatedBy: " ")
                 let octave = ((octaveCtr) / 12) - (self.type == StaffType.treble ? 3 : 1)
@@ -188,7 +188,7 @@ class Staff : ObservableObject {
         //    Key   C    D♭   D    E♭   E    F    G♭   G    A♭   A    B♭   B
         //m.append("0    0    0,0  0    0,0  0    0    0    0    0,0  0    0,0")  //C
 
-        if score.key.keySig.accidentalType == KeySignatureAccidentalType.sharps {
+        if score.key.keySig.accidentalType == AccidentalType.sharp {
             switch score.key.keySig.accidentalCount {
             case 0:
                 return 0

@@ -38,9 +38,9 @@ struct KeySignatureAccidentalView: View {
 //    }
 
     init(staff:Staff, key:KeySignature, noteIdx:Int, lineSpacing: Int) {
-        accidental = key.accidentalType == KeySignatureAccidentalType.sharps ? Score.accSharp : Score.accFlat
+        accidental = key.accidentalType == AccidentalType.sharp ? Score.accSharp : Score.accFlat
         self.lineSpacing = lineSpacing
-        if key.accidentalType == KeySignatureAccidentalType.sharps {
+        if key.accidentalType == AccidentalType.sharp {
             switch noteIdx {
             case 0: offsetFromStaffTop = 1
             case 1: offsetFromStaffTop = 4
@@ -63,7 +63,7 @@ struct KeySignatureAccidentalView: View {
             }
         }
 
-        if key.accidentalType == KeySignatureAccidentalType.sharps {
+        if key.accidentalType == AccidentalType.sharp {
             offsetFromStaffTop -= 1
         }
         offsetFromStaffTop += staff.score.ledgerLineCount * 2

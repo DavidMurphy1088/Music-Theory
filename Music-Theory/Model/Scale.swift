@@ -35,8 +35,7 @@ class Scale {
                 }
             }
         }
-        //melodic minor not yet supported
-        if self.score.minorScaleType == MinorType.harmonic {
+        if self.score.key.type == Key.KeyType.minor && self.score.minorScaleType == MinorType.harmonic {
             notes[6].num += 1
         }
     }

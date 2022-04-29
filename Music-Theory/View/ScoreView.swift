@@ -8,6 +8,9 @@ struct ScoreView: View {
     var body: some View {
 
         VStack {
+            Spacer()
+            Spacer()
+            Spacer()
             Text("\(score.keyDesc())")//.font(.system(size: CGFloat(lineSpacing)))
             ForEach(score.getStaff(), id: \.self.type) { staff in
                 StaffView(score: score, staff: staff)

@@ -52,7 +52,7 @@ struct Test1: View {
             }
         }
         .onAppear {
-            let keySig:KeySignature = KeySignature(type: KeySignatureAccidentalType.flats, count: 0)
+            let keySig:KeySignature = KeySignature(type: AccidentalType.flat, count: 0)
             let key = Key(type: Key.KeyType.major, keySig: keySig)
             setKey(key: key)
         }

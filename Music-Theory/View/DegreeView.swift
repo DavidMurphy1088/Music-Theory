@@ -5,7 +5,7 @@ struct DegreeView: View {
     @State var score:Score
     @ObservedObject var staff:Staff
     @State var scale:Scale
-    @State private var tempo: Double = 3
+    //@State private var tempo: Double = 3
     @State var degreeName:String?
     @State var queuedDegree = 0
     @State var lastOffsets:[Int] = []
@@ -24,25 +24,11 @@ struct DegreeView: View {
     }
 
     func setKey(key:Key) {
-//        self.score.setKey(key: key)
-        //let x = Scale(key: key)
         self.scale = Scale(score: score)
     }
-
-//    func establishKey() {
-//        //https://livingpianos.com/how-to-establish-the-key/
-//        let root = Chord()
-//        root.makeTriad(root: key.firstScaleNote(), type: Chord.ChordType.major)
-//        root.notes.append(Note(num: key.firstScaleNote()-12))
-//        root.notes[3].staff = 1
-//
-//        let ts = score.addTimeSlice()
-//        ts.addChord(c: root)
-//    }
     
     var body: some View {
         NavigationView {
-
 
             HStack {
                 VStack {
@@ -103,8 +89,7 @@ struct DegreeView: View {
                             ts = score.addTimeSlice()
                             ts.addChord(c: root)
 
-                            score.setTempo(temp: Int(tempo))
-                            score.play()
+                            score.playScore()
                             DispatchQueue.global(qos: .userInitiated).async {
                                 degreeName = "?"
                                 sleep(1)
@@ -117,8 +102,7 @@ struct DegreeView: View {
 
                         Spacer()
                         Button("Play") {
-                            score.setTempo(temp: Int(tempo))
-                            score.play()
+                            score.playScore(arpeggio: false)
                         }
                         Spacer()
                         Text(degreeName ?? "?")
@@ -140,7 +124,7 @@ struct DegreeView: View {
                         Spacer()
                         HStack {
                             Text("Tempo").padding()
-                            Slider(value: $tempo, in: 3...Double(score.maxTempo)).padding()
+                            //Slider(value: $tempo, in: 3...Double(Score.maxTempo)).padding()
                         }
 
                     }

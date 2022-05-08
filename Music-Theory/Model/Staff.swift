@@ -131,7 +131,7 @@ class Staff : ObservableObject {
                     }
                     col += 1
                     
-                    let noteName = Note.noteName(idx: nameCtr)
+                    let noteName = Note.staffNoteName(idx: nameCtr)
 
                     let note = StaffPlacement(name: noteName, staffOffset)
                     if noteParts.count > 1 {

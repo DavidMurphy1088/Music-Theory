@@ -12,14 +12,16 @@ class Score : ObservableObject {
     private var staff:[Staff] = []
     @Published var key:Key = Key(type: Key.KeyType.major, keySig: KeySignature(type: AccidentalType.sharp, count: 0))
     var minorScaleType = Scale.MinorType.natural
-    var tempo = 5
+    var tempo:Float = 75 //BPM, 75 = andante
+    static let maxTempo:Float = 200
+    static let minTempo:Float = 50
+
     var pitchAdjust = 5
 
     var staffLineCount = 0
     static var accSharp = "\u{266f}"
     static var accNatural = "\u{266e}"
     static var accFlat = "\u{266d}"
-    var maxTempo = 10
     var timeSlices:[TimeSlice] = []
     
     static func startAu()  {
@@ -93,7 +95,7 @@ class Score : ObservableObject {
     }
 
     func setTempo(temp: Int, pitch: Int? = nil) {
-        self.tempo = temp
+        self.tempo = Float(temp)
         if let setPitch = pitch {
             self.pitchAdjust = setPitch
         }
@@ -112,26 +114,29 @@ class Score : ObservableObject {
         }
     }
 
-    func play(chord: Chord) {
+    func playChord(chord: Chord, arpeggio: Bool? = nil) {
         DispatchQueue.global(qos: .userInitiated).async { [self] in
-            let t = self.maxTempo - self.tempo
-            for i in [0,1] {
-                for note in chord.notes {
-                    if i > 0 {
-                        if t > 0 {
-                            usleep(useconds_t((t) * 2 * 100000))
-                        }
-                        Score.sampler.startNote(UInt8(note.num + 12 + self.pitchAdjust), withVelocity:48, onChannel:0)
+            //let t = Score.maxTempo - tempo
+            //var index = 0
+            for note in chord.notes {
+                let playTempo = 60.0/self.tempo
+                //print(" ", note.num)
+                Score.sampler.startNote(UInt8(note.num + 12 + self.pitchAdjust), withVelocity:48, onChannel:0)
+                //index += 1
+                if let arp = arpeggio {
+                    if arp  {
+                        //if t > 0 {
+                            usleep(useconds_t(playTempo * 500000))
+                        //}
                     }
                 }
-                if i == 0 {
-                    usleep(500000)
-                }
+
             }
+            //usleep(500000)
         }
     }
     
-    func play(select: [Int]? = nil) {
+    func playScore(select: [Int]? = nil, arpeggio: Bool? = nil) {
         DispatchQueue.global(qos: .userInitiated).async { [self] in
             var index = 0
             for ts in timeSlices {
@@ -141,12 +146,21 @@ class Score : ObservableObject {
                         continue
                     }
                 }
+                var index = 0
+                let playTempo = 60.0/self.tempo
                 for note in ts.note {
+                    if let arp = arpeggio {
+                        if arp && (index > 0) {
+                            usleep(useconds_t(playTempo * 500000))
+                        }
+                    }
                     Score.sampler.startNote(UInt8(note.num + 12 + self.pitchAdjust), withVelocity:48, onChannel:0)
+                    index += 1
                 }
-                let t = self.maxTempo - self.tempo
-                if t > 0 {
-                    usleep(useconds_t((t) * 2 * 100000))
+                //var tempo:Float = Float(self.tempo) //Float(Score.maxTempo - self.tempo)
+                
+                if tempo > 0 {
+                    usleep(useconds_t(playTempo * 1000000))
                 }
                 index += 1
             }

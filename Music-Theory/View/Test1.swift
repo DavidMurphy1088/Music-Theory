@@ -46,7 +46,7 @@ struct Test1: View {
                     }
                     Spacer()
                     Button("Play") {
-                        score.play()
+                        score.playScore()
                     }
                 }
             }

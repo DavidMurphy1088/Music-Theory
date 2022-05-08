@@ -63,8 +63,6 @@ class Key : Equatable {
         case KeyType.minor:
             desc += " Minor"
 
-        default:
-            desc += " unknown"
         }
         return desc
     }
@@ -83,7 +81,7 @@ class Key : Equatable {
             note -= 3
         }
         let all = Note.getAllOctaves(note: note)
-        note = Note.getClosestNote(notes: all, to: 45)!
+        note = Note.getClosestPitch(pitches: all, toPitch: 45)!
         return note
     }
 }

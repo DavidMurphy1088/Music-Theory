@@ -10,7 +10,7 @@ enum HandType {
     case right
 }
 
-class Note : Hashable {
+class Note : Hashable, Comparable {
     var num:Int
     var staff:Int
     static let MIDDLE_C = 40
@@ -18,6 +18,9 @@ class Note : Hashable {
 
     static func == (lhs: Note, rhs: Note) -> Bool {
         return lhs.num == rhs.num
+    }
+    static func < (lhs: Note, rhs: Note) -> Bool {
+        return lhs.num < rhs.num
     }
     
     static func isSameNote(note1:Int, note2:Int) -> Bool {
@@ -33,7 +36,7 @@ class Note : Hashable {
         hasher.combine(num)
     }
     
-    static func noteName(idx:Int) -> Character {
+    static func staffNoteName(idx:Int) -> Character {
         if idx >= 0 {
             return self.noteNames[idx % noteNames.count]
         }
@@ -59,14 +62,14 @@ class Note : Hashable {
         return notes
     }
     
-    static func getClosestNote(notes:[Int], to:Int) -> Int? {
+    static func getClosestPitch(pitches:[Int], toPitch:Int) -> Int? {
         var closest:Int?
         var minDist:Int?
-        for n in notes {
-            let dist = abs(n - to)
+        for p in pitches {
+            let dist = abs(p - toPitch)
             if minDist == nil || dist < minDist! {
                 minDist = dist
-                closest = n
+                closest = p
             }
         }
         return closest

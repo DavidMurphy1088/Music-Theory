@@ -7,7 +7,6 @@ import CoreData
 struct IntervalView: View {
     @State var score:Score
     @ObservedObject var staff:Staff
-    @State private var tempo: Double = 3
     @State var intName:String?
     @State var scale:Scale
     @State var diatonic = true
@@ -53,7 +52,7 @@ struct IntervalView: View {
             //let note1 = Note(num: scale.notes[root].num)
             let note1 = Note(num: scale.notes[0].num + note1ScaleOffset)
             
-            var note2Distance = Int.random(in: -12..<12)
+            let note2Distance = Int.random(in: -12..<12)
             //note2Distance = 12
             if note2Distance == 0 {
                 continue
@@ -132,29 +131,29 @@ struct IntervalView: View {
                     let span = notes[1].num - notes[0].num
                     queuedSpan = span
                     sleep(UInt32(2))
-                    var intervals = Intervals()
+                    let intervals = Intervals()
                     if span == queuedSpan {
                         intName = "\(intervals.getName(span: abs(span)) ?? "none")"
                     }
                 }
-                score.setTempo(temp: Int(tempo))
-                score.play()
+                //score.setTempo(temp: Int(tempo))
+                score.playScore()
             }
             Spacer()
             Spacer()
             HStack {
                 Spacer()
                 Button("Play") {
-                    score.setTempo(temp: Int(tempo))
-                    score.play()
+                    //score.setTempo(temp: Int(tempo))
+                    score.playScore()
                 }
                 Spacer()
                 Button("Play Steps") {
                     score.clear()
                     let notes = makeNoteSteps(interval: self.intervalNotes)
                     notesToScore(notes: notes)
-                    score.setTempo(temp: Int(tempo * 2))
-                    score.play()
+                    //score.setTempo(temp: Int(tempo * 2))
+                    score.playScore()
                 }
                 Spacer()
             }
@@ -166,7 +165,7 @@ struct IntervalView: View {
                 //Spacer()
                 HStack {
                     Text("Tempo").padding()
-                    Slider(value: $tempo, in: 3...Double(score.maxTempo)).padding()
+                    //Slider(value: $tempo, in: 3...Double(Score.maxTempo)).padding()
                 }
                 //Spacer()
                 Button(action: {

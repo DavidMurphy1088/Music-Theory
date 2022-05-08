@@ -44,12 +44,73 @@ class Chord : Identifiable {
         return res
     }
     
-    func move(index: Int) {
+    func moveClosestTo(pitch: Int, index: Int) {
         let octaves = Note.getAllOctaves(note: self.notes[index].num)
-        let note = Note.getClosestNote(notes: octaves, to: 45)!
-        let offset = self.notes[index].num - note
+        let pitch = Note.getClosestPitch(pitches: octaves, toPitch: pitch)!
+        let offset = self.notes[index].num - pitch
         for i in 0...self.notes.count-1 {
             self.notes[i].num -= offset
         }
+    }
+    
+    // order lowest to highest pitch
+    func order() {
+        self.notes.sort()
+    }
+    
+    func toStr() -> String {
+        var s = ""
+        for note in self.notes {
+            //var n = (note.num % Note.noteNames.count)...
+            s += "\(note.num)  "
+        }
+        return s
+    }
+    //“SATB” voice leading refers to four-part chords scored for soprano (S), alto (A), tenor (T), and bass (B) voices. Three-part chords are often specified as SAB (soprano, alto, bass) but could be scored for any combination of the three voice types. SATB voice leading will also be referred to as “chorale-style” voice leading.
+    func makeSATB() -> Chord {
+        //find the best note for each range/voice
+        print("\nSATB", self.toStr())
+        let result = Chord()
+        var indexesDone:[Int] = []
+        let octaves = Note.getAllOctaves(note: self.notes[0].num)
+        var nextPitch = abs(Note.getClosestPitch(pitches: octaves, toPitch: 40 - 12 - 3)!)
+        
+        for rng in 0...self.notes.count {
+            if rng == 0 {
+                let bassNote = Note(num: nextPitch)
+                bassNote.staff = 1
+                result.notes.append(bassNote)
+                indexesDone.append(0)
+                nextPitch += 8 - Int.random(in: 0..<4)
+                continue
+            }
+            //which range to put this next chord note?
+            var lowestDiff:Int? = nil
+            var bestPitch = 0
+            
+            for i in 0...self.notes.count-1 {
+                if indexesDone.contains(i) {
+                    continue
+                }
+                let octaves = Note.getAllOctaves(note: self.notes[i].num)
+                let closestPitch = abs(Note.getClosestPitch(pitches: octaves, toPitch: nextPitch)! )
+                let diff = abs(closestPitch - nextPitch)
+                if lowestDiff == nil || diff < lowestDiff! {
+                    lowestDiff = diff
+                    bestPitch = closestPitch
+                    //bestIdx = i
+                }
+            }
+            let note = Note(num: bestPitch)
+            if [0,1].contains(rng) {
+                note.staff = 1
+            }
+            result.notes.append(note)
+            //done.append(bestIdx)
+            //print("range", rng, "bestIdx", bestIdx, "done", done)
+            nextPitch += 8
+        }
+        print("SATB->", result.toStr())
+        return result
     }
 }

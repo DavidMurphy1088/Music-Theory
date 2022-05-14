@@ -9,7 +9,9 @@ struct HarmonicAnalysisView: View {
     @State var degreeName:String?
     @State var queuedDegree = 0
     @State var lastOffsets:[Int] = []
-    @State var inversions = false
+    @State var degreeInversions = false
+    @State var tonicInversions = false
+    @State var tonicSATB = true
     @State var widen = false
     @State var degreesSelected:[Int] = [0,0,0,1,1,0,0]
     @State var degreeNames:[String]
@@ -17,7 +19,7 @@ struct HarmonicAnalysisView: View {
     @State var lastDegreeChord:Chord?
     @State var lastKey:Key?
     @State var playAsArpeggio:Bool = false
-    @State var allVoiceRanges = false
+    @State var voiceLead = true
     @State var newKeyMajor = true
     @State var newKeyMinor = false
     @State var randomKey = false
@@ -28,7 +30,7 @@ struct HarmonicAnalysisView: View {
         let staff1 = Staff(score: score, type: .bass, staffNum: 1)
         score.setStaff(num: 0, staff: staff)
         score.setStaff(num: 1, staff: staff1)
-        score.key = Key(type: Key.KeyType.major, keySig: KeySignature(type: AccidentalType.sharp, count: 2))
+        score.key = Key(type: Key.KeyType.major, keySig: KeySignature(type: AccidentalType.sharp, count: 0))
         //score.key = Key(type: Key.KeyType.major, keySig: KeySignature(type: AccidentalType.flat, count: 1))
         //score.key = Key(type: Key.KeyType.minor, keySig: KeySignature(type: KeySignatureAccidentalType.flats, count: 6))
         //score.key = Key(type: Key.KeyType.minor, keySig: KeySignature(type: AccidentalType.flat, count: 1))
@@ -109,17 +111,21 @@ struct HarmonicAnalysisView: View {
         var root = Chord()
         let chordType = score.key.type == Key.KeyType.major ? Chord.ChordType.major : Chord.ChordType.minor
         root.makeTriad(root: score.key.firstScaleNote(), type: chordType)
-//        var b = Note(num: root.notes[0].num-12)
-//        b.staff=1
-//        root.notes.append(b)
-        print("root", root.toStr())
+        print("\nroot", root.toStr())
         
         var ts = score.addTimeSlice()
-        if self.allVoiceRanges {
+        if self.tonicInversions {
+            let inversion = Int.random(in: 0..<3)
+            root = root.makeInversion(inv: inversion)
+            //print("root Inv", root.toStr(), inversion)
+        }
+        if self.tonicSATB {
             root = root.makeSATB()
         }
         ts.addChord(c: root)
 
+        // make degree chord
+        
         degreeName = nil
         var scaleDegree = 0
         while scaleDegree == 0 {
@@ -127,7 +133,7 @@ struct HarmonicAnalysisView: View {
             if degreesSelected[i] == 0 {
                 continue
             }
-            if !inversions && degreesSelected.filter({$0 == 1}).count > 1 {
+            if !degreeInversions && degreesSelected.filter({$0 == 1}).count > 1 {
                 if i+1 == lastScaleDegree {
                     continue
                 }
@@ -142,17 +148,18 @@ struct HarmonicAnalysisView: View {
 
         self.lastDegreeChord = degreeChord
         var inversion = 0
-        if inversions {
-            inversion = Int.random(in: 0..<3)
-            degreeChord = degreeChord.makeInversion(inv: inversion)
-        }
-        if allVoiceRanges {
-            degreeChord = degreeChord.makeSATB()
+
+        if voiceLead {
+            degreeChord = root.makeVoiceLead(to: degreeChord)
         }
         else {
-            degreeChord.moveClosestTo(pitch: root.notes[0].num, index: 0)
+            if degreeInversions {
+                inversion = Int.random(in: 0..<3)
+                degreeChord = degreeChord.makeInversion(inv: inversion)
+            }
+            //degreeChord.moveClosestTo(pitch: root.notes[0].num, index: 0) ?
         }
-        print(root.toStr(), degreeChord.toStr())
+        print("root, degree", root.toStr(), degreeChord.toStr())
         
         ts = score.addTimeSlice()
         ts.addChord(c: degreeChord)
@@ -291,29 +298,46 @@ struct HarmonicAnalysisView: View {
             Spacer()
             HStack {
                 Button(action: {
-                    inversions = !inversions
+                    tonicInversions = !tonicInversions
                 }) {
                     HStack(spacing: 10) {
-                        Image(systemName: inversions ? "checkmark.square": "square")
-                        Text("Inversions")
+                        Image(systemName: tonicInversions ? "checkmark.square": "square")
+                        Text("Tonic Inversions")
                     }
                 }
                 Button(action: {
-                    allVoiceRanges = !allVoiceRanges
+                    tonicSATB = !tonicSATB
                 }) {
                     HStack(spacing: 10) {
-                        Image(systemName: allVoiceRanges ? "checkmark.square": "square")
-                        Text("All Ranges")
+                        Image(systemName: tonicSATB ? "checkmark.square": "square")
+                        Text("Tonic SATB")
+                    }
+                }
+            }
+            HStack {
+                Button(action: {
+                    degreeInversions = !degreeInversions
+                    if degreeInversions {
+                        self.voiceLead = false
+                    }
+                }) {
+                    HStack(spacing: 10) {
+                        Image(systemName: degreeInversions ? "checkmark.square": "square")
+                        Text("Degree Inversions")
                     }
                 }
                 Button(action: {
-                    allVoiceRanges = !allVoiceRanges
+                    voiceLead = !voiceLead
+                    if voiceLead {
+                        self.degreeInversions = false
+                    }
                 }) {
                     HStack(spacing: 10) {
-                        Image(systemName: allVoiceRanges ? "checkmark.square": "square")
-                        Text("Piano Style")
+                        Image(systemName: voiceLead ? "checkmark.square": "square")
+                        Text("Voice Lead")
                     }
                 }
+
             }
         }
     }

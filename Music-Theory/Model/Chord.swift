@@ -45,8 +45,7 @@ class Chord : Identifiable {
     }
     
     func moveClosestTo(pitch: Int, index: Int) {
-        let octaves = Note.getAllOctaves(note: self.notes[index].num)
-        let pitch = Note.getClosestPitch(pitches: octaves, toPitch: pitch)!
+        let pitch = Note.getClosestOctave(note: self.notes[index].num, toPitch: pitch)!
         let offset = self.notes[index].num - pitch
         for i in 0...self.notes.count-1 {
             self.notes[i].num -= offset
@@ -66,22 +65,62 @@ class Chord : Identifiable {
         }
         return s
     }
-    //“SATB” voice leading refers to four-part chords scored for soprano (S), alto (A), tenor (T), and bass (B) voices. Three-part chords are often specified as SAB (soprano, alto, bass) but could be scored for any combination of the three voice types. SATB voice leading will also be referred to as “chorale-style” voice leading.
+    
+    func makeVoiceLead(to:Chord) -> Chord {
+        print("\nVoiceL")
+        let result = Chord()
+        var unusedPitches:[Int] = []
+        for t in to.notes {
+            unusedPitches.append(t.num)
+            unusedPitches.append(t.num+12)
+        }
+        // for each from chord note find the closest unused degree chord note
+        for fromIdx in 0..<self.notes.count {
+            var bestPitch = 0
+            //print(fromIdx, bestPitch, "...unused", unusedPitches)
+            if unusedPitches.count > 0 {
+                var minDiff = 1000
+                var mi = 0
+                for uindex in 0..<unusedPitches.count {
+                    let closest = Note.getClosestOctave(note:unusedPitches[uindex], toPitch:notes[fromIdx].num)!
+                    let diff = abs(closest - notes[fromIdx].num)
+                    if diff < minDiff {
+                        minDiff = diff
+                        mi = uindex
+                        bestPitch = closest
+                    }
+                }
+                unusedPitches.remove(at: mi)
+            }
+            else {
+                //bestPitch = 52
+            }
+            if bestPitch > 0 {
+                let bestNote = Note(num: bestPitch)
+                if bestPitch < 40 {
+                    bestNote.staff = 1
+                }
+                result.notes.append(bestNote)
+            }
+            print(fromIdx, self.notes[fromIdx].num, "->", bestPitch)
+        }
+        return result
+    }
+    
+    //“SATB” refers to four-part chords scored for soprano (S), alto (A), tenor (T), and bass (B) voices. Three-part chords are often specified as SAB (soprano, alto, bass) but could be scored for any combination of the three voice types. SATB voice leading will also be referred to as “chorale-style” voice leading.
     func makeSATB() -> Chord {
         //find the best note for each range/voice
-        print("\nSATB", self.toStr())
         let result = Chord()
         var indexesDone:[Int] = []
-        let octaves = Note.getAllOctaves(note: self.notes[0].num)
-        var nextPitch = abs(Note.getClosestPitch(pitches: octaves, toPitch: 40 - 12 - 3)!)
+        var nextPitch = abs(Note.getClosestOctave(note: self.notes[0].num, toPitch: 40 - 12 - 3)!)
         
-        for rng in 0...self.notes.count {
-            if rng == 0 {
+        for index in 0...self.notes.count {
+            if index == 0 {
                 let bassNote = Note(num: nextPitch)
                 bassNote.staff = 1
                 result.notes.append(bassNote)
                 indexesDone.append(0)
-                nextPitch += 8 - Int.random(in: 0..<4)
+                nextPitch += 8 - 2//Int.random(in: 0..<4)
                 continue
             }
             //which range to put this next chord note?
@@ -92,8 +131,7 @@ class Chord : Identifiable {
                 if indexesDone.contains(i) {
                     continue
                 }
-                let octaves = Note.getAllOctaves(note: self.notes[i].num)
-                let closestPitch = abs(Note.getClosestPitch(pitches: octaves, toPitch: nextPitch)! )
+                let closestPitch = abs(Note.getClosestOctave(note: self.notes[i].num, toPitch: nextPitch)! )
                 let diff = abs(closestPitch - nextPitch)
                 if lowestDiff == nil || diff < lowestDiff! {
                     lowestDiff = diff
@@ -102,7 +140,7 @@ class Chord : Identifiable {
                 }
             }
             let note = Note(num: bestPitch)
-            if [0,1].contains(rng) {
+            if [0,1].contains(index) {
                 note.staff = 1
             }
             result.notes.append(note)
@@ -110,7 +148,6 @@ class Chord : Identifiable {
             //print("range", rng, "bestIdx", bestIdx, "done", done)
             nextPitch += 8
         }
-        print("SATB->", result.toStr())
         return result
     }
 }

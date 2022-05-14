@@ -80,8 +80,7 @@ class Key : Equatable {
         if self.type == KeyType.minor {
             note -= 3
         }
-        let all = Note.getAllOctaves(note: note)
-        note = Note.getClosestPitch(pitches: all, toPitch: 45)!
+        note = Note.getClosestOctave(note: note, toPitch: 45)!
         return note
     }
 }

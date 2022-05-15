@@ -97,9 +97,7 @@ class Chord : Identifiable {
             }
             if bestPitch > 0 {
                 let bestNote = Note(num: bestPitch)
-                if bestPitch < 40 {
-                    bestNote.staff = 1
-                }
+                bestNote.staff = notes[fromIdx].staff
                 result.notes.append(bestNote)
             }
             print(fromIdx, self.notes[fromIdx].num, "->", bestPitch)

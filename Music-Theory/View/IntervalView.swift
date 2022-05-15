@@ -24,7 +24,7 @@ struct IntervalView: View {
         let score = Score()
         score.key = key
         let staff = Staff(score: score, type: .treble, staffNum: 0)
-        score.tempo = 8
+        score.tempo = Score.midTempo
         score.setStaff(num: 0, staff: staff)
 
         self.staff = staff
@@ -46,14 +46,11 @@ struct IntervalView: View {
             note1ScaleOffset = 0
             if !fixedRoot {
                 let idx = Int.random(in: 0..<scale.diatonicOffsets().count)
-                //let idx = 6
                 note1ScaleOffset = scale.diatonicOffsets()[idx]
             }
-            //let note1 = Note(num: scale.notes[root].num)
             let note1 = Note(num: scale.notes[0].num + note1ScaleOffset)
             
             let note2Distance = Int.random(in: -12..<12)
-            //note2Distance = 12
             if note2Distance == 0 {
                 continue
             }
@@ -152,7 +149,6 @@ struct IntervalView: View {
                     score.clear()
                     let notes = makeNoteSteps(interval: self.intervalNotes)
                     notesToScore(notes: notes)
-                    //score.setTempo(temp: Int(tempo * 2))
                     score.playScore()
                 }
                 Spacer()
@@ -162,12 +158,8 @@ struct IntervalView: View {
             Text(intName ?? "").font(.title)
             Spacer()
             VStack {
-                //Spacer()
-                HStack {
-                    Text("Tempo").padding()
-                    //Slider(value: $tempo, in: 3...Double(Score.maxTempo)).padding()
-                }
-                //Spacer()
+                Text("Tempo").padding()
+                Slider(value: $score.tempo, in: Score.minTempo...Score.maxTempo * 2.0 ).padding()
                 Button(action: {
                     fixedRoot = !fixedRoot
                 }) {

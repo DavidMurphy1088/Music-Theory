@@ -10,9 +10,9 @@ struct AppView : View {
     
     var body: some View {
         TabView {
-            HarmonicAnalysisView()
+            DegreeView()
             .tabItem {
-                Label("Analysis", systemImage: "music.note.list")
+                Label("Degrees", systemImage: "music.note.list")
             }
 
             IntervalView()

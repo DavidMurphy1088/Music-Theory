@@ -15,6 +15,7 @@ class Score : ObservableObject {
     var tempo:Float = 75 //BPM, 75 = andante
     static let maxTempo:Float = 200
     static let minTempo:Float = 50
+    static let midTempo:Float = Score.minTempo + (Score.maxTempo - Score.minTempo) / 2.0
 
     var pitchAdjust = 5
 

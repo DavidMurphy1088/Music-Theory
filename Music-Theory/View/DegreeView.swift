@@ -8,21 +8,22 @@ struct DegreeView: View {
     @State private var pitchAdjust: Double = 0
     @State var degreeName:String?
     @State var queuedDegree = 0
-    @State var lastOffsets:[Int] = []
     @State var degreeInversions = false
-    @State var tonicInversions = false
+    @State var tonicInversion1 = false
+    @State var tonicInversion2 = false
     @State var tonicSATB = true
     @State var widen = false
     @State var degreesSelected:[Int] = [0,0,0,1,1,0,0]
     @State var degreeNames:[String]
-    @State var lastScaleDegree = 0
-    @State var lastDegreeChord:Chord?
     @State var lastKey:Key?
     @State var playAsArpeggio:Bool = false
     @State var voiceLead = true
     @State var newKeyMajor = true
     @State var newKeyMinor = false
     @State var randomKey = false
+    
+    @State var lastDegreeChord:Chord?
+    @State var lastTonicChord:Chord?
 
     init() {
         let score = Score()
@@ -43,6 +44,7 @@ struct DegreeView: View {
         self.scale = Scale(score: score)
         self.degreeNames = ["I", "ii", "iii", "IV", "V", "vi", "viio"]
         lastKey = score.key
+        score.tempo = Score.midTempo
     }
     
     func makeDegreeChord(scaleDegree : Int) -> Chord {
@@ -108,68 +110,70 @@ struct DegreeView: View {
             }
         }
 
-        var root = Chord()
+        var tonicChord = Chord()
         let chordType = score.key.type == Key.KeyType.major ? Chord.ChordType.major : Chord.ChordType.minor
-        root.makeTriad(root: score.key.firstScaleNote(), type: chordType)
-        print("\nroot", root.toStr())
+        tonicChord.makeTriad(root: score.key.firstScaleNote(), type: chordType)
         
-        var ts = score.addTimeSlice()
-        if self.tonicInversions {
-            let inversion = Int.random(in: 0..<3)
-            root = root.makeInversion(inv: inversion)
-            //print("root Inv", root.toStr(), inversion)
+        if self.tonicInversion1 || self.tonicInversion2 {
+            var inversion = 0
+            if self.tonicInversion1 && self.tonicInversion2 {
+                inversion = Int.random(in: 0..<3)
+            }
+            else {
+                inversion = Int.random(in: 0..<2)
+                if self.tonicInversion2 && inversion == 1{
+                    inversion = 2
+                }
+            }
+            tonicChord = tonicChord.makeInversion(inv: inversion)
+            print("root inversion", inversion)
         }
         if self.tonicSATB {
-            root = root.makeSATB()
+            tonicChord = tonicChord.makeSATB()
         }
-        ts.addChord(c: root)
+        var ts = score.addTimeSlice()
+        ts.addChord(c: tonicChord)
 
         // make degree chord
         
         degreeName = nil
         var scaleDegree = 0
-        while scaleDegree == 0 {
-            let i = Int.random(in: 0..<7)
-            if degreesSelected[i] == 0 {
-                continue
+        var degreeChord:Chord?
+        var inversion = 0
+        
+        while degreeChord == nil {
+            while scaleDegree == 0 {
+                let i = Int.random(in: 0..<7)
+                if degreesSelected[i] == 0 {
+                    continue
+                }
+                scaleDegree = i+1
+                break
             }
-            if !degreeInversions && degreesSelected.filter({$0 == 1}).count > 1 {
-                if i+1 == lastScaleDegree {
+            degreeChord = makeDegreeChord(scaleDegree: scaleDegree)
+            if voiceLead {
+                degreeChord = tonicChord.makeVoiceLead(to: degreeChord!)
+            }
+            else {
+                if degreeInversions {
+                    inversion = Int.random(in: 0..<3)
+                    degreeChord = degreeChord!.makeInversion(inv: inversion)
+                }
+            }
+            if tonicSATB {
+                if lastTonicChord?.notes == tonicChord.notes && lastDegreeChord?.notes == degreeChord?.notes {
+                    degreeChord = nil
                     continue
                 }
             }
-            scaleDegree = i+1
-            break
         }
-        lastScaleDegree = scaleDegree
-        
-        var degreeChord = Chord()
-        degreeChord = makeDegreeChord(scaleDegree: scaleDegree)
+        ts = score.addTimeSlice()
+        ts.addChord(c: degreeChord!)
 
+        ts = score.addTimeSlice()
+        ts.addChord(c: tonicChord)
         self.lastDegreeChord = degreeChord
-        var inversion = 0
-
-        if voiceLead {
-            degreeChord = root.makeVoiceLead(to: degreeChord)
-        }
-        else {
-            if degreeInversions {
-                inversion = Int.random(in: 0..<3)
-                degreeChord = degreeChord.makeInversion(inv: inversion)
-            }
-            //degreeChord.moveClosestTo(pitch: root.notes[0].num, index: 0) ?
-        }
-        print("root, degree", root.toStr(), degreeChord.toStr())
-        
-        ts = score.addTimeSlice()
-        ts.addChord(c: degreeChord)
-        lastOffsets.append(scaleDegree)
-        if lastOffsets.count > 2 {
-            lastOffsets.removeFirst()
-        }
-        
-        ts = score.addTimeSlice()
-        ts.addChord(c: root)
+        self.lastTonicChord = tonicChord
 
         score.playScore(select: nil, arpeggio: self.playAsArpeggio)
         DispatchQueue.global(qos: .userInitiated).async {
@@ -195,12 +199,8 @@ struct DegreeView: View {
             //ts.addNote(n: lo)
         }
         let hi = Note(num: scale.notes[0].num+12)
-        //let lo = Note(num: scale.notes[0].num-12)
-        //lo.staff = 1
         let ts = score.addTimeSlice()
         ts.addNote(n:hi)
-        //ts.addNote(n:lo)
-        //score.setTempo(temp: Int(tempo), pitch: Int(pitchAdjust))
     }
     
     func writeScaleCromo(scale: Scale) {
@@ -212,7 +212,6 @@ struct DegreeView: View {
             nt.staff = 0
             ts.addNote(n: nt)
         }
-        //score.setTempo(temp: Int(tempo), pitch: Int(pitchAdjust))
     }
     
     func newKey(type:Key.KeyType? = nil) {
@@ -296,14 +295,6 @@ struct DegreeView: View {
             Spacer()
             HStack {
                 Button(action: {
-                    tonicInversions = !tonicInversions
-                }) {
-                    HStack(spacing: 10) {
-                        Image(systemName: tonicInversions ? "checkmark.square": "square")
-                        Text("Tonic Inversions")
-                    }
-                }
-                Button(action: {
                     tonicSATB = !tonicSATB
                 }) {
                     HStack(spacing: 10) {
@@ -311,32 +302,52 @@ struct DegreeView: View {
                         Text("Tonic SATB")
                     }
                 }
-            }
-            HStack {
                 Button(action: {
-                    degreeInversions = !degreeInversions
-                    if degreeInversions {
-                        self.voiceLead = false
-                    }
+                    tonicInversion1 = !tonicInversion1
                 }) {
                     HStack(spacing: 10) {
-                        Image(systemName: degreeInversions ? "checkmark.square": "square")
-                        Text("Degree Inversions")
+                        Image(systemName: tonicInversion1 ? "checkmark.square": "square")
+                        Text("Inv #1")
                     }
                 }
                 Button(action: {
-                    voiceLead = !voiceLead
-                    if voiceLead {
-                        self.degreeInversions = false
-                    }
+                    tonicInversion2 = !tonicInversion2
                 }) {
                     HStack(spacing: 10) {
-                        Image(systemName: voiceLead ? "checkmark.square": "square")
-                        Text("Voice Lead")
+                        Image(systemName: tonicInversion2 ? "checkmark.square": "square")
+                        Text("Inv #2")
                     }
                 }
-
             }
+//            HStack {
+//                Button(action: {
+//                    degreeInversions = !degreeInversions
+//                    if degreeInversions {
+//                        self.voiceLead = false
+//                    }
+//                }) {
+//                    HStack(spacing: 10) {
+//                        Image(systemName: degreeInversions ? "checkmark.square": "square")
+//                        Text("Degree Inversions #1")
+//                    }
+//                    HStack(spacing: 10) {
+//                        Image(systemName: degreeInversions ? "checkmark.square": "square")
+//                        Text("#2")
+//                    }
+//                }
+//                Button(action: {
+//                    voiceLead = !voiceLead
+//                    if voiceLead {
+//                        self.degreeInversions = false
+//                    }
+//                }) {
+//                    HStack(spacing: 10) {
+//                        Image(systemName: voiceLead ? "checkmark.square": "square")
+//                        Text("Voice Lead")
+//                    }
+//                }
+//
+//            }
         }
     }
     
@@ -464,10 +475,8 @@ struct DegreeView: View {
 
                     Text("Tempo").padding()
                     Slider(value: $score.tempo, in: Score.minTempo...Score.maxTempo).padding()
-                    //Text("Pitch").padding()
-                    //Slider(value: $pitchAdjust, in: 0...Double(20)).padding()
+
                 }
-//          }
         }
     }
 }

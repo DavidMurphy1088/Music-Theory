@@ -41,8 +41,6 @@ struct DegreeViewOld: View {
                             let root = Chord()
                             let chordType = score.key.type == Key.KeyType.major ? Chord.ChordType.major : Chord.ChordType.minor
                             root.makeTriad(root: score.key.firstScaleNote(), type: chordType)
-                            //root.notes.append(Note(num: key.firstScaleNote()-12))
-                            //root.notes[3].staff = 1
                             root.notes[1].num += 12
                             
                             var ts = score.addTimeSlice()
@@ -62,7 +60,6 @@ struct DegreeViewOld: View {
                             }
                             ts = score.addTimeSlice()
                             var c2 = Chord()
-                            //let degree = scale.noteDegree(offset: offset)
                             var triadType = Chord.ChordType.major
                             if score.key.type == Key.KeyType.major {
                                 let minors = [2,4,9]
@@ -75,11 +72,9 @@ struct DegreeViewOld: View {
                             }
                             c2.makeTriad(root: score.key.firstScaleNote()+offset, type: triadType)
                             c2 = c2.makeInversion(inv: 1)
-                            //c2.notes[0].num -= 12
-                            //c2.notes[0].staff = 1
                             c2.notes.append(Note(num: c2.notes[0].num-12))
                             c2.notes[3].staff = 1
-                            //c2.notes[1].num += 12
+
                             ts.addChord(c: c2)
                             lastOffsets.append(offset)
                             if lastOffsets.count > 2 {
@@ -93,10 +88,8 @@ struct DegreeViewOld: View {
                             DispatchQueue.global(qos: .userInitiated).async {
                                 degreeName = "?"
                                 sleep(1)
-                                //if span == queuedSpan {
                                 let degree = scale.noteDegree(offset: offset)
                                 degreeName = "\(degree) \(scale.degreeName(degree: degree))"
-                                //}
                             }
                         }
 

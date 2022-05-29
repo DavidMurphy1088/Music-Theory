@@ -52,11 +52,6 @@ class Chord : Identifiable {
         }
     }
     
-    // order lowest to highest pitch
-    func order() {
-        self.notes.sort()
-    }
-    
     func toStr() -> String {
         var s = ""
         for note in self.notes {
@@ -67,17 +62,26 @@ class Chord : Identifiable {
     }
     
     func makeVoiceLead(to:Chord) -> Chord {
-        print("\nVoiceL")
+        print("VoiceL")
         let result = Chord()
         var unusedPitches:[Int] = []
         for t in to.notes {
             unusedPitches.append(t.num)
-            unusedPitches.append(t.num+12)
         }
+        var done:[Int] = []
+        var log:[(Int, Int, Int)] = []
+        
         // for each from chord note find the closest unused degree chord note
-        for fromIdx in 0..<self.notes.count {
+        
+        while done.count < self.notes.count {
+            var fromIdx = -1
+            while true {
+                fromIdx = Int.random(in: 0..<self.notes.count)
+                if !done.contains(fromIdx) {
+                    break
+                }
+            }
             var bestPitch = 0
-            //print(fromIdx, bestPitch, "...unused", unusedPitches)
             if unusedPitches.count > 0 {
                 var minDiff = 1000
                 var mi = 0
@@ -93,20 +97,68 @@ class Chord : Identifiable {
                 unusedPitches.remove(at: mi)
             }
             else {
-                //bestPitch = 52
+                for t in to.notes {
+                    unusedPitches.append(t.num+12)
+                    unusedPitches.append(t.num-12)
+                }
+                continue
             }
             if bestPitch > 0 {
                 let bestNote = Note(num: bestPitch)
                 bestNote.staff = notes[fromIdx].staff
                 result.notes.append(bestNote)
             }
-            print(fromIdx, self.notes[fromIdx].num, "->", bestPitch)
+            done.append(fromIdx)
+            log.append((self.notes[fromIdx].num, bestPitch, done.count))
         }
+        let ls = log.sorted {
+            $0.0 < $1.1
+        }
+        for l in ls {
+            print(l.0, " -> ", l.1, "\t(", "step:\(l.2)", ")")
+        }
+        result.order()
         return result
+    }
+    
+    func order() {
+        notes.sort {
+            $0.num < $1.num
+        }
     }
     
     //“SATB” refers to four-part chords scored for soprano (S), alto (A), tenor (T), and bass (B) voices. Three-part chords are often specified as SAB (soprano, alto, bass) but could be scored for any combination of the three voice types. SATB voice leading will also be referred to as “chorale-style” voice leading.
     func makeSATB() -> Chord {
+        let result = Chord()
+        var nextPitch = abs(Note.getClosestOctave(note: self.notes[0].num, toPitch: 40 - 12 - 3)!)
+        for voice in 0..<4 {
+            var bestPitch = 0
+            var lowestDiff:Int? = nil
+            for i in 0..<self.notes.count {
+                let closestPitch = abs(Note.getClosestOctave(note: self.notes[i].num, toPitch: nextPitch)! )
+                let diff = abs(closestPitch - nextPitch)
+                if lowestDiff == nil || diff < lowestDiff! {
+                    lowestDiff = diff
+                    bestPitch = closestPitch
+                }
+            }
+            let note = Note(num: bestPitch)
+            if [0,1].contains(voice) {
+                note.staff = 1
+            }
+            result.notes.append(note)
+            if voice == 1 {
+                nextPitch += 12
+            }
+            else {
+                nextPitch += 8
+            }
+        }
+        result.order()
+        return result
+    }
+    
+    func makeSATBOld() -> Chord {
         //find the best note for each range/voice
         let result = Chord()
         var indexesDone:[Int] = []
@@ -134,7 +186,6 @@ class Chord : Identifiable {
                 if lowestDiff == nil || diff < lowestDiff! {
                     lowestDiff = diff
                     bestPitch = closestPitch
-                    //bestIdx = i
                 }
             }
             let note = Note(num: bestPitch)
@@ -142,9 +193,8 @@ class Chord : Identifiable {
                 note.staff = 1
             }
             result.notes.append(note)
-            //done.append(bestIdx)
-            //print("range", rng, "bestIdx", bestIdx, "done", done)
             nextPitch += 8
+
         }
         return result
     }

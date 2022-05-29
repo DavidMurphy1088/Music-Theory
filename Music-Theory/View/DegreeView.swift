@@ -169,7 +169,6 @@ struct DegreeView: View {
         }
         ts = score.addTimeSlice()
         ts.addChord(c: degreeChord!)
-
         ts = score.addTimeSlice()
         ts.addChord(c: tonicChord)
         self.lastDegreeChord = degreeChord
@@ -194,9 +193,6 @@ struct DegreeView: View {
         for note in scale.notes {
             let ts = score.addTimeSlice()
             ts.addNote(n: note)
-            //let lo = Note(num: note.num-24)
-            //lo.staff = 1
-            //ts.addNote(n: lo)
         }
         let hi = Note(num: scale.notes[0].num+12)
         let ts = score.addTimeSlice()

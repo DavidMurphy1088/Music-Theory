@@ -10,9 +10,14 @@ struct AppView : View {
     
     var body: some View {
         TabView {
+            ChordDegreeView()
+            .tabItem {
+                Label("Chord Degrees", systemImage: "pyramid")
+            }
+
             DegreeView()
             .tabItem {
-                Label("Degrees", systemImage: "music.note.list")
+                Label("Cadences", systemImage: "music.note.list")
             }
 
             IntervalView()
@@ -22,10 +27,6 @@ struct AppView : View {
             DegreeView()
             .tabItem {
                 Label("Triads", systemImage: "music.quarternote.3")
-            }
-            Test1()
-            .tabItem {
-                Label("Test1", systemImage: "pyramid")
             }
 
         }

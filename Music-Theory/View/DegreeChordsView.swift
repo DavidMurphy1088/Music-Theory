@@ -1,20 +1,22 @@
 import SwiftUI
 import CoreData
 
-struct DegreeView: View {
+struct ChordDegreeView: View {
     @State var score:Score
     @ObservedObject var staff:Staff
     @State var scale:Scale
     @State private var pitchAdjust: Double = 0
     @State var degreeName:String?
+    @State var figuredBassName:String?
     @State var queuedDegree = 0
     @State var degreeInversions = false
-    @State var tonicInversion1 = false
-    @State var tonicInversion2 = false
-    @State var tonicSATB = false
+    @State var tonicInversion1 = true
+    @State var tonicInversion2 = true
+    @State var makeSATB = true
     @State var widen = false
     @State var degreesSelected:[Int] = [0,0,0,1,1,0,0]
     @State var degreeNames:[String]
+    @State var figuredBassNames:[String]
     @State var lastKey:Key?
     @State var playAsArpeggio:Bool = false
     @State var voiceLead = true
@@ -43,8 +45,9 @@ struct DegreeView: View {
         //self.scale = Scale(key: score.key, minorType: Scale.MinorType.harmonic)
         self.scale = Scale(score: score)
         self.degreeNames = ["I", "ii", "iii", "IV", "V", "vi", "viio"]
+        self.figuredBassNames = ["3,5", "3,6", "4,6"]
         lastKey = score.key
-        score.tempo = Score.midTempo
+        score.tempo = Score.slowTempo
     }
     
     func makeDegreeChord(scaleDegree : Int) -> Chord {
@@ -93,7 +96,7 @@ struct DegreeView: View {
         return degreeChord
     }
     
-    func makeDegreeChords() {
+    func makeDegreeChord() {
         score.clear()
         if self.randomKey {
             if self.newKeyMajor && self.newKeyMinor {
@@ -109,13 +112,56 @@ struct DegreeView: View {
                 }
             }
         }
+        
+        //let chordType = score.key.type == Key.KeyType.major ? Chord.ChordType.major : Chord.ChordType.minor
 
+        var degree = Int.random(in: 0..<7)
+        //degree = 1
+        var firstNote = score.key.firstScaleNote()
+        var closedChord = Chord()
+        var chordType = Chord.ChordType.major
         var tonicChord = Chord()
-        let chordType = score.key.type == Key.KeyType.major ? Chord.ChordType.major : Chord.ChordType.minor
         tonicChord.makeTriad(root: score.key.firstScaleNote(), type: chordType)
         
+        switch (degree) {
+        case 0:
+            chordType = Chord.ChordType.major
+            break
+        case 1:
+            chordType = Chord.ChordType.minor
+            firstNote += 2
+            break
+        case 2:
+            chordType = Chord.ChordType.minor
+            firstNote += 4
+            break
+        case 3:
+            firstNote += 5
+            break
+        case 4:
+            firstNote += 7
+            break
+        case 5:
+            firstNote += 9
+            chordType = Chord.ChordType.minor
+            break
+        case 6:
+            firstNote += 11
+            chordType = Chord.ChordType.diminished
+            break
+
+        default:
+            break
+        }
+
+        closedChord.makeTriad(root: firstNote, type: chordType)
+        print("deg", degree, firstNote)
+        
+        // --------------------------------------------------------========================================
+        var invertedChord = closedChord
+        var inversion = 0
+        
         if self.tonicInversion1 || self.tonicInversion2 {
-            var inversion = 0
             if self.tonicInversion1 && self.tonicInversion2 {
                 inversion = Int.random(in: 0..<3)
             }
@@ -125,12 +171,35 @@ struct DegreeView: View {
                     inversion = 2
                 }
             }
-            tonicChord = tonicChord.makeInversion(inv: inversion)
+            invertedChord = closedChord.makeInversion(inv: inversion)
             print("root inversion", inversion)
         }
-        if self.tonicSATB {
-            tonicChord = tonicChord.makeSATB()
+        var openChord = invertedChord
+        if self.makeSATB {
+            openChord = openChord.makeSATB()
         }
+        if (true) {
+            var ts = score.addTimeSlice()
+            ts.addChord(c: openChord)
+            ts = score.addTimeSlice()
+            ts = score.addTimeSlice()
+
+            ts.addChord(c: invertedChord)
+            ts = score.addTimeSlice()
+            ts.addChord(c: closedChord)
+            ts = score.addTimeSlice()
+            ts.addChord(c: tonicChord)
+            DispatchQueue.global(qos: .userInitiated).async {
+                degreeName = "???"
+                figuredBassName = ""
+                sleep(1)
+                //let invName = inversion == 0 ? "" : ", Inversion " + "\(inversion)"
+                degreeName = degreeNames[degree]
+                figuredBassName = figuredBassNames[inversion]
+            }
+            return
+        }
+        
         var ts = score.addTimeSlice()
         ts.addChord(c: tonicChord)
 
@@ -139,7 +208,7 @@ struct DegreeView: View {
         degreeName = nil
         var scaleDegree = 0
         var degreeChord:Chord?
-        var inversion = 0
+        //var inversion = 0
         
         while degreeChord == nil {
             while scaleDegree == 0 {
@@ -160,7 +229,7 @@ struct DegreeView: View {
                     degreeChord = degreeChord!.makeInversion(inv: inversion)
                 }
             }
-            if tonicSATB {
+            if makeSATB {
                 if lastTonicChord?.notes == tonicChord.notes && lastDegreeChord?.notes == degreeChord?.notes {
                     degreeChord = nil
                     continue
@@ -295,10 +364,10 @@ struct DegreeView: View {
             Spacer()
             HStack {
                 Button(action: {
-                    tonicSATB = !tonicSATB
+                    makeSATB = !makeSATB
                 }) {
                     HStack(spacing: 10) {
-                        Image(systemName: tonicSATB ? "checkmark.square": "square")
+                        Image(systemName: makeSATB ? "checkmark.square": "square")
                         Text("Tonic SATB")
                     }
                 }
@@ -398,8 +467,8 @@ struct DegreeView: View {
                 Spacer()
                 
                 ScoreView(score: score)
-                Button("Make Degree") {
-                    makeDegreeChords()
+                Button("Make Chord") {
+                    makeDegreeChord()
                 }
                 .disabled(!someSelected())
 
@@ -422,14 +491,11 @@ struct DegreeView: View {
                         writeScale(scale: scale)
                     }
                     Spacer()
-                    Button("Chromo") {
-                        writeScaleCromo(scale: scale)
-                    }
-                    Spacer()
                 }
-                
-                Text(degreeName ?? "").font(.title3)
-                
+                HStack {
+                    Text(degreeName ?? "").font(.title3)
+                    Text(figuredBassName ?? "").font(.title3)
+                }
                 Spacer()
                 settings
                 

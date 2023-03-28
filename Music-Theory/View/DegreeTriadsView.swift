@@ -1,7 +1,7 @@
 import SwiftUI
 import CoreData
 
-struct ChordDegreeView: View {
+struct DegreeTriadsView: View {
     @State var score:Score
     @ObservedObject var staff:Staff
     @State var scale:Scale
@@ -12,7 +12,7 @@ struct ChordDegreeView: View {
     @State var degreeInversions = false
     @State var tonicInversion1 = true
     @State var tonicInversion2 = true
-    @State var makeSATB = true
+    @State var makeSATB = false
     @State var widen = false
     @State var degreesSelected:[Int] = [0,0,0,1,1,0,0]
     @State var degreeNames:[String]
@@ -96,7 +96,7 @@ struct ChordDegreeView: View {
         return degreeChord
     }
     
-    func makeDegreeChord() {
+    func makeDegreeTriad() {
         score.clear()
         if self.randomKey {
             if self.newKeyMajor && self.newKeyMinor {
@@ -114,14 +114,13 @@ struct ChordDegreeView: View {
         }
         
         //let chordType = score.key.type == Key.KeyType.major ? Chord.ChordType.major : Chord.ChordType.minor
-
-        var degree = Int.random(in: 0..<7)
-        //degree = 1
-        var firstNote = score.key.firstScaleNote()
-        var closedChord = Chord()
         var chordType = Chord.ChordType.major
         var tonicChord = Chord()
         tonicChord.makeTriad(root: score.key.firstScaleNote(), type: chordType)
+
+        var degree = Int.random(in: 0..<7)
+        var firstNote = score.key.firstScaleNote()
+        var degreeChord = Chord()
         
         switch (degree) {
         case 0:
@@ -154,11 +153,10 @@ struct ChordDegreeView: View {
             break
         }
 
-        closedChord.makeTriad(root: firstNote, type: chordType)
-        print("deg", degree, firstNote)
+        degreeChord.makeTriad(root: firstNote, type: chordType)
         
         // --------------------------------------------------------========================================
-        var invertedChord = closedChord
+        var invertedChord = degreeChord
         var inversion = 0
         
         if self.tonicInversion1 || self.tonicInversion2 {
@@ -171,7 +169,7 @@ struct ChordDegreeView: View {
                     inversion = 2
                 }
             }
-            invertedChord = closedChord.makeInversion(inv: inversion)
+            invertedChord = degreeChord.makeInversion(inv: inversion)
             print("root inversion", inversion)
         }
         var openChord = invertedChord
@@ -180,19 +178,31 @@ struct ChordDegreeView: View {
         }
         if (true) {
             var ts = score.addTimeSlice()
-            ts.addChord(c: openChord)
+            //ts.addChord(c: openChord)
+            if self.makeSATB {
+                ts.addChord(c: tonicChord.makeSATB())
+            }
+            else {
+                ts.addChord(c: tonicChord)
+            }
             ts = score.addTimeSlice()
-            ts = score.addTimeSlice()
-
-            ts.addChord(c: invertedChord)
-            ts = score.addTimeSlice()
-            ts.addChord(c: closedChord)
-            ts = score.addTimeSlice()
-            ts.addChord(c: tonicChord)
+            //ts = score.addTimeSlice()
+            if self.makeSATB {
+                ts.addChord(c: invertedChord.makeSATB())
+            }
+            else {
+                ts.addChord(c: invertedChord)
+            }
+            
+//            //ts.addChord(c: invertedChord)
+//            ts = score.addTimeSlice()
+//            ts.addChord(c: degreeChord)
+//            ts = score.addTimeSlice()
+//            ts.addChord(c: tonicChord)
             DispatchQueue.global(qos: .userInitiated).async {
-                degreeName = "???"
+                degreeName = ""
                 figuredBassName = ""
-                sleep(1)
+                sleep(4)
                 //let invName = inversion == 0 ? "" : ", Inversion " + "\(inversion)"
                 degreeName = degreeNames[degree]
                 figuredBassName = figuredBassNames[inversion]
@@ -200,56 +210,56 @@ struct ChordDegreeView: View {
             return
         }
         
-        var ts = score.addTimeSlice()
-        ts.addChord(c: tonicChord)
-
-        // make degree chord
-        
-        degreeName = nil
-        var scaleDegree = 0
-        var degreeChord:Chord?
-        //var inversion = 0
-        
-        while degreeChord == nil {
-            while scaleDegree == 0 {
-                let i = Int.random(in: 0..<7)
-                if degreesSelected[i] == 0 {
-                    continue
-                }
-                scaleDegree = i+1
-                break
-            }
-            degreeChord = makeDegreeChord(scaleDegree: scaleDegree)
-            if voiceLead {
-                degreeChord = tonicChord.makeVoiceLead(to: degreeChord!)
-            }
-            else {
-                if degreeInversions {
-                    inversion = Int.random(in: 0..<3)
-                    degreeChord = degreeChord!.makeInversion(inv: inversion)
-                }
-            }
-            if makeSATB {
-                if lastTonicChord?.notes == tonicChord.notes && lastDegreeChord?.notes == degreeChord?.notes {
-                    degreeChord = nil
-                    continue
-                }
-            }
-        }
-        ts = score.addTimeSlice()
-        ts.addChord(c: degreeChord!)
-        ts = score.addTimeSlice()
-        ts.addChord(c: tonicChord)
-        self.lastDegreeChord = degreeChord
-        self.lastTonicChord = tonicChord
-
-        score.playScore(select: nil, arpeggio: self.playAsArpeggio)
-        DispatchQueue.global(qos: .userInitiated).async {
-            degreeName = "?"
-            sleep(1)
-            let invName = inversion == 0 ? "" : ", Inversion " + "\(inversion)"
-            degreeName = "\(degreeNames[scaleDegree-1]) \(scale.degreeName(degree: scaleDegree)) \(invName)"
-        }
+//        var ts = score.addTimeSlice()
+//        ts.addChord(c: tonicChord)
+//
+//        // make degree chord
+//
+//        degreeName = nil
+//        var scaleDegree = 0
+//        var degreeChord:Chord?
+//        //var inversion = 0
+//
+//        while degreeChord == nil {
+//            while scaleDegree == 0 {
+//                let i = Int.random(in: 0..<7)
+//                if degreesSelected[i] == 0 {
+//                    continue
+//                }
+//                scaleDegree = i+1
+//                break
+//            }
+//            degreeChord = makeDegreeChord(scaleDegree: scaleDegree)
+//            if voiceLead {
+//                degreeChord = tonicChord.makeVoiceLead(to: degreeChord!)
+//            }
+//            else {
+//                if degreeInversions {
+//                    inversion = Int.random(in: 0..<3)
+//                    degreeChord = degreeChord!.makeInversion(inv: inversion)
+//                }
+//            }
+//            if makeSATB {
+//                if lastTonicChord?.notes == tonicChord.notes && lastDegreeChord?.notes == degreeChord?.notes {
+//                    degreeChord = nil
+//                    continue
+//                }
+//            }
+//        }
+//        ts = score.addTimeSlice()
+//        ts.addChord(c: degreeChord!)
+//        ts = score.addTimeSlice()
+//        ts.addChord(c: tonicChord)
+//        self.lastDegreeChord = degreeChord
+//        self.lastTonicChord = tonicChord
+//
+//        score.playScore(select: nil, arpeggio: self.playAsArpeggio)
+//        DispatchQueue.global(qos: .userInitiated).async {
+//            degreeName = ""
+//            sleep(4)
+//            let invName = inversion == 0 ? "" : ", Inversion " + "\(inversion)"
+//            degreeName = "\(degreeNames[scaleDegree-1]) \(scale.degreeName(degree: scaleDegree)) \(invName)"
+//        }
     }
     
     func playDegree() {
@@ -344,24 +354,24 @@ struct ChordDegreeView: View {
     
     var settings : some View {
         VStack {
-            HStack {
-                Spacer()
-                VStack {
-                    ForEach(0 ..< 4, id: \.self) { i in
-                        showDegreeSelect(i: i)
-                    }
-                }
-                Spacer()
-                VStack {
-                    ForEach(4 ..< 7, id: \.self) { i in
-                        HStack {
-                            showDegreeSelect(i: i)
-                        }
-                    }
-                }
-                Spacer()
-            }
-            Spacer()
+ //           HStack {
+//                Spacer()
+//                VStack {
+//                    ForEach(0 ..< 4, id: \.self) { i in
+//                        showDegreeSelect(i: i)
+//                    }
+//                }
+//                Spacer()
+//                VStack {
+//                    ForEach(4 ..< 7, id: \.self) { i in
+//                        HStack {
+//                            showDegreeSelect(i: i)
+//                        }
+//                    }
+//                }
+//                Spacer()
+//            }
+//            Spacer()
             HStack {
                 Button(action: {
                     makeSATB = !makeSATB
@@ -462,15 +472,28 @@ struct ChordDegreeView: View {
     }
     
     var body: some View {
-        //NavigationView {
+        NavigationView {
             VStack {
-                Spacer()
-                
-                ScoreView(score: score)
-                Button("Make Chord") {
-                    makeDegreeChord()
+                ScoreView(score: score).padding()
+                Button("Make a New Triad") {
+                    makeDegreeTriad()
+                    score.playScore(select: nil, arpeggio: self.playAsArpeggio)
                 }
+                .font(.title)
                 .disabled(!someSelected())
+                .padding()
+                
+                if let degreeName = degreeName {
+                    if degreeName != "" {
+                        VStack {
+                            Text("Degree "+degreeName).font(.title).foregroundColor(.purple).bold()
+                            if let figuredBassName = figuredBassName {
+                                Text("FiguredBase "+figuredBassName).foregroundColor(.purple).bold()
+                            }
+                        }
+                        .padding()
+                    }
+                }
 
                 HStack {
                     Spacer()
@@ -492,33 +515,43 @@ struct ChordDegreeView: View {
                     }
                     Spacer()
                 }
-                HStack {
-                    Text(degreeName ?? "").font(.title3)
-                    Text(figuredBassName ?? "").font(.title3)
-                }
-                Spacer()
-                settings
+                .padding()
                 
-                setNewKey
-
-                //Spacer()
-                setRandomKeys
-                                
-                //Spacer()
-                HStack {
-                    Button(action: {
-                        self.self.playAsArpeggio = !self.playAsArpeggio
-                    }) {
-                        HStack(spacing: 10) {
-                            Image(systemName: self.playAsArpeggio ? "checkmark.square": "square")
-                            Text("\("Arpeggio")")
-                        }
+                settings.padding()
+                
+//                setNewKey
+//
+//                Spacer()
+//                setRandomKeys
+                
+//                HStack {
+//                    Button(action: {
+//                        self.self.playAsArpeggio = !self.playAsArpeggio
+//                    }) {
+//                        HStack(spacing: 10) {
+//                            Image(systemName: self.playAsArpeggio ? "checkmark.square": "square")
+//                            Text("\("Arpeggio")")
+//                        }
+//                    }
+//
+//                    Text("Tempo").padding()
+//                    Slider(value: $score.tempo, in: Score.minTempo...Score.maxTempo).padding()
+//
+//                }
+            }
+            .navigationTitle("Triads")
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button("Change Key") {
+                        print("Pressed")
                     }
-
-                    Text("Tempo").padding()
-                    Slider(value: $score.tempo, in: Score.minTempo...Score.maxTempo).padding()
-
                 }
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button("Change Tempo") {
+                        print("Pressed")
+                    }
+                }
+            }
         }
     }
 }

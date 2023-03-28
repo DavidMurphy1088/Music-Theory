@@ -17,7 +17,7 @@
 		7B6345252814729C00D7690F /* DegreeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B6345242814729B00D7690F /* DegreeView.swift */; };
 		7B7BB78C2775612400DB5339 /* DegreeViewOld.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B7BB78B2775612400DB5339 /* DegreeViewOld.swift */; };
 		7B7BB79027756D4900DB5339 /* Key.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B7BB78F27756D4900DB5339 /* Key.swift */; };
-		7B83748F26D37C8700822DBB /* DegreeChordsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B83748E26D37C8700822DBB /* DegreeChordsView.swift */; };
+		7B83748F26D37C8700822DBB /* DegreeTriadsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B83748E26D37C8700822DBB /* DegreeTriadsView.swift */; };
 		7B83749326D37E1C00822DBB /* Chord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B83749226D37E1C00822DBB /* Chord.swift */; };
 		7B90897A276734820081E689 /* todo.txt in Resources */ = {isa = PBXBuildFile; fileRef = 7B908979276734820081E689 /* todo.txt */; };
 		7B99A13926CE37FF00F0CFBD /* Scale.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B99A13826CE37FF00F0CFBD /* Scale.swift */; };
@@ -46,7 +46,7 @@
 		7B6345242814729B00D7690F /* DegreeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DegreeView.swift; sourceTree = "<group>"; };
 		7B7BB78B2775612400DB5339 /* DegreeViewOld.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DegreeViewOld.swift; sourceTree = "<group>"; };
 		7B7BB78F27756D4900DB5339 /* Key.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Key.swift; sourceTree = "<group>"; };
-		7B83748E26D37C8700822DBB /* DegreeChordsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DegreeChordsView.swift; sourceTree = "<group>"; };
+		7B83748E26D37C8700822DBB /* DegreeTriadsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DegreeTriadsView.swift; sourceTree = "<group>"; };
 		7B83749226D37E1C00822DBB /* Chord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chord.swift; sourceTree = "<group>"; };
 		7B908979276734820081E689 /* todo.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = todo.txt; sourceTree = "<group>"; };
 		7B99A13826CE37FF00F0CFBD /* Scale.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scale.swift; sourceTree = "<group>"; };
@@ -140,7 +140,7 @@
 				7BC7551328178DCD00007B7C /* Settings */,
 				7BB2E5E326B505F500EF7F37 /* KeySignatureAccidentalView.swift */,
 				7BC9029826C78A7500E7A6D8 /* AppView.swift */,
-				7B83748E26D37C8700822DBB /* DegreeChordsView.swift */,
+				7B83748E26D37C8700822DBB /* DegreeTriadsView.swift */,
 				7BC9029526C78A4200E7A6D8 /* IntervalView.swift */,
 				7BB2E5E626B5063500EF7F37 /* NoteView.swift */,
 				7BB2E5E726B5063500EF7F37 /* StaffView.swift */,
@@ -233,7 +233,7 @@
 				7B36C0AE26B5094C0040B87B /* Staff.swift in Sources */,
 				7B4E466626B6244200998393 /* ScoreView.swift in Sources */,
 				7BB2E5DA26B504F500EF7F37 /* Music_Theory.xcdatamodeld in Sources */,
-				7B83748F26D37C8700822DBB /* DegreeChordsView.swift in Sources */,
+				7B83748F26D37C8700822DBB /* DegreeTriadsView.swift in Sources */,
 				7B4E466326B623DA00998393 /* Score.swift in Sources */,
 				7BC9029926C78A7500E7A6D8 /* AppView.swift in Sources */,
 				7BC7551528178DEA00007B7C /* DegreesSelect.swift in Sources */,
@@ -309,7 +309,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -364,7 +364,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;

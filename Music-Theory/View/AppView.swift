@@ -1,5 +1,6 @@
 import SwiftUI
 import CoreData
+import MusicKit
 
 struct AppView : View {
     @Environment(\.scenePhase) var scenePhase
@@ -7,28 +8,26 @@ struct AppView : View {
     init() {
 
     }
-    
+
     var body: some View {
         TabView {
-            ChordDegreeView()
-            .tabItem {
-                Label("Chord Degrees", systemImage: "pyramid")
-            }
-
-            DegreeView()
-            .tabItem {
-                Label("Cadences", systemImage: "music.note.list")
-            }
-
             IntervalView()
             .tabItem {
-                Label("Intervals", systemImage: "music.note")
+                Label("Intervals", image: "intervals")
             }
-            DegreeView()
+            DegreeTriadsView()
             .tabItem {
-                Label("Triads", systemImage: "music.quarternote.3")
+                Label("Triad", image: "triads")
             }
 
+            DegreeView()
+            .tabItem {
+                Label("Cadences", image: "cadences")
+            }
+//            DegreeView()
+//            .tabItem {
+//                Label("Triads", systemImage: "music.quarternote.3")
+//            }
         }
     }
 }

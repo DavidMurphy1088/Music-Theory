@@ -138,7 +138,7 @@ class Score : ObservableObject {
         }
     }
     
-    func playScore(select: [Int]? = nil, arpeggio: Bool? = nil) {
+    func playScore(select: [Int]? = nil, arpeggio: Bool? = nil, onDone: (()->Void)? = nil) {
         DispatchQueue.global(qos: .userInitiated).async { [self] in
             var index = 0
             for ts in timeSlices {

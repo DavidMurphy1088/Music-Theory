@@ -8,9 +8,9 @@ struct ScoreView: View {
     var body: some View {
 
         VStack {
-            Spacer()
-            Spacer()
-            Spacer()
+//            Spacer()
+//            Spacer()
+//            Spacer()
             Text("\(score.keyDesc())")//.font(.system(size: CGFloat(lineSpacing)))
             ForEach(score.getStaff(), id: \.self.type) { staff in
                 StaffView(score: score, staff: staff)
@@ -18,6 +18,6 @@ struct ScoreView: View {
                     //.border(Color.purple)
             }
         }
-        .frame(height: 12 + 2 * CGFloat(score.staffLineCount * score.lineSpacing))
+        //.frame(height: 12 + 2 * CGFloat(score.staffLineCount * score.lineSpacing))
     }
 }

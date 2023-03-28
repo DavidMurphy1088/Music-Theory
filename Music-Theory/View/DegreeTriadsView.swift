@@ -23,6 +23,7 @@ struct DegreeTriadsView: View {
     @State var newKeyMajor = true
     @State var newKeyMinor = false
     @State var randomKey = false
+    @State var answerCounter = 0
     
     @State var lastDegreeChord:Chord?
     @State var lastTonicChord:Chord?
@@ -199,13 +200,19 @@ struct DegreeTriadsView: View {
 //            ts.addChord(c: degreeChord)
 //            ts = score.addTimeSlice()
 //            ts.addChord(c: tonicChord)
+            answerCounter = 0
             DispatchQueue.global(qos: .userInitiated).async {
                 degreeName = ""
                 figuredBassName = ""
-                sleep(4)
+                while answerCounter < 8 {
+                    Thread.sleep(forTimeInterval: 0.5)
+                    answerCounter += 1
+                    //sleep(UInt32(1))
+                }
                 //let invName = inversion == 0 ? "" : ", Inversion " + "\(inversion)"
                 degreeName = degreeNames[degree]
                 figuredBassName = figuredBassNames[inversion]
+                answerCounter += 1
             }
             return
         }
@@ -484,7 +491,19 @@ struct DegreeTriadsView: View {
                 .padding()
                 
                 if let degreeName = degreeName {
-                    if degreeName != "" {
+                    if degreeName == "" {
+                        Button(action: {
+                            answerCounter = 8
+                        }) {
+                            Label(
+                                title: { Text("My Button") },
+                                icon: { Image("questionMark") }
+                            )
+                            .frame(width: 20, height: 20)
+                        }
+                        .padding()
+                    }
+                    else {
                         VStack {
                             Text("Degree "+degreeName).font(.title).foregroundColor(.purple).bold()
                             if let figuredBassName = figuredBassName {

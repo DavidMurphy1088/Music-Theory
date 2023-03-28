@@ -10,15 +10,18 @@ struct IntervalView: View {
     @State var intName:String?
     @State var scale:Scale
     @State var diatonic = true
-    @State var descending = false
+    @State var descending = true
     @State var ascending = true
-    @State var fixedRoot = true
+    @State var fixedRoot = false
     @State var lastNote1 = 0
     @State var lastNote2 = 0
     @State var queuedSpan = 0
     @State var intervalNotes: (Note, Note)
     @State var note1ScaleOffset = 0
     @State var answerCounter = 0
+    @State var musicPlayer = MusicPlayer()
+    @State private var showPopover = false
+    @State private var songName = ""
 
     init() {
         let key = Key(type: Key.KeyType.major, keySig: KeySignature(type: AccidentalType.sharp, count: 2))
@@ -146,6 +149,9 @@ struct IntervalView: View {
                 ScoreView(score: score).padding()
                 Button(action: {
                     newInterval()
+                    let int = self.intervalNotes.1.num - self.intervalNotes.0.num
+                    print("==========>Inteval ", int)
+
                 }) {
                     Text("Make a New Interval")
                         .font(.title)
@@ -176,6 +182,20 @@ struct IntervalView: View {
                         //score.setTempo(temp: Int(tempo))
                         answerCounter = 0
                         score.playScore()
+                    }
+                    Spacer()
+                    Button("Example") {
+                        showPopover = true
+                        let songs = Songs()
+                        let base = self.intervalNotes.0
+                        let int = self.intervalNotes.1.num - self.intervalNotes.0.num
+                        print("==========>Inteval ", int)
+                        let (songName, notes) = songs.song(base: base, interval: -4) // 2
+                        self.songName = songName
+                        musicPlayer.play(notes: notes)
+                    }
+                    .alert(isPresented: $showPopover) {
+                        Alert(title: Text("Example"), message: Text(songName).font(.title), dismissButton: .default(Text("OK")))
                     }
                     Spacer()
                     Button("Play Steps") {
@@ -267,8 +287,9 @@ struct IntervalView: View {
                     //score.setTempo(temp: Int(tempo))
                     score.playScore()
                 }
+
                 Spacer()
-                Button("Play Steps") {
+                Button("Steps") {
                     score.clear()
                     let notes = makeNoteSteps(interval: self.intervalNotes)
                     notesToScore(notes: notes)

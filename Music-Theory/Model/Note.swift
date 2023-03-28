@@ -13,6 +13,8 @@ enum HandType {
 class Note : Hashable, Comparable {
     var num:Int
     var staff:Int
+    var duration:Int = 1
+    
     static let MIDDLE_C = 40
     static let noteNames:[Character] = ["A", "B", "C", "D", "E", "F", "G"]
 
@@ -27,9 +29,10 @@ class Note : Hashable, Comparable {
         return (note1 % 12) == (note2 % 12)
     }
     
-    init(num:Int, staff:Int = 0) {
+    init(num:Int, staff:Int = 0, duration:Int? = 0) {
         self.num = num
         self.staff = staff
+        self.duration = duration!
     }
     
     func hash(into hasher: inout Hasher) {

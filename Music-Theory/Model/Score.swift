@@ -6,6 +6,8 @@ class Score : ObservableObject {
     static let engine = AVAudioEngine()
     static let sampler = AVAudioUnitSampler()
     static var auStarted = false
+    var pitchAdjust = 5
+
     let ledgerLineCount = 3//4 is required to represent low E
     let lineSpacing = 10
 
@@ -18,7 +20,6 @@ class Score : ObservableObject {
     static let midTempo:Float = Score.minTempo + (Score.maxTempo - Score.minTempo) / 2.0
     static let slowTempo:Float = Score.minTempo + (Score.maxTempo - Score.minTempo) / 4.0
 
-    var pitchAdjust = 5
 
     var staffLineCount = 0
     static var accSharp = "\u{266f}"
@@ -57,7 +58,7 @@ class Score : ObservableObject {
         //engine.connect(reverb, to: engine.mainMixerNode, format:engine.mainMixerNode.outputFormat(forBus: 0))
         
         if !Score.auStarted {
-            Score.startAu()
+            Score.startAu() 
         }
     }
     

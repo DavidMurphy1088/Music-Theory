@@ -558,17 +558,34 @@ struct DegreeTriadsView: View {
 //
 //                }
             }
-            .navigationTitle("Triads")
+            //.navigationTitle("Triads")
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
-                    Button("Change Key") {
-                        print("Pressed")
+                    NavigationLink(destination: SetKeyView()) {
+                        //Image(systemName: "arrow.right.circle")
+                        Text("Change Key")
+                            .foregroundColor(.black)
+                            .padding()
+                            .background(
+                                RoundedRectangle(cornerRadius: 30, style: .continuous).fill(Color.blue.opacity(0.4))
+                            )
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 30, style: .continuous).strokeBorder(Color.blue, lineWidth: 1)
+                            )
+                            .padding()
                     }
                 }
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Button("Change Tempo") {
-                        print("Pressed")
-                    }
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Text("Tempo")
+                        .foregroundColor(.black)
+                        .padding()
+                        .background(
+                            RoundedRectangle(cornerRadius: 30, style: .continuous).fill(Color.blue.opacity(0.4))
+                        )
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 30, style: .continuous).strokeBorder(Color.blue, lineWidth: 1)
+                        )
+                        .padding()
                 }
             }
         }

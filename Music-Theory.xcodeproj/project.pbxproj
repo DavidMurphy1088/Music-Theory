@@ -17,6 +17,7 @@
 		7B6345252814729C00D7690F /* DegreeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B6345242814729B00D7690F /* DegreeView.swift */; };
 		7B7306E129D38B7300342490 /* MusicPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B7306E029D38B7300342490 /* MusicPlayer.swift */; };
 		7B7306E329D3A73400342490 /* Songs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B7306E229D3A73400342490 /* Songs.swift */; };
+		7B7306E529D3F3F400342490 /* SetKeyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B7306E429D3F3F400342490 /* SetKeyView.swift */; };
 		7B7BB78C2775612400DB5339 /* DegreeViewOld.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B7BB78B2775612400DB5339 /* DegreeViewOld.swift */; };
 		7B7BB79027756D4900DB5339 /* Key.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B7BB78F27756D4900DB5339 /* Key.swift */; };
 		7B83748F26D37C8700822DBB /* DegreeTriadsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B83748E26D37C8700822DBB /* DegreeTriadsView.swift */; };
@@ -48,6 +49,7 @@
 		7B6345242814729B00D7690F /* DegreeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DegreeView.swift; sourceTree = "<group>"; };
 		7B7306E029D38B7300342490 /* MusicPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicPlayer.swift; sourceTree = "<group>"; };
 		7B7306E229D3A73400342490 /* Songs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Songs.swift; sourceTree = "<group>"; };
+		7B7306E429D3F3F400342490 /* SetKeyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetKeyView.swift; sourceTree = "<group>"; };
 		7B7BB78B2775612400DB5339 /* DegreeViewOld.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DegreeViewOld.swift; sourceTree = "<group>"; };
 		7B7BB78F27756D4900DB5339 /* Key.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Key.swift; sourceTree = "<group>"; };
 		7B83748E26D37C8700822DBB /* DegreeTriadsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DegreeTriadsView.swift; sourceTree = "<group>"; };
@@ -153,6 +155,7 @@
 				7B4E466526B6244200998393 /* ScoreView.swift */,
 				7B7BB78B2775612400DB5339 /* DegreeViewOld.swift */,
 				7B6345242814729B00D7690F /* DegreeView.swift */,
+				7B7306E429D3F3F400342490 /* SetKeyView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -237,6 +240,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7B36C0AE26B5094C0040B87B /* Staff.swift in Sources */,
+				7B7306E529D3F3F400342490 /* SetKeyView.swift in Sources */,
 				7B4E466626B6244200998393 /* ScoreView.swift in Sources */,
 				7BB2E5DA26B504F500EF7F37 /* Music_Theory.xcdatamodeld in Sources */,
 				7B83748F26D37C8700822DBB /* DegreeTriadsView.swift in Sources */,
@@ -317,7 +321,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -372,7 +376,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -392,7 +396,7 @@
 				DEVELOPMENT_TEAM = 2B6A6N9QBQ;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = "Music-Theory/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -414,7 +418,7 @@
 				DEVELOPMENT_TEAM = 2B6A6N9QBQ;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = "Music-Theory/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

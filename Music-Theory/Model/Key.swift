@@ -1,11 +1,29 @@
-class Key : Equatable {
-    
+class Key : Equatable, Hashable {
+    static var currentKey = Key(type: Key.KeyType.major, keySig: KeySignature(type: AccidentalType.sharp, count: 2))
+
     var keySig: KeySignature
     var type: KeyType
+    //var isSelected: Bool = false //TODO Remove this - should be in UI in SetKeyView
     
     enum KeyType {
         case major
         case minor
+    }
+    
+    static func allKeys(keyType:KeyType) -> [Key] {
+        var list:[Key] = []
+        for k in 0..<5 {
+            list.append(Key(type: keyType, keySig: KeySignature(type: AccidentalType.sharp, count: k)))
+            if k>0 {
+                list.append(Key(type: keyType, keySig: KeySignature(type: AccidentalType.flat, count: k)))
+            }
+        }
+        return list
+    }
+    
+    static func == (lhs: Key, rhs: Key) -> Bool {
+        return (lhs.type == rhs.type) && (lhs.keySig.accidentalCount == rhs.keySig.accidentalCount) &&
+        (lhs.keySig.accidentalType == rhs.keySig.accidentalType)
     }
     
     init(type: KeyType, keySig:KeySignature) {
@@ -13,9 +31,9 @@ class Key : Equatable {
         self.type = type
     }
     
-    static func == (lhs: Key, rhs: Key) -> Bool {
-        return (lhs.type == rhs.type) && (lhs.keySig.accidentalCount == rhs.keySig.accidentalCount) &&
-        (lhs.keySig.accidentalType == rhs.keySig.accidentalType) 
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(type)
+        hasher.combine(keySig.accidentalCount)
     }
     
     func description() -> String {

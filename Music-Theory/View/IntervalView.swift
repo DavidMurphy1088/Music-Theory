@@ -22,9 +22,12 @@ struct IntervalView: View {
     @State var musicPlayer = MusicPlayer()
     @State private var showPopover = false
     @State private var songName = ""
-
+    @State private var tempNoteIndex = 0
+    @State private var animationAmount = 1.0
+    @State var scaleAnim = 1.0
+    
     init() {
-        let key = Key(type: Key.KeyType.major, keySig: KeySignature(type: AccidentalType.sharp, count: 2))
+        let key = Key.currentKey
         let score = Score()
         score.key = key
         let staff = Staff(score: score, type: .treble, staffNum: 0)
@@ -35,6 +38,8 @@ struct IntervalView: View {
         self.scale = Scale(score: score)
         self.score = score
         self.intervalNotes = (Note(num: 0), Note(num: 0))
+        //UINavigationBar.appearance().titleTextAttributes = [.font : UIFont(name: "Georgia-Bold", size: 10)!]
+
     }
     
     func setKey(key:Key) {
@@ -84,6 +89,15 @@ struct IntervalView: View {
             if note1.num == lastNote1 && note2.num == lastNote2 {
                 continue
             }
+            let interval = note2.num - note1.num
+            let ok = [7, -5, 9, 5, -4]  //TODO
+            if tempNoteIndex >= ok.count {
+                tempNoteIndex = 0
+            }
+            if interval != ok[tempNoteIndex] {
+                continue
+            }
+            tempNoteIndex += 1
             lastNote1 = note1.num
             lastNote2 = note2.num
             notes.append(note1)
@@ -139,32 +153,46 @@ struct IntervalView: View {
         }
         //score.setTempo(temp: Int(tempo))
         score.playScore()
-
     }
     
     var body: some View {
-        
         NavigationView {
             VStack {
-                ScoreView(score: score).padding()
-                Button(action: {
-                    newInterval()
-                    let int = self.intervalNotes.1.num - self.intervalNotes.0.num
-                    print("==========>Inteval ", int)
-
-                }) {
-                    Text("Make a New Interval")
-                        .font(.title)
+                ScoreView(score: score).padding().onAppear {
+                    setKey(key: Key.currentKey)
                 }
-                .padding()
                 
                 if intName == "" {
                     Button(action: {
                         answerCounter = 8
+                        animationAmount = 1
                     }) {
                         Label(
-                            title: { Text("My Button") },
-                            icon: { Image("questionMark") }
+                            title: { Text("") },
+                            icon: {
+                                Image("questionMark")
+                                    .padding(16)
+                                    .background(Color.blue.opacity(0.4))
+                                    .clipShape(Circle())
+                                    .overlay(
+                                        Circle()
+                                            .stroke(.blue)
+                                            .scaleEffect(animationAmount)
+                                            .opacity(2 - animationAmount)
+                                            .opacity(1)
+                                            .animation(
+                                                .easeInOut(duration: 1)
+                                                .repeatForever(autoreverses: false),
+                                                value: animationAmount
+                                            )
+                                    )
+                                    .onAppear {
+                                        animationAmount += 1
+                                    }
+                                    .onDisappear() {
+                                        animationAmount = 1
+                                    }
+                            }
                         )
                         .frame(width: 20, height: 20)
                     }
@@ -172,8 +200,27 @@ struct IntervalView: View {
                 }
                 else {
                     if let intName = intName {
-                        Text(intName).font(.title).foregroundColor(.purple).bold()
+                        Text(intName).font(.title) //.foregroundColor(.black).bold()
+                            .foregroundColor(.black)
+                            .padding()
+                            .background(
+                                RoundedRectangle(cornerRadius: 30, style: .continuous).fill(Color.blue.opacity(0.4))
+                            )
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 30, style: .continuous).strokeBorder(Color.blue, lineWidth: 1)
+                            )
+                            .padding()
                     }
+                    
+                    Button(action: {
+                        newInterval()
+                        let int = self.intervalNotes.1.num - self.intervalNotes.0.num
+                        print("==========>Interval ", int)
+                        
+                    }) {
+                        Text("Next Interval").font(.title).foregroundColor(.purple)
+                    }
+                    .padding()
                 }
 
                 HStack {
@@ -188,9 +235,9 @@ struct IntervalView: View {
                         showPopover = true
                         let songs = Songs()
                         let base = self.intervalNotes.0
-                        let int = self.intervalNotes.1.num - self.intervalNotes.0.num
-                        print("==========>Inteval ", int)
-                        let (songName, notes) = songs.song(base: base, interval: -4) // 2
+                        let interval = self.intervalNotes.1.num - self.intervalNotes.0.num
+                        print("==========>example Inteval ", interval)
+                        let (songName, notes) = songs.song(base: base, interval: interval) // 2
                         self.songName = songName
                         musicPlayer.play(notes: notes)
                     }
@@ -237,25 +284,40 @@ struct IntervalView: View {
                  }
                  .padding()
             }
-            .navigationTitle("Intervals")
+            //.navigationTitle("Intervals")//.font(.caption)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
-                    Button("Change Key") {
-                        print("Pressed")
+                    NavigationLink(destination: SetKeyView()) {
+                        //Image(systemName: "arrow.right.circle")
+                        Text("Change Key")
+                            .foregroundColor(.black)
+                            .padding()
+                            .background(
+                                RoundedRectangle(cornerRadius: 30, style: .continuous).fill(Color.blue.opacity(0.4))
+                            )
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 30, style: .continuous).strokeBorder(Color.blue, lineWidth: 1)
+                            )
+                            .padding()
                     }
                 }
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Button("Change Tempo") {
-                        print("Pressed")
-                    }
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Text("Tempo")
+                        .foregroundColor(.black)
+                        .padding()
+                        .background(
+                            RoundedRectangle(cornerRadius: 30, style: .continuous).fill(Color.blue.opacity(0.4))
+                        )
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 30, style: .continuous).strokeBorder(Color.blue, lineWidth: 1)
+                        )
+                        .padding()
                 }
             }
         }
-        
    }
 
-    var body1: some View {
-
+    var body____OLD: some View {
         VStack {
             ScoreView(score: score)
             //.padding()
@@ -341,25 +403,6 @@ struct IntervalView: View {
 //                    }
 //                }
 //                //Spacer()
-                HStack {
-                    Text("\(self.staff.publishUpdate)")
-                    Text("\(self.staff.keyDescription())")
-                    Button("Change Key") {
-                        var key = self.score.key
-                        while key == self.score.key {
-                            let accType = (Int.random(in: 0...1) == 0) ? AccidentalType.sharp : AccidentalType.flat
-                            let keySig = KeySignature(type: accType, count: Int.random(in: 0...4))
-                            var keyType = Key.KeyType.major
-                            let r = Int.random(in: 1...1)
-                            if (r == 1) {
-                                keyType = Key.KeyType.minor
-                            }
-                            key = Key(type: keyType, keySig: keySig)
-                        }
-                        score.clear()
-                        setKey(key: key)
-                    }
-                }
             }
         }
 

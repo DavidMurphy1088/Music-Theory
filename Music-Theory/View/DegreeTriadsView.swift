@@ -8,6 +8,7 @@ struct DegreeTriadsView: View {
     @State private var pitchAdjust: Double = 0
     @State var degreeName:String?
     @State var figuredBassName:String?
+    @State var inversionName:String?
     @State var queuedDegree = 0
     @State var degreeInversions = false
     @State var tonicInversion1 = true
@@ -34,7 +35,7 @@ struct DegreeTriadsView: View {
         let staff1 = Staff(score: score, type: .bass, staffNum: 1)
         score.setStaff(num: 0, staff: staff)
         score.setStaff(num: 1, staff: staff1)
-        score.key = Key(type: Key.KeyType.major, keySig: KeySignature(type: AccidentalType.sharp, count: 0))
+        score.key = Key.currentKey //Key(type: Key.KeyType.major, keySig: KeySignature(type: AccidentalType.sharp, count: 0))
         //score.key = Key(type: Key.KeyType.major, keySig: KeySignature(type: AccidentalType.flat, count: 1))
         //score.key = Key(type: Key.KeyType.minor, keySig: KeySignature(type: KeySignatureAccidentalType.flats, count: 6))
         //score.key = Key(type: Key.KeyType.minor, keySig: KeySignature(type: AccidentalType.flat, count: 1))
@@ -156,7 +157,8 @@ struct DegreeTriadsView: View {
 
         degreeChord.makeTriad(root: firstNote, type: chordType)
         
-        // --------------------------------------------------------========================================
+        // --- make the inversion ---
+        
         var invertedChord = degreeChord
         var inversion = 0
         
@@ -171,50 +173,57 @@ struct DegreeTriadsView: View {
                 }
             }
             invertedChord = degreeChord.makeInversion(inv: inversion)
-            print("root inversion", inversion)
         }
+        
         var openChord = invertedChord
         if self.makeSATB {
             openChord = openChord.makeSATB()
         }
-        if (true) {
-            var ts = score.addTimeSlice()
-            //ts.addChord(c: openChord)
-            if self.makeSATB {
-                ts.addChord(c: tonicChord.makeSATB())
-            }
-            else {
-                ts.addChord(c: tonicChord)
-            }
-            ts = score.addTimeSlice()
-            //ts = score.addTimeSlice()
-            if self.makeSATB {
-                ts.addChord(c: invertedChord.makeSATB())
-            }
-            else {
-                ts.addChord(c: invertedChord)
-            }
-            
-//            //ts.addChord(c: invertedChord)
-//            ts = score.addTimeSlice()
-//            ts.addChord(c: degreeChord)
-//            ts = score.addTimeSlice()
-//            ts.addChord(c: tonicChord)
-            answerCounter = 0
-            DispatchQueue.global(qos: .userInitiated).async {
-                degreeName = ""
-                figuredBassName = ""
-                while answerCounter < 8 {
-                    Thread.sleep(forTimeInterval: 0.5)
-                    answerCounter += 1
-                    //sleep(UInt32(1))
-                }
-                //let invName = inversion == 0 ? "" : ", Inversion " + "\(inversion)"
-                degreeName = degreeNames[degree]
-                figuredBassName = figuredBassNames[inversion]
+        else {
+            invertedChord.moveClosestTo(pitch: tonicChord.notes[0].num, index: 0)
+        }
+        
+        var ts = score.addTimeSlice()
+        if self.makeSATB {
+            ts.addChord(c: tonicChord.makeSATB())
+        }
+        else {
+            ts.addChord(c: tonicChord)
+        }
+        
+        ts = score.addTimeSlice()
+        if self.makeSATB {
+            ts.addChord(c: invertedChord.makeSATB())
+        }
+        else {
+            ts.addChord(c: invertedChord)
+        }
+        
+        ts = score.addTimeSlice()
+        if self.makeSATB {
+            ts.addChord(c: tonicChord.makeSATB())
+        }
+        else {
+            ts.addChord(c: tonicChord)
+        }
+
+        answerCounter = 0
+        DispatchQueue.global(qos: .userInitiated).async {
+            degreeName = ""
+            figuredBassName = ""
+            while answerCounter < 8 {
+                Thread.sleep(forTimeInterval: 0.5)
                 answerCounter += 1
             }
-            return
+            degreeName = degreeNames[degree]
+            figuredBassName = figuredBassNames[inversion]
+            if inversion > 0 {
+                inversionName = "\(inversion)"
+            }
+            else {
+                inversionName = nil
+            }
+            answerCounter += 1
         }
         
 //        var ts = score.addTimeSlice()
@@ -405,7 +414,12 @@ struct DegreeTriadsView: View {
                     }
                 }
             }
-
+            .padding()
+            HStack {
+                Text("Tempo").padding()
+                Slider(value: $score.tempo, in: Score.minTempo...Score.maxTempo).padding()
+            }
+            .padding()
         }
     }
     
@@ -481,8 +495,11 @@ struct DegreeTriadsView: View {
     var body: some View {
         NavigationView {
             VStack {
-                ScoreView(score: score).padding()
-                Button("Make a New Triad") {
+                ScoreView(score: score).padding().onAppear {
+                    score.clear()
+                    score.setKey(key: Key.currentKey)
+                }
+                Button("New Triad") {
                     makeDegreeTriad()
                     score.playScore(select: nil, arpeggio: self.playAsArpeggio)
                 }
@@ -506,6 +523,10 @@ struct DegreeTriadsView: View {
                     else {
                         VStack {
                             Text("Degree "+degreeName).font(.title).foregroundColor(.purple).bold()
+                            if let inversionName = inversionName {
+                                Text("Inversion "+inversionName).foregroundColor(.purple).bold()
+                            }
+
                             if let figuredBassName = figuredBassName {
                                 Text("FiguredBase "+figuredBassName).foregroundColor(.purple).bold()
                             }
@@ -537,57 +558,16 @@ struct DegreeTriadsView: View {
                 .padding()
                 
                 settings.padding()
-                
-//                setNewKey
+            }
+//            .toolbar {
+//                ToolbarItem(placement: .navigationBarLeading) {
+//                    NavigationLink(destination: SetKeyView()) {
+//                        //Image(systemName: "arrow.right.circle")
+//                        UIHiliteText(text: "Change Key")
 //
-//                Spacer()
-//                setRandomKeys
-                
-//                HStack {
-//                    Button(action: {
-//                        self.self.playAsArpeggio = !self.playAsArpeggio
-//                    }) {
-//                        HStack(spacing: 10) {
-//                            Image(systemName: self.playAsArpeggio ? "checkmark.square": "square")
-//                            Text("\("Arpeggio")")
-//                        }
 //                    }
-//
-//                    Text("Tempo").padding()
-//                    Slider(value: $score.tempo, in: Score.minTempo...Score.maxTempo).padding()
-//
 //                }
-            }
-            //.navigationTitle("Triads")
-            .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    NavigationLink(destination: SetKeyView()) {
-                        //Image(systemName: "arrow.right.circle")
-                        Text("Change Key")
-                            .foregroundColor(.black)
-                            .padding()
-                            .background(
-                                RoundedRectangle(cornerRadius: 30, style: .continuous).fill(Color.blue.opacity(0.4))
-                            )
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 30, style: .continuous).strokeBorder(Color.blue, lineWidth: 1)
-                            )
-                            .padding()
-                    }
-                }
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Text("Tempo")
-                        .foregroundColor(.black)
-                        .padding()
-                        .background(
-                            RoundedRectangle(cornerRadius: 30, style: .continuous).fill(Color.blue.opacity(0.4))
-                        )
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 30, style: .continuous).strokeBorder(Color.blue, lineWidth: 1)
-                        )
-                        .padding()
-                }
-            }
+//            }
         }
     }
 }

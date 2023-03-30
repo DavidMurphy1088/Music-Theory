@@ -11,16 +11,18 @@ class Score : ObservableObject {
     let ledgerLineCount = 3//4 is required to represent low E
     let lineSpacing = 10
 
-    private var staff:[Staff] = []
     @Published var key:Key = Key(type: Key.KeyType.major, keySig: KeySignature(type: AccidentalType.sharp, count: 0))
+    @Published var showNotes = true
+
+    private var staff:[Staff] = []
     var minorScaleType = Scale.MinorType.natural
     var tempo:Float = 75 //BPM, 75 = andante
     static let maxTempo:Float = 200
-    static let minTempo:Float = 50
+    static let minTempo:Float = 30
     static let midTempo:Float = Score.minTempo + (Score.maxTempo - Score.minTempo) / 2.0
     static let slowTempo:Float = Score.minTempo + (Score.maxTempo - Score.minTempo) / 4.0
 
-
+    
     var staffLineCount = 0
     static var accSharp = "\u{266f}"
     static var accNatural = "\u{266e}"
@@ -59,6 +61,12 @@ class Score : ObservableObject {
         
         if !Score.auStarted {
             Score.startAu() 
+        }
+    }
+    
+    func toggleShowNotes() {
+        DispatchQueue.main.async {
+            self.showNotes = !self.showNotes
         }
     }
     

@@ -18,7 +18,7 @@
 		7B7306E129D38B7300342490 /* MusicPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B7306E029D38B7300342490 /* MusicPlayer.swift */; };
 		7B7306E329D3A73400342490 /* Songs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B7306E229D3A73400342490 /* Songs.swift */; };
 		7B7306E529D3F3F400342490 /* SetKeyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B7306E429D3F3F400342490 /* SetKeyView.swift */; };
-		7B7BB78C2775612400DB5339 /* DegreeViewOld.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B7BB78B2775612400DB5339 /* DegreeViewOld.swift */; };
+		7B7306E729D54ADF00342490 /* UICommons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B7306E629D54ADF00342490 /* UICommons.swift */; };
 		7B7BB79027756D4900DB5339 /* Key.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B7BB78F27756D4900DB5339 /* Key.swift */; };
 		7B83748F26D37C8700822DBB /* DegreeTriadsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B83748E26D37C8700822DBB /* DegreeTriadsView.swift */; };
 		7B83749326D37E1C00822DBB /* Chord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B83749226D37E1C00822DBB /* Chord.swift */; };
@@ -50,7 +50,7 @@
 		7B7306E029D38B7300342490 /* MusicPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicPlayer.swift; sourceTree = "<group>"; };
 		7B7306E229D3A73400342490 /* Songs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Songs.swift; sourceTree = "<group>"; };
 		7B7306E429D3F3F400342490 /* SetKeyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetKeyView.swift; sourceTree = "<group>"; };
-		7B7BB78B2775612400DB5339 /* DegreeViewOld.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DegreeViewOld.swift; sourceTree = "<group>"; };
+		7B7306E629D54ADF00342490 /* UICommons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UICommons.swift; sourceTree = "<group>"; };
 		7B7BB78F27756D4900DB5339 /* Key.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Key.swift; sourceTree = "<group>"; };
 		7B83748E26D37C8700822DBB /* DegreeTriadsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DegreeTriadsView.swift; sourceTree = "<group>"; };
 		7B83749226D37E1C00822DBB /* Chord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chord.swift; sourceTree = "<group>"; };
@@ -145,7 +145,7 @@
 		7BB2E5E226B505A200EF7F37 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				7BC7551328178DCD00007B7C /* Settings */,
+				7BC7551428178DEA00007B7C /* DegreesSelect.swift */,
 				7BB2E5E326B505F500EF7F37 /* KeySignatureAccidentalView.swift */,
 				7BC9029826C78A7500E7A6D8 /* AppView.swift */,
 				7B83748E26D37C8700822DBB /* DegreeTriadsView.swift */,
@@ -153,19 +153,11 @@
 				7BB2E5E626B5063500EF7F37 /* NoteView.swift */,
 				7BB2E5E726B5063500EF7F37 /* StaffView.swift */,
 				7B4E466526B6244200998393 /* ScoreView.swift */,
-				7B7BB78B2775612400DB5339 /* DegreeViewOld.swift */,
 				7B6345242814729B00D7690F /* DegreeView.swift */,
 				7B7306E429D3F3F400342490 /* SetKeyView.swift */,
+				7B7306E629D54ADF00342490 /* UICommons.swift */,
 			);
 			path = View;
-			sourceTree = "<group>";
-		};
-		7BC7551328178DCD00007B7C /* Settings */ = {
-			isa = PBXGroup;
-			children = (
-				7BC7551428178DEA00007B7C /* DegreesSelect.swift */,
-			);
-			path = Settings;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -247,6 +239,7 @@
 				7B4E466326B623DA00998393 /* Score.swift in Sources */,
 				7B7306E129D38B7300342490 /* MusicPlayer.swift in Sources */,
 				7BC9029926C78A7500E7A6D8 /* AppView.swift in Sources */,
+				7B7306E729D54ADF00342490 /* UICommons.swift in Sources */,
 				7BC7551528178DEA00007B7C /* DegreesSelect.swift in Sources */,
 				7B83749326D37E1C00822DBB /* Chord.swift in Sources */,
 				7B36C0B026B5094C0040B87B /* KeySignature.swift in Sources */,
@@ -263,7 +256,6 @@
 				7B00BBF927671A9300F88721 /* TimeSlice.swift in Sources */,
 				7B99A13926CE37FF00F0CFBD /* Scale.swift in Sources */,
 				7BB2E5E426B505F500EF7F37 /* KeySignatureAccidentalView.swift in Sources */,
-				7B7BB78C2775612400DB5339 /* DegreeViewOld.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

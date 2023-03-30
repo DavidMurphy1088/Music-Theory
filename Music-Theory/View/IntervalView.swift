@@ -7,6 +7,7 @@ import CoreData
 struct IntervalView: View {
     @State var score:Score
     @ObservedObject var staff:Staff
+    @State var songs = Songs()
     @State var intName:String?
     @State var scale:Scale
     @State var diatonic = true
@@ -38,8 +39,6 @@ struct IntervalView: View {
         self.scale = Scale(score: score)
         self.score = score
         self.intervalNotes = (Note(num: 0), Note(num: 0))
-        //UINavigationBar.appearance().titleTextAttributes = [.font : UIFont(name: "Georgia-Bold", size: 10)!]
-
     }
     
     func setKey(key:Key) {
@@ -57,7 +56,8 @@ struct IntervalView: View {
             }
             let note1 = Note(num: scale.notes[0].num + note1ScaleOffset)
             
-            let note2Distance = Int.random(in: -12..<12)
+            var note2Distance = Int.random(in: -12..<12)
+            note2Distance = 11
             if note2Distance == 0 {
                 continue
             }
@@ -89,14 +89,20 @@ struct IntervalView: View {
             if note1.num == lastNote1 && note2.num == lastNote2 {
                 continue
             }
+            
             let interval = note2.num - note1.num
-            let ok = [7, -5, 9, 5, -4]  //TODO
-            if tempNoteIndex >= ok.count {
-                tempNoteIndex = 0
-            }
-            if interval != ok[tempNoteIndex] {
+
+            let (songName, _) = songs.song(base: Note(num: 0), interval: interval)
+            if songName == nil {
                 continue
             }
+//            let ok = [7, -5, 9, 5, -4]  //TODO
+//            if tempNoteIndex >= ok.count {
+//                tempNoteIndex = 0
+//            }
+//            if interval != ok[tempNoteIndex] {
+//                continue
+//            }
             tempNoteIndex += 1
             lastNote1 = note1.num
             lastNote2 = note2.num
@@ -200,28 +206,16 @@ struct IntervalView: View {
                 }
                 else {
                     if let intName = intName {
-                        Text(intName).font(.title) //.foregroundColor(.black).bold()
-                            .foregroundColor(.black)
-                            .padding()
-                            .background(
-                                RoundedRectangle(cornerRadius: 30, style: .continuous).fill(Color.blue.opacity(0.4))
-                            )
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 30, style: .continuous).strokeBorder(Color.blue, lineWidth: 1)
-                            )
-                            .padding()
+                        UIHiliteText(text: intName)//.font(.title) //.foregroundColor(.black).bold()
                     }
-                    
-                    Button(action: {
-                        newInterval()
-                        let int = self.intervalNotes.1.num - self.intervalNotes.0.num
-                        print("==========>Interval ", int)
-                        
-                    }) {
-                        Text("Next Interval").font(.title).foregroundColor(.purple)
-                    }
-                    .padding()
                 }
+                
+                Button(action: {
+                    newInterval()
+                }) {
+                    UIHiliteText(text: "Next Interval")//.foregroundColor(.purple) //.font(.title)
+                }
+                .padding()
 
                 HStack {
                     Spacer()
@@ -236,9 +230,8 @@ struct IntervalView: View {
                         let songs = Songs()
                         let base = self.intervalNotes.0
                         let interval = self.intervalNotes.1.num - self.intervalNotes.0.num
-                        print("==========>example Inteval ", interval)
                         let (songName, notes) = songs.song(base: base, interval: interval) // 2
-                        self.songName = songName
+                        self.songName = songName ?? ""
                         musicPlayer.play(notes: notes)
                     }
                     .alert(isPresented: $showPopover) {
@@ -255,157 +248,51 @@ struct IntervalView: View {
                     Spacer()
                 }
                 .padding()
-                HStack {
-                    Button(action: {
-                        ascending = !ascending
-                    }) {
-                        HStack(spacing: 10) {
-                            Image(systemName: ascending ? "checkmark.square": "square")
-                            Text("Ascending")
+                
+                VStack {
+                    HStack {
+                        Button(action: {
+                            ascending = !ascending
+                        }) {
+                            HStack(spacing: 10) {
+                                Image(systemName: ascending ? "checkmark.square": "square")
+                                Text("Ascending")
+                            }
+                        }
+                        Button(action: {
+                            descending = !descending
+                        }) {
+                            HStack(spacing: 10) {
+                                Image(systemName: descending ? "checkmark.square": "square")
+                                Text("Descending")
+                            }
                         }
                     }
+                    .padding(8)
                     Button(action: {
-                        descending = !descending
+                        diatonic = !diatonic
                     }) {
                         HStack(spacing: 10) {
-                            Image(systemName: descending ? "checkmark.square": "square")
-                            Text("Descending")
+                            Image(systemName: diatonic ? "checkmark.square": "square")
+                            Text("Diatonic")
                         }
                     }
+                    
                 }
                 .padding()
-                Button(action: {
-                     diatonic = !diatonic
-                 }) {
-                     HStack(spacing: 10) {
-                         Image(systemName: diatonic ? "checkmark.square": "square")
-                         Text("Diatonic")
-                     }
-                 }
-                 .padding()
             }
-            //.navigationTitle("Intervals")//.font(.caption)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     NavigationLink(destination: SetKeyView()) {
                         //Image(systemName: "arrow.right.circle")
-                        Text("Change Key")
-                            .foregroundColor(.black)
-                            .padding()
-                            .background(
-                                RoundedRectangle(cornerRadius: 30, style: .continuous).fill(Color.blue.opacity(0.4))
-                            )
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 30, style: .continuous).strokeBorder(Color.blue, lineWidth: 1)
-                            )
-                            .padding()
+                        UIHiliteText(text: "Change Key")
                     }
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Text("Tempo")
-                        .foregroundColor(.black)
-                        .padding()
-                        .background(
-                            RoundedRectangle(cornerRadius: 30, style: .continuous).fill(Color.blue.opacity(0.4))
-                        )
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 30, style: .continuous).strokeBorder(Color.blue, lineWidth: 1)
-                        )
-                        .padding()
+                    UIHiliteText(text: "Tempo")
                 }
             }
         }
    }
 
-    var body____OLD: some View {
-        VStack {
-            ScoreView(score: score)
-            //.padding()
-            Button("Select") {
-                //intName = ""
-                score.clear()
-                let notes = makeInterval()
-                self.intervalNotes = (notes[0], notes[1])
-                notesToScore(notes: notes)
-
-                DispatchQueue.global(qos: .userInitiated).async {
-                    intName = "?"
-                    let span = notes[1].num - notes[0].num
-                    queuedSpan = span
-                    sleep(UInt32(2))
-                    let intervals = Intervals()
-                    if span == queuedSpan {
-                        intName = "\(intervals.getName(span: abs(span)) ?? "none")"
-                    }
-                }
-                //score.setTempo(temp: Int(tempo))
-                score.playScore()
-            }
-            Spacer()
-            //Spacer()
-            HStack {
-                Spacer()
-                Button("Play Again") {
-                    //score.setTempo(temp: Int(tempo))
-                    score.playScore()
-                }
-
-                Spacer()
-                Button("Steps") {
-                    score.clear()
-                    let notes = makeNoteSteps(interval: self.intervalNotes)
-                    notesToScore(notes: notes)
-                    score.playScore()
-                }
-                Spacer()
-            }
-
-            Spacer()
-            Text("-> " + (intName ?? "")).font(.title).foregroundColor(.green)
-            Spacer()
-            VStack {
-//                Text("Tempo").padding()
-//                Slider(value: $score.tempo, in: Score.minTempo...Score.maxTempo * 2.0 ).padding()
-//                Button(action: {
-//                    fixedRoot = !fixedRoot
-//                }) {
-//                    HStack(spacing: 10) {
-//                        Image(systemName: fixedRoot ? "checkmark.square": "square")
-//                        Text("Fixed Interval Root")
-//                    }
-//                }
-//                //Spacer()
-//                Button(action: {
-//                    diatonic = !diatonic
-//                }) {
-//                    HStack(spacing: 10) {
-//                        Image(systemName: diatonic ? "checkmark.square": "square")
-//                        Text("Diatonic")
-//                    }
-//                }
-//                //Spacer()
-//                HStack {
-//                    Button(action: {
-//                        ascending = !ascending
-//                    }) {
-//                        HStack(spacing: 10) {
-//                            Image(systemName: ascending ? "checkmark.square": "square")
-//                            Text("Ascending")
-//                        }
-//                    }
-//                    Button(action: {
-//                        descending = !descending
-//                    }) {
-//                        HStack(spacing: 10) {
-//                            Image(systemName: descending ? "checkmark.square": "square")
-//                            Text("Descending")
-//                        }
-//                    }
-//                }
-//                //Spacer()
-            }
-        }
-
-    }
-    
 }

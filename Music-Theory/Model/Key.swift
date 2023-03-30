@@ -1,5 +1,5 @@
 class Key : Equatable, Hashable {
-    static var currentKey = Key(type: Key.KeyType.major, keySig: KeySignature(type: AccidentalType.sharp, count: 2))
+    static var currentKey = Key(type: Key.KeyType.major, keySig: KeySignature(type: AccidentalType.flat, count: 3))
 
     var keySig: KeySignature
     var type: KeyType

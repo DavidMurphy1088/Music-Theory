@@ -3,8 +3,9 @@ import CoreData
 import MessageUI
  
 struct StaffView: View {
-    var score:Score
+    @ObservedObject var score:Score
     @ObservedObject var staff:Staff
+    
     static let lineHeight = 1
         
     init (score:Score, staff:Staff) {
@@ -56,16 +57,18 @@ struct StaffView: View {
                     //.border(Color.green)
                     .frame(width: CGFloat(score.staffLineCount/2 * score.lineSpacing))
                 
-                    ForEach(score.timeSlices, id: \.self) { timeSlice in
-                        ZStack {
-                            ForEach(timeSlice.note, id: \.self) { note in
-                                //if the note isn't shown on both staff's the alignment between staffs is wrong
-                                //so make a space on the staff where a time slice has notes only in one staff
-                                if note.staff == staff.staffNum {
-                                    NoteView(staff: staff, note: note, lineSpacing: score.lineSpacing, color: Color.black)
-                                }
-                                else {
-                                    NoteView(staff: staff, note: note, lineSpacing: score.lineSpacing, color: Color.white)
+                    if score.showNotes {
+                        ForEach(score.timeSlices, id: \.self) { timeSlice in
+                            ZStack {
+                                ForEach(timeSlice.note, id: \.self) { note in
+                                    //if the note isn't shown on both staff's the alignment between staffs is wrong
+                                    //so make a space on the staff where a time slice has notes only in one staff
+                                    if note.staff == staff.staffNum {
+                                        NoteView(staff: staff, note: note, lineSpacing: score.lineSpacing, color: Color.black)
+                                    }
+                                    else {
+                                        NoteView(staff: staff, note: note, lineSpacing: score.lineSpacing, color: Color.white)
+                                    }
                                 }
                             }
                         }

@@ -157,45 +157,4 @@ class Chord : Identifiable {
         result.order()
         return result
     }
-    
-    func makeSATBOld() -> Chord {
-        //find the best note for each range/voice
-        let result = Chord()
-        var indexesDone:[Int] = []
-        var nextPitch = abs(Note.getClosestOctave(note: self.notes[0].num, toPitch: 40 - 12 - 3)!)
-        
-        for index in 0...self.notes.count {
-            if index == 0 {
-                let bassNote = Note(num: nextPitch)
-                bassNote.staff = 1
-                result.notes.append(bassNote)
-                indexesDone.append(0)
-                nextPitch += 8 - 2//Int.random(in: 0..<4)
-                continue
-            }
-            //which range to put this next chord note?
-            var lowestDiff:Int? = nil
-            var bestPitch = 0
-            
-            for i in 0...self.notes.count-1 {
-                if indexesDone.contains(i) {
-                    continue
-                }
-                let closestPitch = abs(Note.getClosestOctave(note: self.notes[i].num, toPitch: nextPitch)! )
-                let diff = abs(closestPitch - nextPitch)
-                if lowestDiff == nil || diff < lowestDiff! {
-                    lowestDiff = diff
-                    bestPitch = closestPitch
-                }
-            }
-            let note = Note(num: bestPitch)
-            if [0,1].contains(index) {
-                note.staff = 1
-            }
-            result.notes.append(note)
-            nextPitch += 8
-
-        }
-        return result
-    }
 }

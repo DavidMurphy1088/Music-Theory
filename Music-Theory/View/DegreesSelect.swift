@@ -8,7 +8,7 @@ struct DegreesSelect: View {
     }
 
     var body: some View {
-        Text("seetomg")
+        Text("seetomg....")
     }
 
 }

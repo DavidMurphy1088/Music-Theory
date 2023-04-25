@@ -14,8 +14,8 @@
             filePath = "Music-Theory/Model/Chord.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "84"
-            endingLineNumber = "84"
+            startingLineNumber = "97"
+            endingLineNumber = "97"
             landmarkName = "makeVoiceLead(to:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -30,8 +30,8 @@
             filePath = "Music-Theory/Model/Chord.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "121"
-            endingLineNumber = "121"
+            startingLineNumber = "134"
+            endingLineNumber = "134"
             landmarkName = "makeVoiceLead(to:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -46,8 +46,8 @@
             filePath = "Music-Theory/Model/Chord.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "107"
-            endingLineNumber = "107"
+            startingLineNumber = "120"
+            endingLineNumber = "120"
             landmarkName = "makeVoiceLead(to:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -62,8 +62,8 @@
             filePath = "Music-Theory/Model/Chord.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "113"
-            endingLineNumber = "113"
+            startingLineNumber = "126"
+            endingLineNumber = "126"
             landmarkName = "makeVoiceLead(to:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -270,8 +270,8 @@
             filePath = "Music-Theory/Model/Chord.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "78"
-            endingLineNumber = "78"
+            startingLineNumber = "91"
+            endingLineNumber = "91"
             landmarkName = "makeVoiceLead(to:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -318,8 +318,8 @@
             filePath = "Music-Theory/Model/Score.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "35"
-            endingLineNumber = "35"
+            startingLineNumber = "34"
+            endingLineNumber = "34"
             landmarkName = "startAu()"
             landmarkType = "7">
          </BreakpointContent>
@@ -382,10 +382,57 @@
             filePath = "Music-Theory/View/AppView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "47"
-            endingLineNumber = "47"
+            startingLineNumber = "51"
+            endingLineNumber = "51"
             landmarkName = "makeUIViewController(context:)"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "65942C80-2575-4BAB-8340-E7E1E74A3F38 - b2e8296e92efb8b7"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Music_Theory.NavigationConfigurator.updateUIViewController(_: __C.UIViewController, context: SwiftUI.UIViewControllerRepresentableContext&lt;Music_Theory.NavigationConfigurator&gt;) -&gt; ()"
+                  moduleName = "Music-Theory"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/davidm/Projects/Music-Theory/Music-Theory/View/AppView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "51"
+                  endingLineNumber = "51"
+                  offsetFromSymbolStart = "68">
+               </Location>
+               <Location
+                  uuid = "65942C80-2575-4BAB-8340-E7E1E74A3F38 - b2e8296e92efb8b7"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Music_Theory.NavigationConfigurator.updateUIViewController(_: __C.UIViewController, context: SwiftUI.UIViewControllerRepresentableContext&lt;Music_Theory.NavigationConfigurator&gt;) -&gt; ()"
+                  moduleName = "Music-Theory"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/davidm/Projects/Music-Theory/Music-Theory/View/AppView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "51"
+                  endingLineNumber = "51"
+                  offsetFromSymbolStart = "116">
+               </Location>
+               <Location
+                  uuid = "65942C80-2575-4BAB-8340-E7E1E74A3F38 - 7acccf71b62458a4"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Music_Theory.NavigationConfigurator.makeUIViewController(context: SwiftUI.UIViewControllerRepresentableContext&lt;Music_Theory.NavigationConfigurator&gt;) -&gt; __C.UIViewController"
+                  moduleName = "Music-Theory"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/davidm/Projects/Music-Theory/Music-Theory/View/AppView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "51"
+                  endingLineNumber = "51"
+                  offsetFromSymbolStart = "44">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -398,13 +445,13 @@
             filePath = "Music-Theory/View/AppView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "50"
-            endingLineNumber = "50"
+            startingLineNumber = "54"
+            endingLineNumber = "54"
             landmarkName = "updateUIViewController(_:context:)"
             landmarkType = "7">
             <Locations>
                <Location
-                  uuid = "13FBF919-76AE-44CF-A9B1-D902CAD1AD7C - b2e8296e92efb896"
+                  uuid = "13FBF919-76AE-44CF-A9B1-D902CAD1AD7C - b2e8296e92efb812"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -414,12 +461,27 @@
                   urlString = "file:///Users/davidm/Projects/Music-Theory/Music-Theory/View/AppView.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "50"
-                  endingLineNumber = "50"
+                  startingLineNumber = "54"
+                  endingLineNumber = "54"
+                  offsetFromSymbolStart = "176">
+               </Location>
+               <Location
+                  uuid = "13FBF919-76AE-44CF-A9B1-D902CAD1AD7C - b2e8296e92efb812"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Music_Theory.NavigationConfigurator.updateUIViewController(_: __C.UIViewController, context: SwiftUI.UIViewControllerRepresentableContext&lt;Music_Theory.NavigationConfigurator&gt;) -&gt; ()"
+                  moduleName = "Music-Theory"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/davidm/Projects/Music-Theory/Music-Theory/View/AppView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "54"
+                  endingLineNumber = "54"
                   offsetFromSymbolStart = "68">
                </Location>
                <Location
-                  uuid = "13FBF919-76AE-44CF-A9B1-D902CAD1AD7C - b2e8296e92efb896"
+                  uuid = "13FBF919-76AE-44CF-A9B1-D902CAD1AD7C - b2e8296e92efb812"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -429,11 +491,27 @@
                   urlString = "file:///Users/davidm/Projects/Music-Theory/Music-Theory/View/AppView.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "50"
-                  endingLineNumber = "50"
-                  offsetFromSymbolStart = "108">
+                  startingLineNumber = "54"
+                  endingLineNumber = "54"
+                  offsetFromSymbolStart = "116">
                </Location>
             </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "0FA5D527-DF0A-4BE3-9AA3-460E9F2B7BA6"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Music-Theory/Model/Chord.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "32"
+            endingLineNumber = "32"
+            landmarkName = "makeOpen()"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

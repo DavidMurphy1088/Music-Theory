@@ -11,7 +11,6 @@ class Scale {
         case melodic
     }
 
-    //init(key:Key, minorType: MinorType? = nil) {
     init(score:Score) {
         self.score = score
         //self.minorType = minorType

@@ -8,32 +8,36 @@ struct AppView : View {
     init() {
         //Use this if NavigationBarTitle is with Large Font
         //UINavigationBar.appearance().largeTitleTextAttributes = [.foregroundColor: UIColor.red]
-
         //Use this if NavigationBarTitle is with displayMode = .inline
-        UINavigationBar.appearance().titleTextAttributes = [.foregroundColor: UIColor.red]
-        UINavigationBar.appearance().barStyle
-  
-    }
+        //UINavigationBar.appearance().titleTextAttributes = [.foregroundColor: UIColor.red]
+        //UINavigationBar.appearance().barStyle
+      }
 
     var body: some View {
         TabView {
+            CadenceView()
+            .tabItem {
+                Label("Cadences", image: "cadences")
+            }
+            //TODO order...
+            
             IntervalView()
             .tabItem {
                 Label("Intervals", image: "intervals")
             }
+            
+
+            
             DegreeTriadsView()
             .tabItem {
                 Label("Triad", image: "triads")
             }
 
-            DegreeView()
-            .tabItem {
-                Label("Cadences", image: "cadences")
-            }
-            MidiTest()
-            .tabItem {
-                Label("Midi Test", image: "")
-            }
+//
+//            MidiTest()
+//            .tabItem {
+//                Label("Midi Test", image: "")
+//            }
 
         }
         .navigationViewStyle(StackNavigationViewStyle())

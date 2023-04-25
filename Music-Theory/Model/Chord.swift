@@ -26,6 +26,20 @@ class Chord : Identifiable {
         }
     }
     
+    // make a triad open over both staffs
+    
+    func makeOpenFourNote() -> Chord {
+        let result = Chord()
+        for i in 0...self.notes.count-1 {
+            if i == 0 {
+                let root = Note.getClosestOctave(note: self.notes[i].num, toPitch: 28)!
+                let rootNote = Note(num: root, staff: 1)
+                result.notes.append(rootNote)
+            }
+        }
+        return result
+    }
+
     func addSeventh() {
         let n = self.notes[0].num
         self.notes.append(Note(num: n+10))
@@ -62,7 +76,6 @@ class Chord : Identifiable {
     }
     
     func makeVoiceLead(to:Chord) -> Chord {
-        print("VoiceL")
         let result = Chord()
         var unusedPitches:[Int] = []
         for t in to.notes {

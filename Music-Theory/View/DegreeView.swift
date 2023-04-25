@@ -457,4 +457,3 @@ struct DegreeView: View {
     }
 }
 
-

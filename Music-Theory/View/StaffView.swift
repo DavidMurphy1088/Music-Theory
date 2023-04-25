@@ -20,6 +20,10 @@ struct StaffView: View {
         return Color.blue
     }
     
+    func clefWidth() -> CGFloat {
+        return CGFloat(score.staffLineCount/3 * score.lineSpacing)
+    }
+    
     var body: some View {
         GeometryReader { geometry in
             ZStack (alignment: .leading) {
@@ -37,6 +41,12 @@ struct StaffView: View {
 
                 HStack {
                     HStack {
+                        //spacing only
+                    }
+                    //.border(Color.blue)
+                    .frame(width: clefWidth()/2)
+                    
+                    HStack {
                         if staff.type == StaffType.treble {
                             Text("\u{1d11e}").font(.system(size: CGFloat(score.lineSpacing * 9)))
                                 .offset(y:CGFloat(0 - score.lineSpacing))
@@ -47,16 +57,16 @@ struct StaffView: View {
                         }
                     }
                     //.border(Color.green)
-                    .frame(width: CGFloat(score.staffLineCount/3 * score.lineSpacing))
-                    
+                    .frame(width: clefWidth())
+
                     HStack (spacing: 0) {
                         ForEach(0 ..< score.key.keySig.accidentalCount, id: \.self) { i in
                             KeySignatureAccidentalView(staff: staff, key:score.key.keySig, noteIdx: i, lineSpacing: score.lineSpacing)
                         }
                     }
-                    //.border(Color.green)
+                    //.border(Color.red)
                     .frame(width: CGFloat(score.staffLineCount/2 * score.lineSpacing))
-                
+                    
                     if score.showNotes {
                         ForEach(score.timeSlices, id: \.self) { timeSlice in
                             ZStack {

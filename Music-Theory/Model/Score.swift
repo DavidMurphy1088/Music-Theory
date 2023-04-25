@@ -22,7 +22,6 @@ class Score : ObservableObject {
     static let midTempo:Float = Score.minTempo + (Score.maxTempo - Score.minTempo) / 2.0
     static let slowTempo:Float = Score.minTempo + (Score.maxTempo - Score.minTempo) / 4.0
 
-    
     var staffLineCount = 0
     static var accSharp = "\u{266f}"
     static var accNatural = "\u{266e}"

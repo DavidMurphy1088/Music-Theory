@@ -8,18 +8,19 @@ class UICommons {
 
 struct UIHiliteText : View {
     @State var text:String
+    @State var answerMode:Int?
+    
     var body: some View {
         Text(text)
         .foregroundColor(.black)
         .padding(UICommons.buttonPadding)
         .background(
-            RoundedRectangle(cornerRadius: UICommons.buttonCornerRadius, style: .continuous).fill(Color.blue.opacity(0.4))
+            RoundedRectangle(cornerRadius: UICommons.buttonCornerRadius, style: .continuous).fill(answerMode == nil ? Color.blue.opacity(0.4) : Color.green.opacity(0.4))
         )
         .overlay(
             RoundedRectangle(cornerRadius: UICommons.buttonCornerRadius, style: .continuous).strokeBorder(Color.blue, lineWidth: 1)
         )
         .padding()
     }
-    
     
 }

@@ -33,14 +33,14 @@ class Score : ObservableObject {
         engine.connect(sampler, to:engine.mainMixerNode, format:engine.mainMixerNode.outputFormat(forBus: 0))
         Score.auStarted = true
         DispatchQueue.global(qos: .userInitiated).async {
-            print("Start AU engine")
+            //print("Start AU engine")
             do {
                 //https://www.rockhoppertech.com/blog/the-great-avaudiounitsampler-workout/#soundfont
                 if let url = Bundle.main.url(forResource:"Nice-Steinway-v3.8", withExtension:"sf2") {
                     try Score.sampler.loadSoundBankInstrument(at: url, program: 0, bankMSB: UInt8(kAUSampler_DefaultMelodicBankMSB), bankLSB: UInt8(kAUSampler_DefaultBankLSB))
                 }
                 try Score.engine.start()
-                print("Started AU engine")
+                //print("Started AU engine")
             } catch {
                 print("Couldn't start engine")
             }

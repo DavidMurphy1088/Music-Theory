@@ -15,7 +15,8 @@ class Note : Hashable, Comparable {
     var staff:Int
     var duration:Int = 1
     
-    static let MIDDLE_C = 40
+    static let MIDDLE_C = 40 //TODO why 40???
+    static let OCTAVE = 12 
     static let noteNames:[Character] = ["A", "B", "C", "D", "E", "F", "G"]
 
     static func == (lhs: Note, rhs: Note) -> Bool {
@@ -65,9 +66,9 @@ class Note : Hashable, Comparable {
         return notes
     }
     
-    static func getClosestOctave(note:Int, toPitch:Int) -> Int? {
+    static func getClosestOctave(note:Int, toPitch:Int) -> Int {
         let pitches = Note.getAllOctaves(note: note)
-        var closest:Int?
+        var closest:Int = note
         var minDist:Int?
         for p in pitches {
             let dist = abs(p - toPitch)

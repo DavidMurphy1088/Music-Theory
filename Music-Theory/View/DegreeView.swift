@@ -126,7 +126,6 @@ struct DegreeView: View {
                 }
             }
             tonicChord = tonicChord.makeInversion(inv: inversion)
-            print("root inversion", inversion)
         }
         if self.tonicSATB {
             tonicChord = tonicChord.makeSATB()

@@ -6,6 +6,7 @@ struct NoteView: View {
     var staff:Staff
     var note:Note
     var color: Color
+    var opacity: Int
     var lineSpacing:Int
     var noteWidth:CGFloat
     var offsetFromStaffTop:Int?
@@ -13,12 +14,13 @@ struct NoteView: View {
     var ledgerLines:[Int]
     let ledgerLineWidth:Int
     
-    init(staff:Staff, note:Note, lineSpacing: Int, color: Color) {
+    init(staff:Staff, note:Note, lineSpacing: Int, color: Color, opacity:Int) {
         self.staff = staff
         self.note = note
         self.color = color
         self.lineSpacing = lineSpacing
-        let pos = staff.noteViewData(noteValue: note.num)
+        self.opacity = opacity
+        let pos = staff.getNoteViewData(noteValue: note.num)
         offsetFromStaffTop = pos.0
         accidental = pos.1
         ledgerLines = pos.2
@@ -41,6 +43,7 @@ struct NoteView: View {
                         //.border(self.staff.staffNum == 0 ? Color.red : Color.green)
                         .foregroundColor(self.color)
                         .position(x: geometry.size.width/2, y: CGFloat(offsetFromStaffTop! * lineSpacing/2)) //x required since it defaults to 0 if y is specified.
+                        .opacity(Double(opacity))
 
                     if ledgerLines.count > 0 {
                         ForEach(0..<ledgerLines.count) { row in
@@ -52,6 +55,7 @@ struct NoteView: View {
                                 path.closeSubpath()
                             }
                             .fill(self.color)
+                            //.opacity(Double(opacity))
                         }
                     }
 

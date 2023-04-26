@@ -149,19 +149,19 @@
 		7BB2E5E226B505A200EF7F37 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				7BC7551428178DEA00007B7C /* DegreesSelect.swift */,
-				7BB2E5E326B505F500EF7F37 /* KeySignatureAccidentalView.swift */,
 				7BC9029826C78A7500E7A6D8 /* AppView.swift */,
-				7B83748E26D37C8700822DBB /* DegreeTriadsView.swift */,
-				7BC9029526C78A4200E7A6D8 /* IntervalView.swift */,
-				7BB2E5E626B5063500EF7F37 /* NoteView.swift */,
-				7BB2E5E726B5063500EF7F37 /* StaffView.swift */,
-				7B4E466526B6244200998393 /* ScoreView.swift */,
 				7B6345242814729B00D7690F /* CadenceView.swift */,
-				7B7306E429D3F3F400342490 /* SetKeyView.swift */,
-				7B7306E629D54ADF00342490 /* UICommons.swift */,
-				7B7306E829DE88DA00342490 /* MidiTest.swift */,
+				7BC7551428178DEA00007B7C /* DegreesSelect.swift */,
+				7B83748E26D37C8700822DBB /* DegreeTriadsView.swift */,
 				7BA0FFC029F7E7A80002981C /* DegreeView.swift */,
+				7BC9029526C78A4200E7A6D8 /* IntervalView.swift */,
+				7BB2E5E326B505F500EF7F37 /* KeySignatureAccidentalView.swift */,
+				7B7306E829DE88DA00342490 /* MidiTest.swift */,
+				7BB2E5E626B5063500EF7F37 /* NoteView.swift */,
+				7B4E466526B6244200998393 /* ScoreView.swift */,
+				7B7306E429D3F3F400342490 /* SetKeyView.swift */,
+				7BB2E5E726B5063500EF7F37 /* StaffView.swift */,
+				7B7306E629D54ADF00342490 /* UICommons.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";

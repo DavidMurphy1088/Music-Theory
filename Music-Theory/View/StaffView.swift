@@ -71,13 +71,13 @@ struct StaffView: View {
                         ForEach(score.timeSlices, id: \.self) { timeSlice in
                             ZStack {
                                 ForEach(timeSlice.note, id: \.self) { note in
-                                    //if the note isn't shown on both staff's the alignment between staffs is wrong
+                                    //if the note isn't shown on both staff's the alignment between staffs is wrong when >1 chord on the staff
                                     //so make a space on the staff where a time slice has notes only in one staff
                                     if note.staff == staff.staffNum {
-                                        NoteView(staff: staff, note: note, lineSpacing: score.lineSpacing, color: Color.black)
+                                        NoteView(staff: staff, note: note, lineSpacing: score.lineSpacing, color: Color.black, opacity: 1)
                                     }
                                     else {
-                                        NoteView(staff: staff, note: note, lineSpacing: score.lineSpacing, color: Color.white)
+                                        NoteView(staff: staff, note: note, lineSpacing: score.lineSpacing, color: Color.white, opacity: 0)
                                     }
                                 }
                             }

@@ -234,7 +234,8 @@ class Staff : ObservableObject {
         }
      }
     
-    func noteViewData(noteValue:Int) -> (Int?, String, [Int]) {
+    //Tell a note how to display itself
+    func getNoteViewData(noteValue:Int) -> (Int?, String, [Int]) {
         let staffPosition = self.noteOffsets[noteValue]
         let keyCol = keyColumn()
         let offsetFromBottom = staffPosition.staffPlacement[keyCol].offset

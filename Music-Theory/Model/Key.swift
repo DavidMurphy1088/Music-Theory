@@ -3,7 +3,6 @@ class Key : Equatable, Hashable {
 
     var keySig: KeySignature
     var type: KeyType
-    //var isSelected: Bool = false //TODO Remove this - should be in UI in SetKeyView
     
     enum KeyType {
         case major
@@ -26,6 +25,28 @@ class Key : Equatable, Hashable {
         (lhs.keySig.accidentalType == rhs.keySig.accidentalType)
     }
     
+    //return the chord triad type for a scale degree
+    func getTriadType(scaleOffset: Int) -> Chord.ChordType {
+        if self.type == KeyType.major {
+            if ([0, 5, 7].contains(scaleOffset)) {
+                return Chord.ChordType.major
+            }
+            if ([11].contains(scaleOffset)) {
+                return Chord.ChordType.diminished
+            }
+            return Chord.ChordType.minor
+        }
+        else {
+            if ([0, 5, 7].contains(scaleOffset)) {
+                return Chord.ChordType.minor
+            }
+            if ([2].contains(scaleOffset)) {
+                return Chord.ChordType.diminished
+            }
+            return Chord.ChordType.major
+        }
+    }
+
     init(type: KeyType, keySig:KeySignature) {
         self.keySig = keySig
         self.type = type
@@ -80,13 +101,12 @@ class Key : Equatable, Hashable {
             desc += " Major"
         case KeyType.minor:
             desc += " Minor"
-
         }
         return desc
     }
     
     func firstScaleNote() -> Int {
-        var note = 40
+        var note = Note.MIDDLE_C
         if keySig.accidentalCount > 0 {
             if self.keySig.accidentalType == AccidentalType.sharp {
                 note = keySig.sharps[keySig.accidentalCount-1] + 2
@@ -98,7 +118,7 @@ class Key : Equatable, Hashable {
         if self.type == KeyType.minor {
             note -= 3
         }
-        note = Note.getClosestOctave(note: note, toPitch: 45)!
+        note = Note.getClosestOctave(note: note, toPitch: 45)
         return note
     }
 }

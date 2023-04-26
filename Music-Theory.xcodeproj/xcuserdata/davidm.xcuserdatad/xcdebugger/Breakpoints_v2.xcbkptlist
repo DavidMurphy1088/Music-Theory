@@ -14,8 +14,8 @@
             filePath = "Music-Theory/Model/Chord.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "97"
-            endingLineNumber = "97"
+            startingLineNumber = "154"
+            endingLineNumber = "154"
             landmarkName = "makeVoiceLead(to:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -30,8 +30,8 @@
             filePath = "Music-Theory/Model/Chord.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "134"
-            endingLineNumber = "134"
+            startingLineNumber = "191"
+            endingLineNumber = "191"
             landmarkName = "makeVoiceLead(to:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -46,8 +46,8 @@
             filePath = "Music-Theory/Model/Chord.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "120"
-            endingLineNumber = "120"
+            startingLineNumber = "177"
+            endingLineNumber = "177"
             landmarkName = "makeVoiceLead(to:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -62,8 +62,8 @@
             filePath = "Music-Theory/Model/Chord.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "126"
-            endingLineNumber = "126"
+            startingLineNumber = "183"
+            endingLineNumber = "183"
             landmarkName = "makeVoiceLead(to:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -78,8 +78,8 @@
             filePath = "Music-Theory/View/DegreeView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "165"
-            endingLineNumber = "165"
+            startingLineNumber = "164"
+            endingLineNumber = "164"
             landmarkName = "makeDegreeChords()"
             landmarkType = "7">
          </BreakpointContent>
@@ -94,8 +94,8 @@
             filePath = "Music-Theory/View/DegreeView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "155"
-            endingLineNumber = "155"
+            startingLineNumber = "154"
+            endingLineNumber = "154"
             landmarkName = "makeDegreeChords()"
             landmarkType = "7">
          </BreakpointContent>
@@ -222,8 +222,8 @@
             filePath = "Music-Theory/View/DegreeView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "131"
-            endingLineNumber = "131"
+            startingLineNumber = "130"
+            endingLineNumber = "130"
             landmarkName = "makeDegreeChords()"
             landmarkType = "7">
          </BreakpointContent>
@@ -238,8 +238,8 @@
             filePath = "Music-Theory/View/DegreeView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "158"
-            endingLineNumber = "158"
+            startingLineNumber = "157"
+            endingLineNumber = "157"
             landmarkName = "makeDegreeChords()"
             landmarkType = "7">
          </BreakpointContent>
@@ -254,8 +254,8 @@
             filePath = "Music-Theory/View/DegreeView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "144"
-            endingLineNumber = "144"
+            startingLineNumber = "143"
+            endingLineNumber = "143"
             landmarkName = "makeDegreeChords()"
             landmarkType = "7">
          </BreakpointContent>
@@ -270,8 +270,8 @@
             filePath = "Music-Theory/Model/Chord.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "91"
-            endingLineNumber = "91"
+            startingLineNumber = "148"
+            endingLineNumber = "148"
             landmarkName = "makeVoiceLead(to:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -366,8 +366,8 @@
             filePath = "Music-Theory/Model/Key.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "14"
-            endingLineNumber = "14"
+            startingLineNumber = "13"
+            endingLineNumber = "13"
             landmarkName = "allKeys(keyType:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -508,9 +508,217 @@
             filePath = "Music-Theory/Model/Chord.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "32"
-            endingLineNumber = "32"
-            landmarkName = "makeOpen()"
+            startingLineNumber = "34"
+            endingLineNumber = "34"
+            landmarkName = "makeSATBFourNote()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "CC92675B-2CEF-4CB7-A4EE-182A0607D168"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Music-Theory/Model/Chord.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "46"
+            endingLineNumber = "46"
+            landmarkName = "makeSATBFourNote()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "CC92675B-2CEF-4CB7-A4EE-182A0607D168 - 16a12ca5fd973610"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Music_Theory.Chord.makeSATBFourNote() -&gt; Music_Theory.Chord"
+                  moduleName = "Music-Theory"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/davidm/Projects/Music-Theory/Music-Theory/Model/Chord.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "43"
+                  endingLineNumber = "43"
+                  offsetFromSymbolStart = "496">
+               </Location>
+               <Location
+                  uuid = "CC92675B-2CEF-4CB7-A4EE-182A0607D168 - 16a12ca5fd973610"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Music_Theory.Chord.makeSATBFourNote() -&gt; Music_Theory.Chord"
+                  moduleName = "Music-Theory"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/davidm/Projects/Music-Theory/Music-Theory/Model/Chord.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "43"
+                  endingLineNumber = "43"
+                  offsetFromSymbolStart = "500">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "33482C49-88C7-43E3-8051-978A3B9E9AC7"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Music-Theory/View/CadenceView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "136"
+            endingLineNumber = "136"
+            landmarkName = "makeCadenceChords()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "54042720-2A43-43F4-8413-B55365C00131"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Music-Theory/Model/Chord.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "49"
+            endingLineNumber = "49"
+            landmarkName = "makeSATBFourNote()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "54042720-2A43-43F4-8413-B55365C00131 - 16a12ca5fd97319c"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Music_Theory.Chord.makeSATBFourNote() -&gt; Music_Theory.Chord"
+                  moduleName = "Music-Theory"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/davidm/Projects/Music-Theory/Music-Theory/Model/Chord.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "47"
+                  endingLineNumber = "47"
+                  offsetFromSymbolStart = "1096">
+               </Location>
+               <Location
+                  uuid = "54042720-2A43-43F4-8413-B55365C00131 - 16a12ca5fd97319c"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Music_Theory.Chord.makeSATBFourNote() -&gt; Music_Theory.Chord"
+                  moduleName = "Music-Theory"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/davidm/Projects/Music-Theory/Music-Theory/Model/Chord.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "47"
+                  endingLineNumber = "47"
+                  offsetFromSymbolStart = "852">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "76136572-A452-453E-B755-F61E7684F965"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Music-Theory/Model/Chord.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "47"
+            endingLineNumber = "47"
+            landmarkName = "makeSATBFourNote()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "76136572-A452-453E-B755-F61E7684F965 - 16a12ca5fd9731d2"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Music_Theory.Chord.makeSATBFourNote() -&gt; Music_Theory.Chord"
+                  moduleName = "Music-Theory"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/davidm/Projects/Music-Theory/Music-Theory/Model/Chord.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "45"
+                  endingLineNumber = "45"
+                  offsetFromSymbolStart = "760">
+               </Location>
+               <Location
+                  uuid = "76136572-A452-453E-B755-F61E7684F965 - 16a12ca5fd9731d2"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Music_Theory.Chord.makeSATBFourNote() -&gt; Music_Theory.Chord"
+                  moduleName = "Music-Theory"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/davidm/Projects/Music-Theory/Music-Theory/Model/Chord.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "45"
+                  endingLineNumber = "45"
+                  offsetFromSymbolStart = "648">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "E0402CF7-02DE-4ABF-A68E-53B1EF991EDC"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Music-Theory/Model/Note.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "80"
+            endingLineNumber = "80"
+            landmarkName = "getClosestOctave(note:toPitch:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "700DCF40-9473-4410-ABB3-A8126632069D"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Music-Theory/Model/Chord.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "58"
+            endingLineNumber = "58"
+            landmarkName = "makeSATBFourNote()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "5045C036-E15F-415E-A53B-E7763AAA9C27"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Music-Theory/Model/Staff.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "239"
+            endingLineNumber = "239"
+            landmarkName = "getNoteViewData(noteValue:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

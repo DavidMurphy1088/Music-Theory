@@ -8,7 +8,7 @@ struct IntervalView: View {
     @State var score:Score
     @ObservedObject var staff:Staff
     @State var songs = Songs()
-    @State var intName:String?
+    @State var intervalName:String?
     @State var scale:Scale
     @State var diatonic = true
     @State var descending = true
@@ -19,7 +19,7 @@ struct IntervalView: View {
     @State var queuedSpan = 0
     @State var intervalNotes: (Note, Note)
     @State var note1ScaleOffset = 0
-    @State var answerCounter = 0
+    @State var answerWaitCounter = 0
     @State var musicPlayer = MusicPlayer()
     @State private var showPopover = false
     @State private var songName = ""
@@ -136,25 +136,25 @@ struct IntervalView: View {
     }
 
     func newInterval() {
-        intName = nil
-        answerCounter = 0
+        intervalName = nil
+        answerWaitCounter = 0
         score.clear()
         let notes = makeInterval()
         self.intervalNotes = (notes[0], notes[1])
         notesToScore(notes: notes)
 
         DispatchQueue.global(qos: .userInitiated).async {
-            intName = ""
+            intervalName = ""
             let span = notes[1].num - notes[0].num
             queuedSpan = span
-            while answerCounter < 8 {
+            while answerWaitCounter < 8 {
                 Thread.sleep(forTimeInterval: 0.5)
-                answerCounter += 1
+                answerWaitCounter += 1
                 //sleep(UInt32(1))
             }
             let intervals = Intervals()
             if span == queuedSpan {
-                intName = "\(intervals.getName(span: abs(span)) ?? "none")"
+                intervalName = "\(intervals.getName(span: abs(span)) ?? "none")"
             }
         }
         //score.setTempo(temp: Int(tempo))
@@ -168,9 +168,9 @@ struct IntervalView: View {
                     setKey(key: Key.currentKey)
                 }
                 
-                if intName == "" {
+                if intervalName == "" {
                     Button(action: {
-                        answerCounter = 8
+                        answerWaitCounter = 8
                         animationAmount = 1
                     }) {
                         Label(
@@ -205,8 +205,8 @@ struct IntervalView: View {
                     .padding()
                 }
                 else {
-                    if let intName = intName {
-                        UIHiliteText(text: intName)//.font(.title) //.foregroundColor(.black).bold()
+                    if let intName = intervalName {
+                        UIHiliteText(text: intName, answerMode: 1)
                     }
                 }
                 
@@ -221,7 +221,7 @@ struct IntervalView: View {
                     Spacer()
                     Button("Play Again") {
                         //score.setTempo(temp: Int(tempo))
-                        answerCounter = 0
+                        answerWaitCounter = 0
                         score.playScore()
                     }
                     Spacer()
@@ -239,11 +239,11 @@ struct IntervalView: View {
                     }
                     Spacer()
                     Button("Play Steps") {
-                        answerCounter = 0
+                        answerWaitCounter = 0
                         score.clear()
                         let notes = makeNoteSteps(interval: self.intervalNotes)
                         notesToScore(notes: notes)
-                        score.playScore(onDone: {answerCounter = 0})
+                        score.playScore(onDone: {answerWaitCounter = 0})
                     }
                     Spacer()
                 }

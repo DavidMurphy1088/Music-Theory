@@ -5,21 +5,18 @@ struct CadenceView: View {
     @State var score:Score
     @ObservedObject var staff:Staff
     @State var scale:Scale
-    @State private var pitchAdjust: Double = 0
     @State var cadenceName:String?
-    @State var queuedDegree = 0
-    @State var widen = false
     @State var degreeNames:[String]
     @State var playAsArpeggio:Bool = false
+    @State var addTonic:Bool = false
     @State var newKeyMajor = true
     @State var newKeyMinor = false
     @State var lastKey:Key?
     @State var lastCadenceIndex:Int?
 
-    @State var lastDegreeChord:Chord?
-    @State var lastTonicChord:Chord?
     @State private var animationAmount = 1.0
     @State var answerWaitCounter = 0
+    @State private var showCadenceInfo = false
     
     init() {
         let score = Score()
@@ -81,89 +78,50 @@ struct CadenceView: View {
         self.setDegreeNames()
     }
 
-//    func makeDegreeChord(scaleDegree : Int) -> Chord {
-//        //scaleDegree is 1 offset
-//        var triadType = Chord.ChordType.major
-//        if score.key.type == Key.KeyType.major {
-//            let minors = [2,3,6]
-//            if minors.contains(scaleDegree) {
-//                triadType = Chord.ChordType.minor
-//            }
-//            if scaleDegree == 7 {
-//                triadType = Chord.ChordType.diminished
-//            }
-//        }
-//        else {
-//            triadType = Chord.ChordType.minor
-//            if score.minorScaleType == Scale.MinorType.natural {
-//                if [3,6,7].contains(scaleDegree) {
-//                    triadType = Chord.ChordType.major
-//                }
-//                if [1,4,5].contains(scaleDegree) {
-//                    triadType = Chord.ChordType.minor
-//                }
-//                if [2].contains(scaleDegree) {
-//                    triadType = Chord.ChordType.diminished
-//                }
-//            }
-//            else {
-//                if [3,5,6].contains(scaleDegree) {
-//                    triadType = Chord.ChordType.major
-//                }
-//                if [1,4].contains(scaleDegree) {
-//                    triadType = Chord.ChordType.minor
-//                }
-//                if [2,7].contains(scaleDegree) {
-//                    triadType = Chord.ChordType.diminished
-//                }
-//            }
-//        }
-//        let rootNote = scale.notes[scaleDegree-1]
-//        let degreeChord = Chord()
-//        degreeChord.makeTriad(root: rootNote.num, type: triadType)
-//        if score.key.type == Key.KeyType.minor && scaleDegree == 3 && score.minorScaleType == Scale.MinorType.harmonic {
-//            degreeChord.notes[2].num += 1 //augmented
-//        }
-//        return degreeChord
-//    }
-    
     func makeCadenceChords() {
         score.clear()
-
-        let offsets = [(5,0), (7,0), (7,9), (2,7)]
-        let names = ["Plagal","Perfect", "Interrupted (Deceptive)", "Half"]
-
-        var cadenceIndex = 0
+        score.setShowFootnotes(false)
+        
+        let cadenceOffsets = [(5,0), (7,0), (7,9), (2,7)]
+        let cadenceNames = ["Plagal","Perfect", "Interrupted", "Half"]
+        
+        var cadenceIndex:Int?
         while true {
-            cadenceIndex = Int.random(in: 0..<offsets.count)
+            cadenceIndex = Int.random(in: 0..<cadenceOffsets.count)
+            //cadenceIndex = 3
+            //break
             if lastCadenceIndex == nil || cadenceIndex != lastCadenceIndex {
                 break
             }
         }
-        let offset = offsets[cadenceIndex]
+        let offset = cadenceOffsets[cadenceIndex!]
 
-        var secondChord = Chord()
-//        var chordType2 = score.key.type == Key.KeyType.major ? Chord.ChordType.major : Chord.ChordType.minor
-//        if offset.1 == 9 {
-//            chordType2 = Chord.ChordType.minor
-//        }
-        var chordType2 = score.key.getTriadType(scaleOffset: offset.1)
-        secondChord.makeTriad(root: score.key.firstScaleNote() + offset.1, type: chordType2)
-        secondChord = secondChord.makeSATBFourNote()
+        let destinationTriad = Chord()
+        let chordType2 = score.key.getTriadType(scaleOffset: offset.1)
+        destinationTriad.makeTriad(root: score.key.firstScaleNote() + offset.1, type: chordType2)
         
-        //var chordType1 = score.key.type == Key.KeyType.major ? Chord.ChordType.major : Chord.ChordType.minor
-        var chordType1 = score.key.getTriadType(scaleOffset: offset.0)
-        var firstChord = Chord()
-        firstChord.makeTriad(root: score.key.firstScaleNote() + offset.0, type: chordType1)
-        firstChord = firstChord.makeSATBFourNote()
-        //cadenceChord.notes = [Note(num: 45, staff: 1)] //, Note(num: 49, staff: 1)]
+        let chordType1 = score.key.getTriadType(scaleOffset: offset.0)
+        var leadingChord = Chord()
+        leadingChord.makeTriad(root: score.key.firstScaleNote() + offset.0, type: chordType1)
+        leadingChord = leadingChord.makeSATBFourNote()
         
-        var ts = score.addTimeSlice()
-        ts.addChord(c: firstChord)
+        let destinationChord = leadingChord.makeCadenceWithVoiceLead(toChordTriad: destinationTriad)
+
+        var ts:TimeSlice // = score.addTimeSlice()
+        if self.addTonic {
+            ts = score.addTimeSlice()
+            let tonicType = score.key.getTriadType(scaleOffset: 0)
+            let tonicTriad = Chord()
+            tonicTriad.makeTriad(root: score.key.firstScaleNote(), type: tonicType)
+            ts.addChord(c: tonicTriad)
+            ts.footnote = scale.offsetSymbol(degree: 0)
+        }
         ts = score.addTimeSlice()
-        ts.addChord(c: secondChord)
-        self.lastDegreeChord = firstChord
-        self.lastTonicChord = secondChord
+        ts.addChord(c: leadingChord)
+        ts.footnote = scale.offsetSymbol(degree: offset.0)
+        ts = score.addTimeSlice()
+        ts.addChord(c: destinationChord)
+        ts.footnote = scale.offsetSymbol(degree: offset.1)
 
         score.playScore(select: nil, arpeggio: self.playAsArpeggio)
         lastCadenceIndex = cadenceIndex
@@ -175,7 +133,8 @@ struct CadenceView: View {
                 Thread.sleep(forTimeInterval: 0.5)
                 answerWaitCounter += 1
             }
-            cadenceName = "\(names[cadenceIndex]) Cadence"
+            cadenceName = "\(cadenceNames[cadenceIndex!])"
+            score.setShowFootnotes(true)
         }
     }
 
@@ -196,6 +155,20 @@ struct CadenceView: View {
     func setKey(key:Key) {
         score.setKey(key: key)
         scale = Scale(score: score)
+    }
+    
+    func getCadenceInfo(name: String) -> String {
+        guard let url = Bundle.main.url(forResource: "CadenceInfo", withExtension: "plist"), let data = try? Data(contentsOf: url) else {
+            fatalError("Could not load property list file.")
+        }
+        guard let plist = try? PropertyListSerialization.propertyList(from: data, format: nil) as? [String: Any] else {
+            fatalError("Could not deserialize property list data.")
+        }
+        if let value = plist[name] as? String {
+            print("The value of myKey is: \(value)")
+            return value
+        }
+        return "none..."
     }
     
     var body: some View {
@@ -244,7 +217,25 @@ struct CadenceView: View {
                 }
                 else {
                     if let cadenceName = cadenceName {
-                        UIHiliteText(text: cadenceName, answerMode: 1)
+                        HStack {
+                            UIHiliteText(text: cadenceName, answerMode: 1)
+                            Button(action: {
+                                showCadenceInfo = true
+                            }) {
+                                UIHiliteText(text: "More Info", answerMode: 1)
+                            }
+                            .sheet(isPresented: $showCadenceInfo) {
+                                VStack {
+                                    Text(cadenceName + " Cadence").font(.title)
+                                    Text(getCadenceInfo(name: cadenceName))
+                                    Spacer()
+                                    Button("Dismiss") {
+                                        showCadenceInfo = false
+                                    }
+                                }
+                                .padding()
+                            }
+                        }
                     }
                 }
                 
@@ -273,12 +264,23 @@ struct CadenceView: View {
                     UIHiliteText(text: "Next Key")//.foregroundColor(.purple) //.font(.title)
                 }
                 
-                Button(action: {
-                    self.self.playAsArpeggio = !self.playAsArpeggio
-                }) {
-                    HStack(spacing: 10) {
-                        Image(systemName: self.playAsArpeggio ? "checkmark.square": "square")
-                        Text("\("Arpeggio")")
+                HStack {
+                    Button(action: {
+                        self.addTonic = !self.addTonic
+                    }) {
+                        HStack(spacing: 10) {
+                            Image(systemName: self.addTonic ? "checkmark.square": "square")
+                            Text("\("Add Tonic")")
+                        }
+                    }
+
+                    Button(action: {
+                        self.self.playAsArpeggio = !self.playAsArpeggio
+                    }) {
+                        HStack(spacing: 10) {
+                            Image(systemName: self.playAsArpeggio ? "checkmark.square": "square")
+                            Text("\("Arpeggio")")
+                        }
                     }
                 }
             }
@@ -297,4 +299,49 @@ struct CadenceView: View {
     }
 }
 
-
+//    func makeDegreeChord(scaleDegree : Int) -> Chord {
+//        //scaleDegree is 1 offset
+//        var triadType = Chord.ChordType.major
+//        if score.key.type == Key.KeyType.major {
+//            let minors = [2,3,6]
+//            if minors.contains(scaleDegree) {
+//                triadType = Chord.ChordType.minor
+//            }
+//            if scaleDegree == 7 {
+//                triadType = Chord.ChordType.diminished
+//            }
+//        }
+//        else {
+//            triadType = Chord.ChordType.minor
+//            if score.minorScaleType == Scale.MinorType.natural {
+//                if [3,6,7].contains(scaleDegree) {
+//                    triadType = Chord.ChordType.major
+//                }
+//                if [1,4,5].contains(scaleDegree) {
+//                    triadType = Chord.ChordType.minor
+//                }
+//                if [2].contains(scaleDegree) {
+//                    triadType = Chord.ChordType.diminished
+//                }
+//            }
+//            else {
+//                if [3,5,6].contains(scaleDegree) {
+//                    triadType = Chord.ChordType.major
+//                }
+//                if [1,4].contains(scaleDegree) {
+//                    triadType = Chord.ChordType.minor
+//                }
+//                if [2,7].contains(scaleDegree) {
+//                    triadType = Chord.ChordType.diminished
+//                }
+//            }
+//        }
+//        let rootNote = scale.notes[scaleDegree-1]
+//        let degreeChord = Chord()
+//        degreeChord.makeTriad(root: rootNote.num, type: triadType)
+//        if score.key.type == Key.KeyType.minor && scaleDegree == 3 && score.minorScaleType == Scale.MinorType.harmonic {
+//            degreeChord.notes[2].num += 1 //augmented
+//        }
+//        return degreeChord
+//    }
+    

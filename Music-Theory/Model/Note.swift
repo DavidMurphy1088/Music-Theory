@@ -66,11 +66,16 @@ class Note : Hashable, Comparable {
         return notes
     }
     
-    static func getClosestOctave(note:Int, toPitch:Int) -> Int {
+    static func getClosestOctave(note:Int, toPitch:Int, onlyHigher: Bool = false) -> Int {
         let pitches = Note.getAllOctaves(note: note)
         var closest:Int = note
         var minDist:Int?
         for p in pitches {
+            if onlyHigher {
+                if p < toPitch {
+                    continue
+                }
+            }
             let dist = abs(p - toPitch)
             if minDist == nil || dist < minDist! {
                 minDist = dist

@@ -28,7 +28,6 @@ struct ScoreView: View {
                 StaffView(score: score, staff: staff)
                     .frame(height: CGFloat(score.staffLineCount * score.lineSpacing)) //fixed size of height for all staff lines + ledger lines
             }
-            
         }
         .overlay(
             RoundedRectangle(cornerRadius: 30).stroke(.blue, lineWidth: 2)

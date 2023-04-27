@@ -21,7 +21,7 @@ struct IntervalView: View {
     @State var note1ScaleOffset = 0
     @State var answerWaitCounter = 0
     @State var musicPlayer = MusicPlayer()
-    @State private var showPopover = false
+    @State private var showExamplePopover = false
     @State private var songName = ""
     @State private var tempNoteIndex = 0
     @State private var animationAmount = 1.0
@@ -96,13 +96,7 @@ struct IntervalView: View {
             if songName == nil {
                 continue
             }
-//            let ok = [7, -5, 9, 5, -4]  //TODO
-//            if tempNoteIndex >= ok.count {
-//                tempNoteIndex = 0
-//            }
-//            if interval != ok[tempNoteIndex] {
-//                continue
-//            }
+
             tempNoteIndex += 1
             lastNote1 = note1.num
             lastNote2 = note2.num
@@ -147,10 +141,9 @@ struct IntervalView: View {
             intervalName = ""
             let span = notes[1].num - notes[0].num
             queuedSpan = span
-            while answerWaitCounter < 8 {
+            while answerWaitCounter < 6 { //8 {
                 Thread.sleep(forTimeInterval: 0.5)
                 answerWaitCounter += 1
-                //sleep(UInt32(1))
             }
             let intervals = Intervals()
             if span == queuedSpan {
@@ -206,7 +199,24 @@ struct IntervalView: View {
                 }
                 else {
                     if let intName = intervalName {
-                        UIHiliteText(text: intName, answerMode: 1)
+                        HStack {
+                            UIHiliteText(text: intName, answerMode: 1)
+                            Button(action: {
+                                showExamplePopover = true
+                                let songs = Songs()
+                                let base = self.intervalNotes.0
+                                let interval = self.intervalNotes.1.num - self.intervalNotes.0.num
+                                let (songName, notes) = songs.song(base: base, interval: interval) // 2
+                                self.songName = songName ?? ""
+                                musicPlayer.play(notes: notes)
+
+                            }) {
+                                UIHiliteText(text: "Play Example", answerMode: 1)
+                            }
+                            .alert(isPresented: $showExamplePopover) {
+                                Alert(title: Text("Example"), message: Text(songName).font(.title), dismissButton: .default(Text("OK")))
+                            }
+                        }
                     }
                 }
                 
@@ -224,19 +234,19 @@ struct IntervalView: View {
                         answerWaitCounter = 0
                         score.playScore()
                     }
-                    Spacer()
-                    Button("Example") {
-                        showPopover = true
-                        let songs = Songs()
-                        let base = self.intervalNotes.0
-                        let interval = self.intervalNotes.1.num - self.intervalNotes.0.num
-                        let (songName, notes) = songs.song(base: base, interval: interval) // 2
-                        self.songName = songName ?? ""
-                        musicPlayer.play(notes: notes)
-                    }
-                    .alert(isPresented: $showPopover) {
-                        Alert(title: Text("Example"), message: Text(songName).font(.title), dismissButton: .default(Text("OK")))
-                    }
+//                    Spacer()
+//                    Button("Example") {
+//                        showExamplePopover = true
+//                        let songs = Songs()
+//                        let base = self.intervalNotes.0
+//                        let interval = self.intervalNotes.1.num - self.intervalNotes.0.num
+//                        let (songName, notes) = songs.song(base: base, interval: interval) // 2
+//                        self.songName = songName ?? ""
+//                        musicPlayer.play(notes: notes)
+//                    }
+//                    .alert(isPresented: $showExamplePopover) {
+//                        Alert(title: Text("Example"), message: Text(songName).font(.title), dismissButton: .default(Text("OK")))
+//                    }
                     Spacer()
                     Button("Play Steps") {
                         answerWaitCounter = 0

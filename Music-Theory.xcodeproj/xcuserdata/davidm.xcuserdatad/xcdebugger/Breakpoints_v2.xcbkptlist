@@ -14,8 +14,8 @@
             filePath = "Music-Theory/Model/Chord.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "154"
-            endingLineNumber = "154"
+            startingLineNumber = "195"
+            endingLineNumber = "195"
             landmarkName = "makeVoiceLead(to:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -30,8 +30,8 @@
             filePath = "Music-Theory/Model/Chord.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "191"
-            endingLineNumber = "191"
+            startingLineNumber = "232"
+            endingLineNumber = "232"
             landmarkName = "makeVoiceLead(to:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -46,8 +46,8 @@
             filePath = "Music-Theory/Model/Chord.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "177"
-            endingLineNumber = "177"
+            startingLineNumber = "218"
+            endingLineNumber = "218"
             landmarkName = "makeVoiceLead(to:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -62,8 +62,8 @@
             filePath = "Music-Theory/Model/Chord.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "183"
-            endingLineNumber = "183"
+            startingLineNumber = "224"
+            endingLineNumber = "224"
             landmarkName = "makeVoiceLead(to:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -270,8 +270,8 @@
             filePath = "Music-Theory/Model/Chord.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "148"
-            endingLineNumber = "148"
+            startingLineNumber = "189"
+            endingLineNumber = "189"
             landmarkName = "makeVoiceLead(to:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -318,8 +318,8 @@
             filePath = "Music-Theory/Model/Score.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "34"
-            endingLineNumber = "34"
+            startingLineNumber = "35"
+            endingLineNumber = "35"
             landmarkName = "startAu()"
             landmarkType = "7">
          </BreakpointContent>
@@ -382,43 +382,13 @@
             filePath = "Music-Theory/View/AppView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "51"
-            endingLineNumber = "51"
-            landmarkName = "makeUIViewController(context:)"
-            landmarkType = "7">
+            startingLineNumber = "50"
+            endingLineNumber = "50"
+            landmarkName = "NavigationConfigurator"
+            landmarkType = "14">
             <Locations>
                <Location
-                  uuid = "65942C80-2575-4BAB-8340-E7E1E74A3F38 - b2e8296e92efb8b7"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Music_Theory.NavigationConfigurator.updateUIViewController(_: __C.UIViewController, context: SwiftUI.UIViewControllerRepresentableContext&lt;Music_Theory.NavigationConfigurator&gt;) -&gt; ()"
-                  moduleName = "Music-Theory"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/davidm/Projects/Music-Theory/Music-Theory/View/AppView.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "51"
-                  endingLineNumber = "51"
-                  offsetFromSymbolStart = "68">
-               </Location>
-               <Location
-                  uuid = "65942C80-2575-4BAB-8340-E7E1E74A3F38 - b2e8296e92efb8b7"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Music_Theory.NavigationConfigurator.updateUIViewController(_: __C.UIViewController, context: SwiftUI.UIViewControllerRepresentableContext&lt;Music_Theory.NavigationConfigurator&gt;) -&gt; ()"
-                  moduleName = "Music-Theory"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/davidm/Projects/Music-Theory/Music-Theory/View/AppView.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "51"
-                  endingLineNumber = "51"
-                  offsetFromSymbolStart = "116">
-               </Location>
-               <Location
-                  uuid = "65942C80-2575-4BAB-8340-E7E1E74A3F38 - 7acccf71b62458a4"
+                  uuid = "65942C80-2575-4BAB-8340-E7E1E74A3F38 - 7acccf71b6245885"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -428,8 +398,23 @@
                   urlString = "file:///Users/davidm/Projects/Music-Theory/Music-Theory/View/AppView.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "51"
-                  endingLineNumber = "51"
+                  startingLineNumber = "50"
+                  endingLineNumber = "50"
+                  offsetFromSymbolStart = "56">
+               </Location>
+               <Location
+                  uuid = "65942C80-2575-4BAB-8340-E7E1E74A3F38 - 7acccf71b6245885"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Music_Theory.NavigationConfigurator.makeUIViewController(context: SwiftUI.UIViewControllerRepresentableContext&lt;Music_Theory.NavigationConfigurator&gt;) -&gt; __C.UIViewController"
+                  moduleName = "Music-Theory"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/davidm/Projects/Music-Theory/Music-Theory/View/AppView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "50"
+                  endingLineNumber = "50"
                   offsetFromSymbolStart = "44">
                </Location>
             </Locations>
@@ -445,13 +430,13 @@
             filePath = "Music-Theory/View/AppView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "54"
-            endingLineNumber = "54"
-            landmarkName = "updateUIViewController(_:context:)"
+            startingLineNumber = "53"
+            endingLineNumber = "53"
+            landmarkName = "makeUIViewController(context:)"
             landmarkType = "7">
             <Locations>
                <Location
-                  uuid = "13FBF919-76AE-44CF-A9B1-D902CAD1AD7C - b2e8296e92efb812"
+                  uuid = "13FBF919-76AE-44CF-A9B1-D902CAD1AD7C - b2e8296e92efb8f1"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -461,12 +446,12 @@
                   urlString = "file:///Users/davidm/Projects/Music-Theory/Music-Theory/View/AppView.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "54"
-                  endingLineNumber = "54"
-                  offsetFromSymbolStart = "176">
+                  startingLineNumber = "53"
+                  endingLineNumber = "53"
+                  offsetFromSymbolStart = "136">
                </Location>
                <Location
-                  uuid = "13FBF919-76AE-44CF-A9B1-D902CAD1AD7C - b2e8296e92efb812"
+                  uuid = "13FBF919-76AE-44CF-A9B1-D902CAD1AD7C - b2e8296e92efb8f1"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -476,12 +461,12 @@
                   urlString = "file:///Users/davidm/Projects/Music-Theory/Music-Theory/View/AppView.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "54"
-                  endingLineNumber = "54"
+                  startingLineNumber = "53"
+                  endingLineNumber = "53"
                   offsetFromSymbolStart = "68">
                </Location>
                <Location
-                  uuid = "13FBF919-76AE-44CF-A9B1-D902CAD1AD7C - b2e8296e92efb812"
+                  uuid = "13FBF919-76AE-44CF-A9B1-D902CAD1AD7C - b2e8296e92efb8f1"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -491,8 +476,8 @@
                   urlString = "file:///Users/davidm/Projects/Music-Theory/Music-Theory/View/AppView.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "54"
-                  endingLineNumber = "54"
+                  startingLineNumber = "53"
+                  endingLineNumber = "53"
                   offsetFromSymbolStart = "116">
                </Location>
             </Locations>
@@ -508,8 +493,8 @@
             filePath = "Music-Theory/Model/Chord.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "34"
-            endingLineNumber = "34"
+            startingLineNumber = "33"
+            endingLineNumber = "33"
             landmarkName = "makeSATBFourNote()"
             landmarkType = "7">
          </BreakpointContent>
@@ -524,8 +509,8 @@
             filePath = "Music-Theory/Model/Chord.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "46"
-            endingLineNumber = "46"
+            startingLineNumber = "45"
+            endingLineNumber = "45"
             landmarkName = "makeSATBFourNote()"
             landmarkType = "7">
             <Locations>
@@ -572,10 +557,87 @@
             filePath = "Music-Theory/View/CadenceView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "136"
-            endingLineNumber = "136"
+            startingLineNumber = "88"
+            endingLineNumber = "88"
             landmarkName = "makeCadenceChords()"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "33482C49-88C7-43E3-8051-978A3B9E9AC7 - f8b6f82324125ff0"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Music_Theory.CadenceView.makeCadenceChords() -&gt; ()"
+                  moduleName = "Music-Theory"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/davidm/Projects/Music-Theory/Music-Theory/View/CadenceView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "87"
+                  endingLineNumber = "87"
+                  offsetFromSymbolStart = "412">
+               </Location>
+               <Location
+                  uuid = "33482C49-88C7-43E3-8051-978A3B9E9AC7 - f8b6f82324125603"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Music_Theory.CadenceView.makeCadenceChords() -&gt; ()"
+                  moduleName = "Music-Theory"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/davidm/Projects/Music-Theory/Music-Theory/View/CadenceView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "136"
+                  endingLineNumber = "136"
+                  offsetFromSymbolStart = "720">
+               </Location>
+               <Location
+                  uuid = "33482C49-88C7-43E3-8051-978A3B9E9AC7 - bff252560a37553f"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 () -&gt; () in Music_Theory.CadenceView.makeCadenceChords() -&gt; ()"
+                  moduleName = "Music-Theory"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/davidm/Projects/Music-Theory/Music-Theory/View/CadenceView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "136"
+                  endingLineNumber = "136"
+                  offsetFromSymbolStart = "64">
+               </Location>
+               <Location
+                  uuid = "33482C49-88C7-43E3-8051-978A3B9E9AC7 - f8b6f82324125603"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Music_Theory.CadenceView.makeCadenceChords() -&gt; ()"
+                  moduleName = "Music-Theory"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/davidm/Projects/Music-Theory/Music-Theory/View/CadenceView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "136"
+                  endingLineNumber = "136"
+                  offsetFromSymbolStart = "748">
+               </Location>
+               <Location
+                  uuid = "33482C49-88C7-43E3-8051-978A3B9E9AC7 - bff252560a37553f"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 () -&gt; () in Music_Theory.CadenceView.makeCadenceChords() -&gt; ()"
+                  moduleName = "Music-Theory"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/davidm/Projects/Music-Theory/Music-Theory/View/CadenceView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "136"
+                  endingLineNumber = "136"
+                  offsetFromSymbolStart = "100">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -588,8 +650,8 @@
             filePath = "Music-Theory/Model/Chord.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "49"
-            endingLineNumber = "49"
+            startingLineNumber = "48"
+            endingLineNumber = "48"
             landmarkName = "makeSATBFourNote()"
             landmarkType = "7">
             <Locations>
@@ -636,8 +698,8 @@
             filePath = "Music-Theory/Model/Chord.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "47"
-            endingLineNumber = "47"
+            startingLineNumber = "46"
+            endingLineNumber = "46"
             landmarkName = "makeSATBFourNote()"
             landmarkType = "7">
             <Locations>
@@ -684,9 +746,9 @@
             filePath = "Music-Theory/Model/Note.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "80"
-            endingLineNumber = "80"
-            landmarkName = "getClosestOctave(note:toPitch:)"
+            startingLineNumber = "85"
+            endingLineNumber = "85"
+            landmarkName = "getClosestOctave(note:toPitch:onlyHigher:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -700,8 +762,8 @@
             filePath = "Music-Theory/Model/Chord.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "58"
-            endingLineNumber = "58"
+            startingLineNumber = "57"
+            endingLineNumber = "57"
             landmarkName = "makeSATBFourNote()"
             landmarkType = "7">
          </BreakpointContent>
@@ -719,6 +781,38 @@
             startingLineNumber = "239"
             endingLineNumber = "239"
             landmarkName = "getNoteViewData(noteValue:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "3F5E044E-5CEC-4860-9F44-A482F7C0FE20"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Music-Theory/Model/Chord.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "126"
+            endingLineNumber = "126"
+            landmarkName = "makeCadenceWithVoiceLead(toChordTriad:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "CD836F87-3A3A-43C0-BC83-5A8249F6719D"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Music-Theory/View/CadenceView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "111"
+            endingLineNumber = "111"
+            landmarkName = "makeCadenceChords()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

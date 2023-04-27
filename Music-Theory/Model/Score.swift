@@ -13,6 +13,7 @@ class Score : ObservableObject {
 
     @Published var key:Key = Key(type: Key.KeyType.major, keySig: KeySignature(type: AccidentalType.sharp, count: 0))
     @Published var showNotes = true
+    @Published var showFootnotes = false
 
     private var staff:[Staff] = []
     var minorScaleType = Scale.MinorType.natural
@@ -60,6 +61,12 @@ class Score : ObservableObject {
         
         if !Score.auStarted {
             Score.startAu() 
+        }
+    }
+    
+    func setShowFootnotes(_ on:Bool) {
+        DispatchQueue.main.async {
+            self.showFootnotes = on
         }
     }
     

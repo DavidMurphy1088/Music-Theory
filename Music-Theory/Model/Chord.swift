@@ -26,25 +26,24 @@ class Chord : Identifiable {
         }
     }
     
-    // make a 4 note triad for SATB
-    // Dont double the 3rd
-    // Keep each voice within one oactave of the one below except for tenor down to base
-    
+    /// Make a 4 note triad for SATB
+    /// Dont double the 3rd
+    /// Keep each voice within one oactave of the one below except for tenor down to base
     func makeSATBFourNote() -> Chord {
         let result = Chord()
         var desiredPitch = Note.MIDDLE_C - Note.OCTAVE
         let baseNote = Note.getClosestOctave(note: self.notes[0].num, toPitch: desiredPitch)
         result.notes.append(Note(num: baseNote, staff: 1))
-        let voiceGap = Note.OCTAVE/2 + 3
+        let voiceGap = Note.OCTAVE/2 // + 3
         
         //choose the tenor as triad note 1 or 2
-        var tenorCandidates = [1,2]
-        desiredPitch = baseNote + voiceGap + voiceGap/2 
+        let tenorCandidates = [1,2]
+        desiredPitch = baseNote + voiceGap //+ 2// + voiceGap/2
         var minDiff = 1000
         var tenorChoiceIndex = 0
         var tenorNote = 0
         for c in tenorCandidates {
-            let closest = Note.getClosestOctave(note: self.notes[c].num, toPitch: desiredPitch)
+            let closest = Note.getClosestOctave(note: self.notes[c].num, toPitch: desiredPitch, onlyHigher: true)
             let diff = abs(closest - desiredPitch)
             if diff < minDiff {
                 minDiff = diff 
@@ -61,11 +60,11 @@ class Chord : Identifiable {
             altoCandidates.append(1)
         }
 
-        minDiff = 1000
+        minDiff = Int.max
         var altoChoiceIndex = 0
         var altoNote = 0
         for c in altoCandidates {
-            let closest = Note.getClosestOctave(note: self.notes[c].num, toPitch: desiredPitch)
+            let closest = Note.getClosestOctave(note: self.notes[c].num, toPitch: desiredPitch, onlyHigher: true)
             let diff = abs(closest - desiredPitch)
             if diff < minDiff {
                 minDiff = diff
@@ -82,10 +81,10 @@ class Chord : Identifiable {
             sopranoCandidates = [1] //only the 3rd is allowed - the 3rd must be present
         }
         
-        minDiff = 1000
+        minDiff = Int.max
         var sopranoNote = 0
         for c in sopranoCandidates {
-            let closest = Note.getClosestOctave(note: self.notes[c].num, toPitch: desiredPitch)
+            let closest = Note.getClosestOctave(note: self.notes[c].num, toPitch: desiredPitch, onlyHigher: true)
             let diff = abs(closest - desiredPitch)
             if diff < minDiff {
                 minDiff = diff
@@ -93,7 +92,6 @@ class Chord : Identifiable {
             }
         }
         result.notes.append(Note(num: sopranoNote, staff: 0))
-
         return result
     }
 
@@ -113,6 +111,49 @@ class Chord : Identifiable {
             res.notes.append(Note(num: n))
         }
         return res
+    }
+    
+    ///Return a chord based on the notes of the toChordTriad that is a voice led cadence from the self chord
+    ///TODO - add rules to ensue 3rd always added and avoid parallet 5ths and octaves
+    func makeCadenceWithVoiceLead(toChordTriad: Chord) -> Chord {
+        var result:[Int] = []
+        
+        let destinationRoot = toChordTriad.notes[0].num
+        let leadingRoot = notes[0].num
+        let closestRoot = Note.getClosestOctave(note: destinationRoot, toPitch: leadingRoot)
+        result.append(closestRoot)
+        
+        for n in 1..<notes.count {
+
+            let fromNote = notes[n].num
+            
+            var leastDiff = Int.max
+            var bestNote = 0
+
+            for m in toChordTriad.notes {
+                let toNoteOctaves = Note.getAllOctaves(note: m.num)
+                for toNoteOctave in toNoteOctaves {
+                    if result.contains(toNoteOctave) {
+                        continue
+                    }
+                    let diff = abs(toNoteOctave - fromNote)
+                    if diff < leastDiff {
+                        leastDiff = diff
+                        bestNote = toNoteOctave
+                    }
+                }
+            }
+            result.append(bestNote)
+            if n == 33 {
+                break
+            }
+        }
+        
+        let resultChord = Chord()
+        for n in 0..<result.count {
+            resultChord.notes.append(Note(num: result[n], staff: n < 2 ? 1 : 0))
+        }
+        return resultChord
     }
     
     func moveClosestTo(pitch: Int, index: Int) {

@@ -15,18 +15,17 @@ struct AppView : View {
 
     var body: some View {
         TabView {
-            CadenceView()
-            .tabItem {
-                Label("Cadences", image: "cadences")
-            }
-            //TODO order...
             
             IntervalView()
             .tabItem {
                 Label("Intervals", image: "intervals")
             }
             
-
+            CadenceView()
+            .tabItem {
+                Label("Cadences", image: "cadences")
+            }
+            //TODO set order...
             
             DegreeTriadsView()
             .tabItem {

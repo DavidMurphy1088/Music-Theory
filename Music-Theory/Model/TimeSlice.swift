@@ -2,7 +2,9 @@ import Foundation
 
 class TimeSlice : Hashable  { //}: ObservableObject,  {
     var score:Score
-    var note:[Note] 
+    var note:[Note]
+    var footnote:String?
+    
     private static var idIndex = 0
     private var id = 0
     

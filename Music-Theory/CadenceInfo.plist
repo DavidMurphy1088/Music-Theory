@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Plagal</key>
+	<string>A plagal cadence is also known as an &quot;Amen cadence,&quot; and is often used in Western classical and popular music. It is a harmonic progression that goes from the subdominant chord (IV) to the tonic chord (I), often with the addition of the dominant seventh (V7) chord before the subdominant.
+
+The plagal cadence is often used to give a sense of finality and resolution to a musical phrase or section. It is commonly used in religious music, particularly in hymns and choral music, where it is often accompanied by the word &quot;Amen.&quot; It can also be used in secular music, such as in blues, gospel, and rock music.
+
+The most common form of plagal cadence is IV-I, where the subdominant chord (IV) moves to the tonic chord (I). This progression is often embellished with additional chords or extensions, such as IV-I-IV-I or IV-I-IV-V7-I.</string>
+	<key>Perfect</key>
+	<string>The perfect cadence consists of a dominant chord (V) followed by a tonic chord (I). This progression creates a strong sense of tension and release, with the dominant chord serving as a temporary resting point before resolving to the tonic chord.
+
+In traditional Western music theory, the perfect cadence is often described as having a &quot;dominant-to-tonic&quot; relationship. It is sometimes referred to as a &quot;closed cadence&quot; because it creates a sense of closure or completion, as if the musical phrase or section has come to a definitive end.
+
+The perfect cadence is commonly used at the end of musical phrases, sections, or entire pieces, as it creates a sense of finality and closure. It is often used in conjunction with other types of cadences, such as the plagal cadence or the deceptive cadence, to create more complex harmonic progressions and musical structures.</string>
+	<key>Interrupted</key>
+	<string>The interrupted cadence is characterized by the use of a dominant chord (V) followed by a chord other than the expected tonic chord (I). It is a harmonic progression that creates a sense of tension and surprise, rather than the expected resolution of a typical cadence. Instead of resolving to the expected I chord, the music typically moves to a different chord, often a vi or a iii chord. This creates a sense of surprise and unexpectedness, as the listener is anticipating a resolution to the tonic but instead hears a different chord.
+
+In traditional Western music theory, the interrupted cadence is often described as having a &quot;dominant-to-something-other-than-tonic&quot; relationship. It is sometimes referred to as an &quot;open cadence&quot; because it creates a sense of incompleteness or uncertainty, as if the musical phrase or section has not yet come to a definitive end.
+
+The interrupted cadence is commonly used to create a sense of tension and drama in a musical piece. It can be used to delay the resolution of a musical phrase or section, or to create a feeling of unpredictability and surprise. It is often used in conjunction with other types of cadences, such as the perfect cadence or plagal cadence, to create more complex harmonic progressions and musical structures.
+The interrupted cadence is characterized by the use of a dominant chord (V) followed by a chord other than the expected tonic chord (I). It is a harmonic progression that creates a sense of tension and surprise, rather than the expected resolution of a typical cadence. Instead of resolving to the expected I chord, the music typically moves to a different chord, often a vi or a iii chord. This creates a sense of surprise and unexpectedness, as the listener is anticipating a resolution to the tonic but instead hears a different chord.
+
+In traditional Western music theory, the interrupted cadence is often described as having a &quot;dominant-to-something-other-than-tonic&quot; relationship. It is sometimes referred to as an &quot;open cadence&quot; because it creates a sense of incompleteness or uncertainty, as if the musical phrase or section has not yet come to a definitive end.
+
+The interrupted cadence is commonly used to create a sense of tension and drama in a musical piece. It can be used to delay the resolution of a musical phrase or section, or to create a feeling of unpredictability and surprise. It is often used in conjunction with other types of cadences, such as the perfect cadence or plagal cadence, to create more complex harmonic progressions and musical structures.
+</string>
+	<key>Half</key>
+	<string>The half cadence typically consists of a phrase ending on a dominant chord (V), which creates a sense of tension and instability. This is followed by a tonic chord (I), which provides a temporary sense of rest but does not create the final resolution that a perfect cadence would provide.
+
+In traditional Western music theory, the half cadence is often described as having a &quot;dominant-to-tonic&quot; relationship, but with the emphasis on the dominant chord rather than the tonic. It is sometimes referred to as an &quot;open cadence&quot; or &quot;incomplete cadence&quot; because it creates a sense of incompleteness or uncertainty, as if the musical phrase or section has not yet come to a definitive end.
+
+The half cadence is commonly used to create a sense of tension and expectation in a musical piece. It can be used to delay the resolution of a musical phrase or section, or to provide a momentary pause or rest within the overall musical structure. It is often used in conjunction with other types of cadences, such as the perfect cadence or plagal cadence, to create more complex harmonic progressions and musical structures.
+</string>
+</dict>
+</plist>

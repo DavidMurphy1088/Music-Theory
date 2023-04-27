@@ -118,6 +118,33 @@ class Scale {
         }
     }
     
+    func offsetSymbol(degree: Int) -> String {
+        if score.key.type == Key.KeyType.major {
+            switch degree {
+            case 0: return "I"
+            case 2: return "ii"
+            case 4: return "iii"
+            case 5: return "IV"
+            case 7: return "V"
+            case 9: return "vi"
+            case 11: return "vii°"
+            default: return "\(degree)"
+            }
+        }
+        else {
+            switch degree {
+            case 0: return "i"
+            case 2: return "ii°"
+            case 3: return "III"
+            case 5: return "iv"
+            case 7: return "V"
+            case 8: return "VI"
+            case 10: return "vii°"
+            default: return "\(degree)"
+            }
+        }
+    }
+    
     func degreeName(degree: Int) -> String {
         switch degree {
         case 1: return "Tonic"
